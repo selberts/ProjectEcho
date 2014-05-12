@@ -35,17 +35,23 @@ function init() {
       
       // Load the API key from the Developer Console
       gapi.client.setApiKey('AIzaSyDWMoEWCsh4giDWiBKZSVyzIytQBc73gu4');
-      handleAuthClick();
+      checkAuth();
        
       function checkAuth() {
-        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true});
+        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuth);
       }
 
-      function handleAuthClick() {
+      // If not already authorized, authorize
+      function handleAuth(authResult) {
+      	if (authResult && !authResult.error) {
+      		makeApiCall(game, loc, desc, start, end);
+      	}
+      	else doAuth();
+      }
+      
+      function doAuth() {
         // Get authorization to use private data
-        if(checkAuth())
-            gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, makeApiCall(game, loc, desc, start, end));
-        else makeApiCall(game, loc, desc, start, end);
+        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, makeApiCall(game, loc, desc, start, end));
         return false;
       }
      
