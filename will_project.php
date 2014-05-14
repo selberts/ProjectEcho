@@ -11,15 +11,29 @@ $para=$_GET["para"];
 
 if($para){   //para=1,receive data
 //Receive json data from javascript
-$id=$_GET["p"];
+$p=$_GET["p"];
 //Decode jason data
-$json=json_decode($id);
+$json=json_decode($p);
+
+for($i=0;$i<5;$i++){
+	$id=$json[$i]->id;
+	$name=$json[$i]->team_name;
+	for($j=0;$j<3;$j++){
+		$time=$json[$i]->pref_times[$j];
+        $day=$json[$i]->pref_days[$j]; 
+        $day_time[$j]=$day . "," . $time;
+	}
+	$pref1=$day_time[0];
+	$pref2=$day_time[1];
+	$pref3=$day_time[2];
+    mysql_query("insert into team_pref values('$id','$name','$pref1','$pref2','$pref3')");
+}
 
 //Prepare the query
-$query=null;
+//$query=null;
 
 //Execute SQL query
-mysql_query($query);
+//mysql_query($query);
 
 
 
