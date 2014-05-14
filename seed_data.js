@@ -1,5 +1,6 @@
 var num_teams = 5; // Number of teams to generate
 var num_prefs = 3; // Number of preferences to generate
+var num_slots = 20;
 var team_list = []; //initialize empty array, this will be our output
 
 var days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
@@ -32,4 +33,26 @@ for (var i = 0; i < num_teams; i++) {
     team_list.push(team)
 }
 
-console.log(team_list)
+timeslot_list = []
+i = 1;
+for (var day = 0; day < 7; day ++) {
+	for (var time = 5; time < 10; time ++) {
+		for (var c = 1; c <7; c++) {
+			var slot = {
+						id: i,
+						time: time +" PM", //random night hour
+						day: days[day], //pick random day from list
+						court: "Court #" + c
+						};
+			timeslot_list.push(slot);
+			i ++;
+		};
+	};
+};
+
+// Turn array into json arrays
+team_list = JSON.parse(JSON.stringify(team_list));
+timeslot_list = JSON.parse(JSON.stringify(timeslot_list));
+
+console.log(team_list);
+console.log(timeslot_list);
