@@ -3,7 +3,7 @@ var num_prefs = 3; // Number of preferences to generate
 var num_slots = 20;
 var team_list = []; //initialize empty array, this will be our output
 
-var days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+var days = ["Monday","Tuesday","Wednesday","Thursday","Sunday"]
 
 //create one object per team
 for (var i = 0; i < num_teams; i++) { 
@@ -35,17 +35,16 @@ for (var i = 0; i < num_teams; i++) {
 
 timeslot_list = []
 i = 1;
-slot_full=false;
 
-for (var day = 0; day < 7; day ++) {
-	for (var time = 5; time < 10; time ++) {
-		for (var c = 1; c <7; c++) {
+for (var day = 0; day < 5; day ++) {
+	for (var time = 5; time < 8; time ++) {
+		for (var c = 1; c <2; c++) {
 			var slot = {
 						id: i,
 						time: time +" PM", //random night hour
 						day: days[day], //pick random day from list
 						court: "Court #" + c,
-                                                slot_full:false
+                        slot_full: false
 						};
 			timeslot_list.push(slot);
 			i ++;
@@ -63,8 +62,11 @@ console.log(timeslot_list);
 
 n=1;
 num_court=0;
-while(slot[n].slot_full==false && n<=slot.length){
-    for(var m=1;m<=slot[n].court.length;m++){
+//slot should be timeslot_list. I changed this, but I'm not sure what slot.length is supposed to be, it is false so this entire loop is skipped over. 
+//Could you comment out the code a little more and debug it
+//Peter
+while(timeslot_list[n].slot_full==false && n<=slot.length){
+    for(var m=1;m<=timeslot_list[n].court.length;m++){
         for(var i=1;i<=team.length;i++){
         flag=false;
             for(var j=1;j<=num_prefs;j++){
