@@ -6,13 +6,14 @@ function Team(id, team_name, pref_slots) {
     this.team_name = team_name;
     this.pref_slots = pref_slots;
     this.timeslot;
-    this.print = function print(){
+}
+
+Team.prototype.print = function(){
         document.writeln("<PRE>id: " + this.id + "\n</PRE>");
         document.writeln("<PRE>\tName: " + this.team_name+ "\n</PRE>");
         var ts = this.timeslot.day +"s at " + this.timeslot.time;
         document.writeln("<PRE>\tTime Slot: " + ts+ "\n</PRE>");        
-    };
-}
+};
 
 function Time_Slot(id, time, day, courts) {
     this.id = id;
@@ -21,7 +22,9 @@ function Time_Slot(id, time, day, courts) {
     this.courts = courts;
     this.capacity = courts*2;
     this.teams = [];
-    this.print = function print(){
+}
+
+Time_Slot.prototype.print = function(){
         document.writeln("<PRE>id: " + this.id + "\n</PRE>");
         document.writeln("<PRE>\tDay and time: " + this.day +"s at " + this.time +"\n</PRE>");
         document.writeln("<PRE>\tTeams: "+"\n</PRE>");
@@ -30,6 +33,4 @@ function Time_Slot(id, time, day, courts) {
             document.writeln("<PRE>\t\t" + this.teams[x].team_name + "\n</PRE>");
             x++;
         }
-    };
-    
-}
+};
