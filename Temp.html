@@ -17,13 +17,11 @@
     timeslots = makeslots();
     teamlist = maketeams(50, 3, timeslots);
     Assign_Teams(teamlist, timeslots);
-    var team = new Team(teamlist[1].id,teamlist[1].team_name, teamlist[1].pref_slots);
-    //alert(team.id);
-    //team.print();
+    var team = new Team(); // used to call functions from class
     for (var x=0; x<50;x++){
         team.print.call(teamlist[x]);
     }
-    var timeslot = new Time_Slot(timeslots[0].id, timeslots[0].time, timeslots[0].day, timeslots[0].courts);
+    var timeslot = new Time_Slot();
     for (var x=0; x<timeslots.length; x++){
         timeslot.print.call(timeslots[x]);
     }

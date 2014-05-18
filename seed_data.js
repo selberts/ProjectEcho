@@ -1,8 +1,4 @@
-//var num_teams = 5; // Number of teams to generate
-//var num_prefs = 3; // Number of preferences to generate
-//var num_slots = 20;
 
-//<script type="text/javascript" src="Classes.js" />
 /**
 @author projectcho
 @description This function generates dummy data for testing the functions for the scheduling app.
