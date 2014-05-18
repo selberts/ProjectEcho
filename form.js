@@ -30,7 +30,7 @@ function sub(){
 }
 
 /**
- * Adds preference selects (time, day) to form
+ * Stores newly-submitted team locally using HTML 5 local storage API
  * @param {string} name		Team name
  * @param pref_times	Array of times (ints)
  * @param pref_days		Array of days (strings)
@@ -43,19 +43,19 @@ function storeLocally(name, pref_times, pref_days){
        teams = new Array();
        console.log("Teams created");
    }
-else {
+    else {
         teams = JSON.parse(localStorage["teams"]);
-        console.log("Teams created");
+        console.log("Teams loaded from storage");
     }
     
            		
    var id = teams.length; 
    var team = {
-id: id +1, 
-team_name: name, 
-pref_times: JSON.stringify(pref_times),
-pref_days: JSON.stringify(pref_days)
-};
+        id: id +1, 
+        team_name: name, 
+        pref_times: JSON.stringify(pref_times),
+        pref_days: JSON.stringify(pref_days)
+    };
     
     teams.push(team);
     // Print contents of teams array to console
