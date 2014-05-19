@@ -21,6 +21,7 @@ function Time_Slot(id, time, day, courts) {
     this.courts = courts;
     this.capacity = courts*2;
     this.teams = [];
+    this.games = []; // all games in this timeslot. Not sure if we should do this or one array of games for all timeslots. 
     this.print = function print(){
         document.writeln("<PRE>id: " + this.id + "\n</PRE>");
         document.writeln("<PRE>\tDay and time: " + this.day +"s at " + this.time +"\n</PRE>");
@@ -32,4 +33,17 @@ function Time_Slot(id, time, day, courts) {
         }
     };
     
+}
+
+function game(id, team1id, team2id, week, court) {
+    this.id=id;
+    this.team1id = team1id;
+    this.team2id = team2id;
+    this.week = week;
+    this.court = court;
+    this.print = function print(){
+        document.writeln("<PRE>id: " + this.id + "\n</PRE>");
+        document.writeln("<PRE>\tTeam1: " + this.team1id + " vs Team2: "+ this.team2id + "\n </PRE>");
+        document.writeln("<PRE \t Week: " + this.week + "Location: " + this.court + "\n </PRE>");
+    }
 }
