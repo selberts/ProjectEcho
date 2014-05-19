@@ -6,13 +6,14 @@ function Team(id, team_name, pref_slots) {
     this.team_name = team_name;
     this.pref_slots = pref_slots;
     this.timeslot;
-    this.print = function print(){
+}
+
+Team.prototype.print = function(){
         document.writeln("<PRE>id: " + this.id + "\n</PRE>");
         document.writeln("<PRE>\tName: " + this.team_name+ "\n</PRE>");
         var ts = this.timeslot.day +"s at " + this.timeslot.time;
         document.writeln("<PRE>\tTime Slot: " + ts+ "\n</PRE>");        
-    };
-}
+};
 
 function Time_Slot(id, time, day, courts) {
     this.id = id;
@@ -21,8 +22,14 @@ function Time_Slot(id, time, day, courts) {
     this.courts = courts;
     this.capacity = courts*2;
     this.teams = [];
+<<<<<<< HEAD
     this.games = []; // all games in this timeslot. Not sure if we should do this or one array of games for all timeslots. 
     this.print = function print(){
+=======
+}
+
+Time_Slot.prototype.print = function(){
+>>>>>>> fd8e05cb7d060ac423967821b35b6d2b77d51797
         document.writeln("<PRE>id: " + this.id + "\n</PRE>");
         document.writeln("<PRE>\tDay and time: " + this.day +"s at " + this.time +"\n</PRE>");
         document.writeln("<PRE>\tTeams: "+"\n</PRE>");
@@ -31,6 +38,7 @@ function Time_Slot(id, time, day, courts) {
             document.writeln("<PRE>\t\t" + this.teams[x].team_name + "\n</PRE>");
             x++;
         }
+<<<<<<< HEAD
     };
     
 }
@@ -47,3 +55,6 @@ function game(id, team1id, team2id, week, court) {
         document.writeln("<PRE \t Week: " + this.week + "Location: " + this.court + "\n </PRE>");
     }
 }
+=======
+};
+>>>>>>> fd8e05cb7d060ac423967821b35b6d2b77d51797
