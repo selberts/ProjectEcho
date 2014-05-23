@@ -14,7 +14,32 @@ Team.prototype.print = function(){
         var ts = this.timeslot.day +"s at " + this.timeslot.time;
         document.writeln("<PRE>\tTime Slot: " + ts+ "\n</PRE>");        
 };
+//takes a team object as an argument and returns a stringified version for storage, as well as prints it in the log for convenience purposes.
+function Compress_Team(Team){
+    var out;
+    pref_slots = [];
+    for (var i =0; i<Team.pref_slots.length;i++){
+        pref_slots.push(Team.pref_slots[i].id);
+    }
 
+    out = {
+        id: Team.id,
+        name: Team.team_name,
+        pref_slots: pref_slots,
+        timeslot: Team.timeslot.id
+    }
+    JSON.parse(JSON.stringify(out));
+    console.log(out);
+    return out;
+}
+//takes a compressed team list and compressed slot list and creates two arrays of decompressed slots
+// and time slots which need to be assigned to variables using var timeslots = Decompress_Data().timeslots, etc.
+function Decompress_Data(Tarr, Slarr){
+    var timeslots = [];
+    for (var i = 0; i < Tarr.length;i++){
+        
+    }
+}
 function Time_Slot(id, time, day, courts) {
     this.id = id;
     this.time = time;
@@ -22,6 +47,24 @@ function Time_Slot(id, time, day, courts) {
     this.courts = courts;
     this.capacity = courts*2;
     this.teams = [];
+}
+function Compress_Time_Slot(Time_Slot){
+    var out;
+    teams = [];
+    for (var i =0; i<Time_Slot.teams.length;i++){
+        pref_slots.push(Time_Slot.teams[i].id);
+    }
+
+    out = {
+        id: Time_Slot.id,
+        time: Time_Slot.time,
+        day: Time_Slot.time,
+        courts: Time_Slot.courts,
+        teams: teams
+    }
+    JSON.parse(JSON.stringify(out));
+    console.log(out);
+    return out;
 }
 
 Time_Slot.prototype.print = function(){
