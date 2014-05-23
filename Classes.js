@@ -47,6 +47,7 @@ function Time_Slot(id, time, day, courts) {
     this.courts = courts;
     this.capacity = courts*2;
     this.teams = [];
+<<<<<<< HEAD
 }
 function Compress_Time_Slot(Time_Slot){
     var out;
@@ -68,6 +69,10 @@ function Compress_Time_Slot(Time_Slot){
 }
 
 Time_Slot.prototype.print = function(){
+=======
+    this.games = []; // all games in this timeslot. Not sure if we should do this or one array of games for all timeslots. 
+    this.print = function print(){
+>>>>>>> a4d58931671c0047fd03011f9ee4970daab010c6
         document.writeln("<PRE>id: " + this.id + "\n</PRE>");
         document.writeln("<PRE>\tDay and time: " + this.day +"s at " + this.time +"\n</PRE>");
         document.writeln("<PRE>\tTeams: "+"\n</PRE>");
@@ -76,4 +81,23 @@ Time_Slot.prototype.print = function(){
             document.writeln("<PRE>\t\t" + this.teams[x].team_name + "\n</PRE>");
             x++;
         }
+<<<<<<< HEAD
 };
+=======
+    };
+    
+}
+
+function game(id, team1id, team2id, week, court) {
+    this.id=id;
+    this.team1id = team1id;
+    this.team2id = team2id;
+    this.week = week;
+    this.court = court;
+    this.print = function print(){
+        document.writeln("<PRE>id: " + this.id + "\n</PRE>");
+        document.writeln("<PRE>\tTeam1: " + this.team1id + " vs Team2: "+ this.team2id + "\n </PRE>");
+        document.writeln("<PRE \t Week: " + this.week + "Location: " + this.court + "\n </PRE>");
+    }
+}
+>>>>>>> a4d58931671c0047fd03011f9ee4970daab010c6
