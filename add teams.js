@@ -85,8 +85,30 @@ function Games(timeslot){
 		timeslot.games[8] = new game(9,id2,id3,5,1)
 		timeslot.games[9] = new game(10,id4,id5,5,2)
 	}
+	for(var x=0; x<timeslot.games.length; x++){
+		name="Team "+ timeslot.games[x].team1id + " vs Team " +timeslot.games[x].team1id;
+		time=timeslot.time
+		if (week==1) {
+			s="2014-05-19T"+ time +":00:00-06:00";
+			e="2014-05-19T"+ (time+1) +":00:00-06:00";
+		} else if (week==2){
+			s="2014-05-26T"+ time +":00:00-06:00";
+			e="2014-05-26T"+ (time+1) +":00:00-06:00";
+		}else if (week==3){
+			s="2014-06-02T"+ time +":00:00-06:00";
+			e="2014-06-02T"+ (time+1) +":00:00-06:00";
+		}else if (week==4){
+			s="2014-06-09T"+ time +":00:00-06:00";
+			e="2014-06-09T"+ (time+1) +":00:00-06:00";
+		}else {
+			s="2014-06-16T"+ time +":00:00-06:00";
+			e="2014-06-16T"+ (time+1) +":00:00-06:00";
+		}
+		function makeApiCall(name, timeslot.games[x].court, "", s, e)
+		//2014-05-19T20:00:00-06:00
+	}
 }
-//while(timeslot_list[n].slot_full==false && n<=slot.length){
+//ti(timeslot_list[n].slot_full==false && n<=slot.length){
 //    for(var m=1;m<=timeslot_list[n].court.length;m++){
 //        for(var i=1;i<=team.length;i++){
 //        flag=false;

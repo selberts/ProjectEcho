@@ -22,26 +22,19 @@ function Time_Slot(id, time, day, courts) {
     this.courts = courts;
     this.capacity = courts*2;
     this.teams = [];
-<<<<<<< HEAD
     this.games = []; // all games in this timeslot. Not sure if we should do this or one array of games for all timeslots. 
-    this.print = function print(){
-=======
 }
-
 Time_Slot.prototype.print = function(){
->>>>>>> fd8e05cb7d060ac423967821b35b6d2b77d51797
-        document.writeln("<PRE>id: " + this.id + "\n</PRE>");
-        document.writeln("<PRE>\tDay and time: " + this.day +"s at " + this.time +"\n</PRE>");
-        document.writeln("<PRE>\tTeams: "+"\n</PRE>");
-        var x = 0;
-        while (x<this.teams.length) {
-            document.writeln("<PRE>\t\t" + this.teams[x].team_name + "\n</PRE>");
-            x++;
-        }
-<<<<<<< HEAD
-    };
+    document.writeln("<PRE>id: " + this.id + "\n</PRE>");
+    document.writeln("<PRE>\tDay and time: " + this.day +"s at " + this.time +"\n</PRE>");
+    document.writeln("<PRE>\tTeams: "+"\n</PRE>");
+    var x = 0;
+    while (x<this.teams.length) {
+        document.writeln("<PRE>\t\t" + this.teams[x].team_name + "\n</PRE>");
+        x++;
+    }
+};
     
-}
 
 function game(id, team1id, team2id, week, court) {
     this.id=id;
@@ -49,12 +42,10 @@ function game(id, team1id, team2id, week, court) {
     this.team2id = team2id;
     this.week = week;
     this.court = court;
-    this.print = function print(){
-        document.writeln("<PRE>id: " + this.id + "\n</PRE>");
-        document.writeln("<PRE>\tTeam1: " + this.team1id + " vs Team2: "+ this.team2id + "\n </PRE>");
-        document.writeln("<PRE \t Week: " + this.week + "Location: " + this.court + "\n </PRE>");
-    }
 }
-=======
+
+game.prototype.print = function (){
+    document.writeln("<PRE>id: " + this.id + "\n</PRE>");
+    document.writeln("<PRE>\tTeam1: " + this.team1id + " vs Team2: "+ this.team2id + "\n </PRE>");
+    document.writeln("<PRE \t Week: " + this.week + "Location: " + this.court + "\n </PRE>");
 };
->>>>>>> fd8e05cb7d060ac423967821b35b6d2b77d51797
