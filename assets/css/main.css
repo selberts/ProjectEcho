@@ -26,6 +26,10 @@ body {
     margin-top: 70px;
 }
 
+input{
+            display: block;
+}
+
 /* Titles */
 h1, h2, h3, h4, h5, h6 {
     font-family: "Raleway";
