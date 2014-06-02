@@ -16,7 +16,7 @@
 <script>
     timeslots = makeslots();
     teamlist = maketeams(50, 3, timeslots);
-    AssignTeams(teamlist, timeslots);
+    Assign_Teams(teamlist, timeslots);
     var team = new Team(); // used to call functions from class
     for (var x=0; x<50;x++){
         team.print.call(teamlist[x]);
