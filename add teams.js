@@ -87,27 +87,43 @@ function Games(timeslot){
 	}
 	for(var x=0; x<timeslot.games.length; x++){
 		name="Team "+ timeslot.games[x].team1id + " vs Team " +timeslot.games[x].team1id;
-		time=timeslot.time
-		if (week==1) {
-			s="2014-05-19T"+ time +":00:00-06:00";
-			e="2014-05-19T"+ (time+1) +":00:00-06:00";
-		} else if (week==2){
-			s="2014-05-26T"+ time +":00:00-06:00";
-			e="2014-05-26T"+ (time+1) +":00:00-06:00";
-		}else if (week==3){
-			s="2014-06-02T"+ time +":00:00-06:00";
-			e="2014-06-02T"+ (time+1) +":00:00-06:00";
-		}else if (week==4){
-			s="2014-06-09T"+ time +":00:00-06:00";
-			e="2014-06-09T"+ (time+1) +":00:00-06:00";
-		}else {
-			s="2014-06-16T"+ time +":00:00-06:00";
-			e="2014-06-16T"+ (time+1) +":00:00-06:00";
-		}
+		s=getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time);
+		e=getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time+1)
 		function makeApiCall(name, timeslot.games[x].court, "", s, e)
 		//2014-05-19T20:00:00-06:00
 	}
 }
+
+function getDateTime(week, day, time){
+	//date is the offset from April 6, the first day of games. 
+	if (day=="Monday") date=1;
+	else if (day=="Tuesday") date=2;
+	else if (day=="Wednesday") date=3;
+	else if (day=="Thursday") date=4;
+	else date=0; // Sunday
+
+	date=date+7*week; // date now has the offset from the start date
+
+	if (date<25) month=4;
+	else if (date<55) {
+		month=5;		//advance month
+		date=date-25	//set day to exclude the april days
+	} else {
+		month=6; // June
+		date=date-55;
+	}
+
+	dateString= "2014-0" + month;
+	if (date< 10) {
+		dateString= dateString+"-0" + date +"T"
+	} else dateString= dateString+ "-"+ date +"T";
+	//date all set
+
+	//start time
+	dateString=dateString+(time+12)+":00:00-06:00"
+	return dateString;
+}
+//2014-05-19T20:00:00-06:00
 //ti(timeslot_list[n].slot_full==false && n<=slot.length){
 //    for(var m=1;m<=timeslot_list[n].court.length;m++){
 //        for(var i=1;i<=team.length;i++){
