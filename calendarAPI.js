@@ -69,6 +69,13 @@ function init() {
 * @param start   Start time
 * @param end     End time
 */
+function clearCal(){
+  gapi.client.load('calendar', 'v3', function() {
+    var request = gapi.client.calendar.events.insert({
+        'calendarId': calendarID,
+      });
+
+};
 function makeApiCall(game, loc, desc, start, end){
 
   // Format for the event
