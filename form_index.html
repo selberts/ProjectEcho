@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Intramural Sports Scheduler</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    
+    <body onload="createPref()">
+        <style>
+        form#team_info{
+            display: inline-block;
+            background: darkgray;
+            border-style: solid;
+            border-width: medium;
+        }
+        input{
+            display: block;
+        }
+        </style>
+        
+        <form id="team_info" onsubmit="return sub()">
+            Team submission form
+            <input type="text" id="name" value="Team name" />
+            <input type="button" id="addpref" value="Add pref" onclick="createPref()"/>
+            <input type="submit" value="Submit">
+        </form>
+        <input type="button" value="Show Calendar" name="showCal" onclick="toggleCal()"/>
+        <input type="button" value="Add mock event" name="addEvent" onclick="init()"/>
+        
+        <script src="form.js"></script>
+        <script src="calendarAPI.js"></script>
+
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+    <div id="calendar" style="display: none">
+        <iframe src="https://www.google.com/calendar/embed?src=lukeolney%40gmail.com&ctz=America/Chicago"
+                style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    </div>
+    </body>
+</html>
