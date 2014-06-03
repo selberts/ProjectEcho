@@ -19,7 +19,7 @@
     
     <!-- Database calls source-->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+      <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
 
 
 
@@ -43,12 +43,14 @@
           </button>
           <a class="navbar-brand" href="index.html">NU INTRAMURAL SP<i class="fa fa-circle"></i>RTS</a>
         </div>
+
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="index.html">HOME</a></li>
             <li><a href="about.html">ABOUT</a></li>
             <li><a href="calendar.html">CALENDAR</a></li>
             <li class="active"><a href="schedule.html">SCHEDULE</a></li>
+	    <li><a href="Admin.html">Admin</a></li>
             
           </ul>
         </div><!--/.nav-collapse -->
@@ -89,6 +91,7 @@
                    return false;
                }
                */
+		
                var pref_times = new Array();
                var pref_days = new Array();                
                var name = document.getElementById("name").value;
@@ -115,9 +118,12 @@
                var Teamdata = Parse.Object.extend("Teamdata");
                var teamdata = new Teamdata();
                teamdata.save({team_name: name , type:"team" , pref_days:pref_days , pref_times:pref_times}).then(function(object) {
-
-                alert("Added successfully");
-  
+	      console.log("Team successfully added.");
+	      var success = document.createElement("div");
+	      var loc = document.getElementById('dg');
+	      success.innerHTML = "Team successfully added.";
+	      success.style.display = 'block';
+	      loc.appendChild(success);
                });
 
                
@@ -195,7 +201,6 @@
 
 
 
-        <script src="form.js"></script>
         <script src="calendarAPI.js"></script>
 
 
