@@ -200,8 +200,8 @@ function Succeed(){
                 var button = document.getElementById('addpref');
                 
                 var remove = document.createElement("BUTTON");
-                remove.onclick = removeEntry(this);
                 remove.id = "remove" + prefNum;
+                remove.onclick = removeEntry(this.id);
                 var text = document.createTextNode("Remove");
                 remove.appendChild(text);
                 
@@ -216,11 +216,12 @@ function Succeed(){
                 if(prefNum == 20) form.removeChild(button);
             }
             
-            function removeEntry(obj){
-            	alert(obj.id);
+            function removeEntry(id){
+            	alert(obj);
+            	var but = document.getElementById(id);
             	var form = document.getElementById('team_info');
             	
-            	form.removeChild(obj.parentNode);
+            	form.removeChild(but.parentNode);
             }
             
             /**
