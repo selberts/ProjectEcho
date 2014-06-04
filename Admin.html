@@ -201,7 +201,7 @@ function Succeed(){
                 
                 var remove = document.createElement("BUTTON");
                 remove.id = "remove" + prefNum;
-                remove.onclick = "removeEntry()";
+                remove.onclick = removeEntry;
                 var text = document.createTextNode("Remove");
                 remove.appendChild(text);
                 
@@ -216,7 +216,7 @@ function Succeed(){
                 if(prefNum == 20) form.removeChild(button);
             }
             
-            function removeEntry(e){
+            var removeEntry = function(e){
             	e = e || window.event;
     		e = e.target || e.srcElement;
     		
