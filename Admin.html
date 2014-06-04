@@ -220,10 +220,10 @@ function Succeed(){
             	e = e || window.event;
     		e = e.target || e.srcElement;
     		
-            	alert(obj.id);
-            	var form = obj.parentNode.parentNode;
+            	alert("Id: " + e.id);
+            	var form = e.parentNode.parentNode;
             	
-            	form.removeChild(obj.parentNode);
+            	form.removeChild(e.parentNode);
             }
             
             /**
