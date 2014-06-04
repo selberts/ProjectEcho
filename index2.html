@@ -30,8 +30,11 @@
         <input type="button" value="Show Calendar" name="showCal" onclick="toggleCal()"/>
         <input type="button" value="Add mock event" name="addEvent" onclick="init()"/>
         <script type="text/javascript">
-
+            
+            
+            //Insert the key to connect with the Parse system
             Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+            
             /**
              * Callback function for form submission
              * Prepares name and pref_times, pref_days arrays for local storage
@@ -56,22 +59,16 @@
                    pref_days.push(daySelects.item(i).value);
                }
                
-               /*
-               // What to do with this information? Depends on our storage scheme
-               var id = -1; // retrieved from local storage
-               var team = {
-				id: i +1, 
-				team_name: name, 
-				pref_times: pref_times,
-				pref_days: pref_days
-				};
-                //<team stored locally>
-               */
+               
+               
+               // Select the table Teamdata in the database
                var Teamdata = Parse.Object.extend("Teamdata");
+               // Create a new tuple in this table
                var teamdata = new Teamdata();
+               // Set values and save
                teamdata.save({team_name: name , type:"team" , pref_days:pref_days , pref_times:pref_times}).then(function(object) {
-
-                alert("Added successfully");
+                   // If succeed, alert the message
+                   alert("Added successfully");
   
                });
 
