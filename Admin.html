@@ -201,7 +201,7 @@ function Succeed(){
                 
                 var remove = document.createElement("BUTTON");
                 remove.id = "remove" + prefNum;
-                remove.onclick = removeEntry(this.id);
+                remove.onclick = removeEntry(remove.id);
                 var text = document.createTextNode("Remove");
                 remove.appendChild(text);
                 
