@@ -67,7 +67,7 @@
                                 </form>
                                 
         
-        <form id="team_info" style="display: inline-block" onsubmit="return sub()">
+        <form id="team_info" style="display: hidden" onsubmit="return sub()">
                                     <input type="text" id="name" value="Team name" />
                                     <input type="button" id="addpref" value="Add pref" onclick="createPref()"/>
                                     <input type="submit" value="Submit">
@@ -115,6 +115,8 @@ query.find().then(function(results){   //the results set can only be accessed in
 function Succeed(){
 
 	alert("hah!");
+	var form = document.getElementByID("password_form");
+	form.style.display = inline-block;
 }
             
             function submitPass(){
@@ -122,6 +124,7 @@ function Succeed(){
             	var pwd = document.getElementById("adminpassword").value;
             	
             	passwordCheck(pwd);
+            	
             	return false;
             }
             /**
