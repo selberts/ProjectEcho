@@ -152,7 +152,8 @@ function Succeed(){
                
                // Check for duplicates
                while(removeDuplicate(daySelects, timeSelects)) {}
-               
+               if(removed > 0) alert("Removed " + removed + " duplicate timeslots");
+               removed = 0;
                
                
                for(var i=0; i<daySelects.length; i++){ 
@@ -183,9 +184,8 @@ function Succeed(){
                return false; */
                 
             }
-            
+            var removed = 0;
             function removeDuplicate(daySelects, timeSelects){
-            	alert("Called");
             	var i;
             	var remove = false;
             	
@@ -201,15 +201,13 @@ function Succeed(){
                	}
                }
                
-               alert("reached1");
-               if(!remove) return remove;
-               alert("reached2");
+               if(!remove) return false;
+               
        		var day = daySelects.item(i);
        		var form = document.getElementById('team_info');
-       		alert("reached3");
        		form.removeChild(day.parentNode);
+       		removed++;
        		
-       		alert("Removed");
        		
        		return true;
             }
