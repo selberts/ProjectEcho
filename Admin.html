@@ -68,7 +68,6 @@
                                 
         
         <form id="team_info" style="display: none" onsubmit="return sub()">
-                                    <input type="text" id="name" value="Team name" />
                                     <input type="button" id="addpref" value="Add pref" onclick="createPref()"/>
                                     <input type="submit" value="Submit">
                                 </form>
@@ -142,29 +141,21 @@ function Succeed(){
                }
                */
 
-               var pref_times = new Array();
-               var pref_days = new Array();                
-               var name = document.getElementById("name").value;
-               
                var daySelects = document.getElementsByName("prefDay");
                var timeSelects = document.getElementsByName("prefTime");
-                                             
+               
+               var timeslots = new Array();
+               
                for(var i=0; i<daySelects.length; i++){ 
-                   pref_times.push(timeSelects.item(i).value);
-                   pref_days.push(daySelects.item(i).value);
+               		var time = timeSelects.item(i).value;
+               		var day = daySelects.item(i).value;
+                	 timeslots.push(new Time_Slot(i, time, day, 2));
                }
                
+               /* Submit to database here*/
+               alert(timeslots);
+               return false;
                /*
-               // What to do with this information? Depends on our storage scheme
-               var id = -1; // retrieved from local storage
-               var team = {
-				id: i +1, 
-				team_name: name, 
-				pref_times: pref_times,
-				pref_days: pref_days
-				};
-                //<team stored locally>
-               */
                var Teamdata = Parse.Object.extend("Teamdata");
                var teamdata = new Teamdata();
                teamdata.save({team_name: name , type:"team" , pref_days:pref_days , pref_times:pref_times}).then(function(object) {
@@ -174,6 +165,7 @@ function Succeed(){
 	      success.innerHTML = "Timeslot successfully added to database";
 	      success.style.display = 'block';
 	      loc.appendChild(success);
+	      */
                });
 
                
