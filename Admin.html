@@ -60,6 +60,13 @@
 		<div class="container">
 			<div class="row centered">
 				<h4>ADD TIMESLOTS</h4>
+				
+				<form id="" style="display: inline-block" onsubmit="return submitPass()">
+                                    <input type="text" id="name" value="Team name" />
+                                    <input type="submit" value="Submit">
+                                </form>
+                                
+        <script type="text/javascript">
 		<!-- <form id="team_info" onsubmit="return sub()">
             Team submission form
             <input type="text" id="name" value="Team name" />
@@ -77,6 +84,10 @@
         <script type="text/javascript">
 
             Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+            
+            function submitPass(){
+            	return false;
+            }
             /**
              * Callback function for form submission
              * Prepares name and pref_times, pref_days arrays for local storage
