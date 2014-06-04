@@ -69,8 +69,10 @@
     }
     var timeslot = new Time_Slot();
     for (var x=0; x<timeslots.length; x++){
+        Games(timeslots[x]);
         timeslot.print.call(timeslots[x]);
     }
+
 
     /*
     Games(timeslots[17]);

@@ -208,7 +208,7 @@ function Games(timeslot){
 		name="Team "+ timeslot.games[x].team1id + " vs Team " +timeslot.games[x].team1id;
 		s=getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time);
 		e=getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time+1)
-		function makeApiCall(name, timeslot.games[x].court, "", s, e)
+		makeApiCall(name, timeslot.games[x].court, "", s, e)
 		//2014-05-19T20:00:00-06:00
 	}
 }
