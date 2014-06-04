@@ -201,11 +201,12 @@ function Succeed(){
                	}
                }
                
-               alert("reached");
+               alert("reached1");
                if(!remove) return remove;
-               
+               alert("reached2");
        		var day = daySelects.item(indices[i]);
        		var form = document.getElementById('team_info');
+       		alert("reached3");
        		form.removeChild(day.parentNode);
        		
        		alert("Removed");
