@@ -114,12 +114,12 @@ query.find().then(function(results){   //the results set can only be accessed in
 
 function Succeed(){
 	
-	var form = document.getElementById('password');
+	var teamform = document.getElementById('team_info');
+	var passform = document.getElementById('password');
 	if(!form) alert("form is null");
-	alert("hah!");
-	
-	form.style.display = 'inline-block';
-	alert(form.style.display);
+
+	teamform.style.display = 'inline-block';
+	passform.style.display = 'none';
 }
             
             function submitPass(){
