@@ -150,6 +150,24 @@ function Succeed(){
                }
                var timeslots = new Array();
                
+               // Check for duplicates
+               var indices = new Array();
+               for(var i=0; i<timeSelects.length; i++) 
+               	for(var j=0; j<timeSelects.length; j++){
+               		if(timeSelects.item(i).value === timeSelects.item(j).value){
+               			if(daySelects.item(i).value === daySelects.item(j).value){
+               				alert("Duplicate detected");
+               				indices.push(j);
+               			}
+               		}
+               }
+               
+               for(var i=0; i<indices.length;i++){
+               		var day = daySelects.item(indices[i]);
+               		var form = document.getElementById('team_info');
+               		form.removeChild(day.parentNode);
+               }
+               
                for(var i=0; i<daySelects.length; i++){ 
                		var time = timeSelects.item(i).value;
                		var day = daySelects.item(i).value;
@@ -213,14 +231,13 @@ function Succeed(){
                 form.insertBefore(div, button);
                 
                 prefNum++;
-                if(prefNum == 20) form.removeChild(button);
+                if(prefNum == 100) form.removeChild(button);
             }
             
             var removeEntry = function(e){
             	e = e || window.event;
     		e = e.target || e.srcElement;
     		
-            	alert("Id: " + e.id);
             	var form = e.parentNode.parentNode;
             	
             	form.removeChild(e.parentNode);
