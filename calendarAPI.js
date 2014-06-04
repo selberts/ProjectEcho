@@ -28,10 +28,15 @@ else{
 }
 /*
 * Autheticates our application for accessing Google API
+* @param game    Title of the game (displaces as summary in calendar interface)
+* @param loc     Location
+* @param desc    Description
+* @param start   Start time
+* @param end     End time
 * More information:
 * http://googleappsdeveloper.blogspot.com/2011/12/using-new-js-library-to-unlock-power-of.html
 */
-function init() {
+function init(game, loc, desc, start, end) {
  if(calDisplay == false) return false;
 
  var clientId = '480075007100.apps.googleusercontent.com';
