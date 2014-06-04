@@ -62,7 +62,7 @@
 				<h4>ADD TIMESLOTS</h4>
 				
 				<form id="password" style="display: inline-block" onsubmit="return submitPass()">
-                                    <input type="text" id="name" value="Password" />
+                                    <input type="text" id="adminpassword" value="Password" />
                                     <input type="submit" value="Submit">
                                 </form>
                                 
@@ -76,7 +76,52 @@
 
             Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
             
+            function passwordCheck(pwd){
+
+
+
+Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+
+// Select the table Teamdata in the database
+var PWT = Parse.Object.extend("Password");
+// Prepare a query
+var query = new Parse.Query(PWT);
+// Find all the tuples in the table
+query.equalTo("type", "password");
+// Get the results set of the query
+query.find().then(function(results){   //the results set can only be accessed in this function!!!
+        var b = false;
+        for(var i=0;i<results.length;i++){
+    	var object = results[i];
+    	var password = object.get("password");
+        if(pwd == password){
+        	b = true;
+        }
+    }
+
+    if(b){
+
+    	Succeed();
+
+    }else{
+    	alert("password fail");
+    }
+
+});
+
+}
+
+
+function Succeed(){
+
+	alert("hah!");
+}
+            
             function submitPass(){
+            	
+            	var pwd = document.getElementById("adminpassword").value;
+            	
+            	passwordCheck(pwd);
             	return false;
             }
             /**
