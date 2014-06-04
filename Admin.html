@@ -199,15 +199,26 @@ function Succeed(){
                 var form = document.getElementById('team_info');
                 var button = document.getElementById('addpref');
                 
+                var remove = document.createElement("BUTTON");
+                remove.onlick = removeEntry(this);
+                var text = document.createTextNode("Remove");
+                remove.appendChild(text);
                 
                 var div = document.createElement("div");
                 div.style.display = 'block';
                 div.appendChild(createTimeSelect(prefNum));
                 div.appendChild(createDaySelect(prefNum));
+                div.appendChild(remove);
                 form.insertBefore(div, button);
                 
                 prefNum++;
                 if(prefNum == 20) form.removeChild(button);
+            }
+            
+            function removeEntry(obj){
+            	var form = document.getElementById('team_info');
+            	
+            	form.removeChild(obj.parentNode);
             }
             
             /**
