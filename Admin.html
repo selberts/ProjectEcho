@@ -151,7 +151,7 @@ function Succeed(){
                var timeslots = new Array();
                
                // Check for duplicates
-               while(removeDuplicate(daySelects)) {}
+               while(removeDuplicate(daySelects, timeSelects)) {}
                
                
                
@@ -184,7 +184,7 @@ function Succeed(){
                 
             }
             
-            function removeDuplicate(daySelects){
+            function removeDuplicate(daySelects, timeSelects){
             	alert("Called");
             	var i;
             	var remove = false;
@@ -201,6 +201,7 @@ function Succeed(){
                	}
                }
                
+               alert("reached");
                if(!remove) return remove;
                
        		var day = daySelects.item(indices[i]);
