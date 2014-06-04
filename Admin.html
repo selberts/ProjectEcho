@@ -152,14 +152,15 @@ function Succeed(){
                
                // Check for duplicates
                var indices = new Array();
-               for(var i=0; i<timeSelects.length; i++) 
-               	for(var j=0; j<timeSelects.length; j++){
+               for(var i=0; i<timeSelects.length; i++){
+               	for(var j=i+1; j<timeSelects.length; j++){
                		if(timeSelects.item(i).value === timeSelects.item(j).value){
                			if(daySelects.item(i).value === daySelects.item(j).value){
                				alert("Duplicate detected");
                				indices.push(j);
                			}
                		}
+               	}
                }
                
                for(var i=0; i<indices.length;i++){
