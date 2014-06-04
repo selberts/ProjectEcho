@@ -151,23 +151,9 @@ function Succeed(){
                var timeslots = new Array();
                
                // Check for duplicates
-               var indices = new Array();
-               for(var i=0; i<timeSelects.length; i++){
-               	for(var j=i+1; j<timeSelects.length; j++){
-               		if(timeSelects.item(i).value === timeSelects.item(j).value){
-               			if(daySelects.item(i).value === daySelects.item(j).value){
-               				alert("Duplicate detected");
-               				indices.push(j);
-               			}
-               		}
-               	}
-               }
+               while(removeDuplicate(daySelects));
                
-               for(var i=0; i<indices.length;i++){
-               		var day = daySelects.item(indices[i]);
-               		var form = document.getElementById('team_info');
-               		form.removeChild(day.parentNode);
-               }
+               
                
                for(var i=0; i<daySelects.length; i++){ 
                		var time = timeSelects.item(i).value;
@@ -196,6 +182,31 @@ function Succeed(){
 
                return false; */
                 
+            }
+            
+            function removeDuplicate(daySelects){
+            	var i;
+            	var remove = false;
+            	
+               loop:
+               for(i=0; i<timeSelects.length; i++){
+               	for(var j=i+1; j<timeSelects.length; j++){
+               		if(timeSelects.item(i).value === timeSelects.item(j).value){
+               			if(daySelects.item(i).value === daySelects.item(j).value){
+               				remove = true;
+               				break loop;
+               			}
+               		}
+               	}
+               }
+               
+               if(!remove) return remove;
+               
+       		var day = daySelects.item(indices[i]);
+       		var form = document.getElementById('team_info');
+       		form.removeChild(day.parentNode);
+       		
+       		return true;
             }
             
             var prefNum = 0;
