@@ -103,7 +103,7 @@ query.find().then(function(results){   //the results set can only be accessed in
     	Succeed();
 
     }else{
-    	alert("password fail");
+    	alert("Incorrect password");
     }
 
 });
@@ -185,16 +185,17 @@ function Succeed(){
             }
             
             function removeDuplicate(daySelects){
+            	alert("Called");
             	var i;
             	var remove = false;
             	
-               loop:
+               loop1:
                for(i=0; i<timeSelects.length; i++){
                	for(var j=i+1; j<timeSelects.length; j++){
                		if(timeSelects.item(i).value === timeSelects.item(j).value){
                			if(daySelects.item(i).value === daySelects.item(j).value){
                				remove = true;
-               				break loop;
+               				break loop1;
                			}
                		}
                	}
