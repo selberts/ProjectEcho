@@ -215,7 +215,7 @@ function Succeed(){
                 var select = document.createElement("select");
                 select.name = "prefTime";// + prefNum;
                 
-                for (var i = 0; i < timeslot_list.length; i++){
+                for (var i = 0; i < times.length; i++){
                     var opt = document.createElement('option');
                     opt.value = times[i];
                     opt.innerHTML = times[i];
@@ -234,7 +234,7 @@ function Succeed(){
                 var select = document.createElement("select");
                 select.name = "prefDay";// + prefNum;
                 
-                for (var i = 0; i < timeslot_list.length; i++){
+                for (var i = 0; i < days.length; i++){
                     var opt = document.createElement('option');
                     opt.value = days[i];
                     opt.innerHTML = days[i];
