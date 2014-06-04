@@ -201,7 +201,7 @@ function Succeed(){
                 
                 var remove = document.createElement("BUTTON");
                 remove.id = "remove" + prefNum;
-                remove.onclick = removeEntry(remove.id);
+                remove.onclick = "removeEntry(this)";
                 var text = document.createTextNode("Remove");
                 remove.appendChild(text);
                 
@@ -216,12 +216,11 @@ function Succeed(){
                 if(prefNum == 20) form.removeChild(button);
             }
             
-            function removeEntry(id){
-            	alert(id);
-            	var but = document.getElementById(id);
-            	var form = document.getElementById('team_info');
+            function removeEntry(obj){
+            	alert(obj.id);
+            	var form = obj.parentNode.parentNode;
             	
-            	form.removeChild(but.parentNode);
+            	form.removeChild(obj.parentNode);
             }
             
             /**
