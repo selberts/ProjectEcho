@@ -1,98 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="assets/ico/favicon.png">
+<html>
+    <head>
+        <title>Intramural Sports Scheduler</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <script type="text/javascript">
+// This javascript will have to be server side in the final product,
+// since it gives away the information needed to access the calendar
+// Except for refreshing the calendar, it works independent of the page
 
-    <title>Project Echo - IM Scheduler</title>
+// Game parameters; presumably handed by scheduling function
+var game = "Game";
+var loc = "Location";
+var desc = "Description";
+var start = "2014-05-18";
+var end = "2014-05-19";
 
-    <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
-    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+// Note that I'm currently hosting the calendar with my email address;
+// We can change this if need be
+var calendarID = "lukeolney@gmail.com";
 
-    <!-- Custom styles for this template -->
-    <link href="assets/css/main.css" rel="stylesheet">
+/*
+* Autheticates our application for accessing Google API
+* More information:
+* http://googleappsdeveloper.blogspot.com/2011/12/using-new-js-library-to-unlock-power-of.html
+*/
+function init() {
+    
+     var clientId = '480075007100.apps.googleusercontent.com';
+     var scopes = 'https://www.googleapis.com/auth/calendar';
 
+      
+      // Load the API key from the Developer Console
+      gapi.client.setApiKey('AIzaSyDWMoEWCsh4giDWiBKZSVyzIytQBc73gu4');
+      checkAuth();
+       
+      function checkAuth() {
+        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuth);
+      }
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-  </head>
+      // If not already authorized, authorize
+      function handleAuth(authResult) {
+      	if (authResult && !authResult.error) {
+      		makeApiCall(game, loc, desc, start, end);
+      	}
+      	else doAuth();
+      }
+      
+      function doAuth() {
+        // Get authorization to use private data
+        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, makeApiCall(game, loc, desc, start, end));
+        return false;
+      }
+     
+ }
+ 
+  /*
+   * Inserts an event into the calendar
+   * @param game    Title of the game (displaces as summary in calendar interface)
+   * @param loc     Location
+   * @param desc    Description
+   * @param start   Start time
+   * @param end     End time
+   */
+  function makeApiCall(game, loc, desc, start, end){
+    
+      // Format for the event
+      // Note: can add more parameters; documentation here: 
+      // https://developers.google.com/google-apps/calendar/v3/reference/events/insert
+      var event = {
+              "summary": game,
+              "location": loc,
+              "description": desc,
+              "end": {
+                  "date": end       // use dateTime instead to include time
+              },
+              "start": {
+                  "date": start
+              }
+          };
+  
+    gapi.client.load('calendar', 'v3', function() {
+        var request = gapi.client.calendar.events.insert({
+            'calendarId': calendarID,
+            'resource': event
+          });
 
-  <body>
-
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html">NU INTRAMURAL SP<i class="fa fa-circle"></i>RTS</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="index.html">HOME</a></li>
-            <li><a href="about.html">ABOUT</a></li>
-            <li class="active"><a href="calendar.html">CALENDAR</a></li>
-            <li><a href="schedule.html">SCHEDULE</a></li>
-	    <li><a href="Admin.html">Admin</a></li>
-            
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
+      request.execute(function(resp) {
+        if (resp.id){
+	   	 console.log("Event added");
+                 // Refresh the calendar
+                 document.getElementById("calendar").innerHTML =
+                         '<iframe src="https://www.google.com/calendar/embed?src=lukeolney%40gmail.com&ctz=America/Chicago" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>';
+	   }
+	   else{
+	   	console.log(resp.message);
+	   }
+      });
+    });
+  }
+  
+    </script>
+    <!-- Google client library-->
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+    
+    <div  id="calendar">
+        <iframe src="https://www.google.com/calendar/embed?src=lukeolney%40gmail.com&ctz=America/Chicago"
+                style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
     </div>
-
-    <div class="container desc">
-		<div class="row">
-			<br><br>
-			<div class="col-lg-4 col-lg-offset-2 centered">
-				<script src="https://apis.google.com/js/client.js?onload=init"></script>
-				<div id="calendar">
-					<iframe src="https://www.google.com/calendar/embed?src=lukeolney%40gmail.com&ctz=America/Chicago"
-					style="border: 0" width="800" height="500" frameborder="0" scrolling="no"></iframe>
-				</div>				
-			</div>
-		</div>
-	</div>	
-
-<!-- 	<div id="blue">
-		<div class="container">
-			<div class="row centered">
-				<div class="col-lg-8 col-lg-offset-2">
-				<h4>THIS IS A PLACEHOLDER</h4>
-				<p>EECS 214</p>
-				</div>
-			</div>
-		</div>
-	</div> -->
-
-	<!-- FOOTER -->
-	<div id="f">
-		<div class="container">
-			<div class="row centered">
-				<i class="fa fa-dribbble"></i></i></a>
-		
-			</div>
-		</div>
-	</div>
-
-
-	
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-  </body>
+    </body>
 </html>
