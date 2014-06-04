@@ -15,18 +15,16 @@
 <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
 <script>
 
+    // Insert the key to connect with the Parse system
     Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
-    
-    
-
+    // Select the table Teamdata in the database
     var Teamdata = Parse.Object.extend("Teamdata");
-
+    // Prepare a query
     var query = new Parse.Query(Teamdata);
-
+    // Find all the tuples in the table
     query.equalTo("type", "team");
-
-
-    query.find().then(function(results){
+    // Get the results set of the query
+    query.find().then(function(results){   //the results set can only be accessed in this function!!!
 
     var timeslots = makeslots();
 
