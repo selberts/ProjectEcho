@@ -216,7 +216,7 @@ function Succeed(){
             }
             
             function removeEntry(obj){
-            	var form = document.getElementById('team_info');
+            	var form = obj.parentNode.parentNode;
             	
             	form.removeChild(obj.parentNode);
             }
