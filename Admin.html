@@ -176,21 +176,13 @@ function Succeed(){
             }
             
             var prefNum = 0;
-            var timeslot_list;
             var days = ["Sunday", "Monday","Tuesday","Wednesday","Thursday"];
+            var times = new Array();
 
             function makeslots() {
-		timeslot_list = []
-		i = 1;
-		for (var day = 0; day < 5; day ++) {
-			for (var time = 5; time < 10; time ++) {
-				//for (var c = 1; c <7; c++) {
-					var slot = new Time_Slot(i, time+ " PM", days[day], 2);
-					timeslot_list.push(slot);
-					i ++;
-				//};
-			};
-		};
+			for (var time = 5; time < 10; time ++)
+					times.push(time + " PM");
+
             }
 
             
@@ -225,8 +217,8 @@ function Succeed(){
                 
                 for (var i = 0; i < timeslot_list.length; i++){
                     var opt = document.createElement('option');
-                    opt.value = timeslot_list[i].time;
-                    opt.innerHTML = timeslot_list[i].time;
+                    opt.value = times[i];
+                    opt.innerHTML = times[i];
                     select.appendChild(opt);
                 }
                 
@@ -244,8 +236,8 @@ function Succeed(){
                 
                 for (var i = 0; i < timeslot_list.length; i++){
                     var opt = document.createElement('option');
-                    opt.value = timeslot_list[i].day;
-                    opt.innerHTML = timeslot_list[i].day;
+                    opt.value = days[i];
+                    opt.innerHTML = days[i];
                     select.appendChild(opt);
                 }
                 
