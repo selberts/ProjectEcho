@@ -115,6 +115,7 @@ query.find().then(function(results){   //the results set can only be accessed in
 function Succeed(){
 	
 	var form = document.getElementById('password_form');
+	if(!form) alert("form is null");
 	alert("hah!");
 	
 	form.style.display = "inline-block";
