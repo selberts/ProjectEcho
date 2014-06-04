@@ -144,6 +144,10 @@ function Succeed(){
                var daySelects = document.getElementsByName("prefDay");
                var timeSelects = document.getElementsByName("prefTime");
                
+               if(daySelects.length == 0 || timeSelects.length == 0){
+               		alert("Must submit at least one timeslot");
+               		return false;
+               }
                var timeslots = new Array();
                
                for(var i=0; i<daySelects.length; i++){ 
