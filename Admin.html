@@ -71,6 +71,8 @@
                                     <input type="button" id="addpref" value="Add pref" onclick="createPref()"/>
                                     <input type="submit" value="Submit">
                                 </form>
+
+        <input type="button" value="Assign Teams" name="adminAssign" onclick="adminAssign()"/>
         <script type="text/javascript">
 
             Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
@@ -223,9 +225,9 @@ function Succeed(){
             var times = new Array();
 
             function makeslots() {
-			for (var time = 5; time < 10; time ++)
-					times.push(time + " PM");
-
+			        for (var time = 5; time < 10; time ++)
+					    times.push(time + " PM");
+              return times;
             }
 
             
@@ -321,7 +323,8 @@ function Succeed(){
 
 
 
-
+        <script src="adminAssign.js"></script>
+        <script src="add teams.js"></script>
         <script src="calendarAPI.js"></script>
         <script src="Classes.js"></script>
 
