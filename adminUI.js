@@ -1,3 +1,9 @@
+
+/**
+ * Checks password against password in database
+ * @param {String} pwd    Password
+ * @returns {undefined}
+ */
 function passwordCheck(pwd) {
 
 
@@ -33,7 +39,11 @@ function passwordCheck(pwd) {
 
 }
 
-
+/**
+ * Called on success of password submit
+ * Hides password form, unhides options available to admin
+ * @returns {undefined}
+ */
 function Succeed() {
 
   var teamform = document.getElementById('team_info');
@@ -45,6 +55,10 @@ function Succeed() {
   adminAssign.style.display = 'inline-block';
 }
 
+/**
+ * Callback function for password form submission
+ * @returns {bool}  false signals page not to reload (ie, not sending info to webserver)
+ */
 function submitPass() {
 
   var pwd = document.getElementById("adminpassword").value;
@@ -53,10 +67,11 @@ function submitPass() {
 
   return false;
 }
+
 /**
- * Callback function for form submission
- * Prepares name and pref_times, pref_days arrays for local storage
- * @returns {bool}  false signals page not to reload (ie, not sending info to webserve)
+ * Callback function for timeslot form submission
+ * Submits timeslot objects to database
+ * @returns {bool}  false signals page not to reload (ie, not sending info to webserver)
  */
 function submitTimeSlots() {
   /*  Uncomment to require 3 preferences 
@@ -140,8 +155,8 @@ function makeslots() {
 
 
 /**
- * Adds preference selects (time, day) to form
- * Limited to 3 preferences
+ * Adds preference selects (time, day, court, and remove button) to form
+ * Unlimited number of time slots
  * @returns {undefined}
  */
 function createPref() {
@@ -163,7 +178,6 @@ function createPref() {
   form.insertBefore(div, button);
 
   prefNum++;
-  if (prefNum == 100) form.removeChild(button);
 }
 
 var removeEntry = function(e) {
