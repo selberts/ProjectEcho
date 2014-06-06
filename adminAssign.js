@@ -10,6 +10,7 @@ function adminAssign() {/**
   var query = new Parse.Query(Teamdata);
   // Find all the tuples in the table
   query.equalTo("type", "team");
+  query.ascending("createdAt");
   // Get the results set of the query
   query.find().then(function(results) { //the results set can only be accessed in this function!!!
 
