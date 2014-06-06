@@ -1,115 +1,106 @@
 Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+var prefNum = 0;
+var days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+var times = [5,6,7,8];
+var timeslots = gettimeslots();
+
 /**
 * Callback function for form submission
 * Prepares name and pref_times, pref_days arrays for local storage
 * @returns {bool}  false signals page not to reload (ie, not sending info to webserve)
 */
 function saveTeam(){
-/*  Uncomment to require 3 preferences 
-if(prefNum != 3) {
-alert("Need to add three preferences");
-return false;
-}
-*/
+	/*//Uncomment to require 3 preferences 
+	if(prefNum != 3) {
+	alert("You need to add three preferences");
+	return false;
+	}
+	*/
 
-var pref_times = new Array();
-var pref_days = new Array();                
-var name = document.getElementById("name").value;
+	var pref_times = new Array();
+	var pref_days = new Array();                
+	var name = document.getElementById("name").value;
 
-//var daySelects = document.getElementsByName("prefDay");
-var timeSelects = document.getElementsByName("prefTime");
+	//var daySelects = document.getElementsByName("prefDay");
+	var timeSelects = document.getElementsByName("prefTime");
 
-for(var i=0; i<timeSelects.length; i++){
-	var num = timeSelects[i].selectedIndex;
-	pref_times.push(timeslots[num].time);
-	pref_days.push(timeslots[num].day);
-}
+	for (var i=0; i<timeSelects.length; i++){
+		var num = timeSelects[i].selectedIndex;
+		pref_times.push(timeslots[num].time);
+		pref_days.push(timeslots[num].day);
+	}
 
-/*
-// What to do with this information? Depends on our storage scheme
-var id = -1; // retrieved from local storage
-var team = {
-id: i +1, 
-team_name: name, 
-pref_times: pref_times,
-pref_days: pref_days
-};
-//<team stored locally>
-*/
-var Teamdata = Parse.Object.extend("Teamdata");
-var teamdata = new Teamdata();
-teamdata.save({team_name: name , type:"team" , pref_days:pref_days , pref_times:pref_times}).then(function(object) {
-	console.log("Team successfully added.");
-	var success = document.createElement("div");
-	var loc = document.getElementById('dg');
-	success.innerHTML = "Team successfully added.";
-	success.style.display = 'block';
-	loc.appendChild(success);
-});
+	var Teamdata = Parse.Object.extend("Teamdata");
+	var teamdata = new Teamdata();
 
+	teamdata.save({team_name: name , type:"team" , pref_days:pref_days , pref_times:pref_times}).then(function(object) {
+		console.log("Team successfully added.");
+		var success = document.createElement("div");
+		var loc = document.getElementById('dg');
+		success.innerHTML = "Team successfully added.";
+		success.style.display = 'block';
+		loc.appendChild(success);
+	});
 
-
-
-return false;
-
+	return false;
 }
 
-var prefNum = 0;
-var days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-var times = [5,6,7,8];
 
 /**
 * Adds preference selects (time, day) to form
 * Limited to 3 preferences 
-* @returns {undefined}
+* @returns {JSON}
 */
-
-var timeslots = gettimeslots();
 function gettimeslots(){
-	console.log("fucntion called");
-// Insert the key to connect with the Parse system
-Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
-// Select the table Teamdata in the database
-var Timeslots = Parse.Object.extend("Timeslots");
-// Prepare a query
-var query = new Parse.Query(Timeslots);
-// Find all the tuples in the table
-query.equalTo("type", "timeslot");
-// Get the results set of the query
-var timeslots = new Array();
-query.find().then(function(results){   //the results set can only be accessed in this function!!!
+	console.log("running gettimeslots");
+	// Insert the key to connect with the Parse system
+	Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+	// Select the table Teamdata in the database
+	var Timeslots = Parse.Object.extend("Timeslots");
+	// Prepare a query
+	var query = new Parse.Query(Timeslots);
+	// Find all the tuples in the table
+	query.equalTo("type", "timeslot");
+	// Get the results set of the query
+	var timeslots = new Array();
+	query.find().then(function(results){   //the results set can only be accessed in this function!!!
 
+		for(var i=0;i<results.length;i++){
+			var object = results[i];
+			var day = object.get("day");
+			var time = object.get("time");
+			var courts = object.get("courts");
+			var timeslot = new Time_Slot(i, time, day, courts);
+			timeslots.push(timeslot);
+		}
+	
+		timeslots = JSON.parse(JSON.stringify(timeslots));
+		console.log(timeslots);
+	});
 
-	for(var i=0;i<results.length;i++){
-		var object = results[i];
-		var day = object.get("day");
-		var time = object.get("time");
-		var courts = object.get("courts");
-		var timeslot = new Time_Slot(i, time, day, courts);
-		timeslots.push(timeslot);
-	}
-	timeslots = JSON.parse(JSON.stringify(timeslots));
-	console.log(timeslots);
-
-});
-return timeslots;
+	return timeslots;
 };
 
+
+/**
+* Adds div into form to select one more preference.
+* @param {}
+* @returns {}
+*/
 function createPref(){
 	var form = document.getElementById('team_info');
 	var button = document.getElementById('addpref');
 
+	//console.log(timeslots[1].time);
+	var div = document.createElement("div");
+	div.style.display = 'block';
+	div.appendChild(createTimeSelect(prefNum));
+	//div.appendChild(createDaySelect(prefNum));
+	form.insertBefore(div, button);
 
+	prefNum++;
 
-//console.log(timeslots[1].time);
-var div = document.createElement("div");
-div.style.display = 'block';
-div.appendChild(createTimeSelect(prefNum));
-//div.appendChild(createDaySelect(prefNum));
-form.insertBefore(div, button);
-
-prefNum++;
-if(prefNum == 3) form.removeChild(button);
+	if(prefNum == 3) form.removeChild(button);
 }
 
 /**
@@ -119,16 +110,16 @@ if(prefNum == 3) form.removeChild(button);
 */
 function createTimeSelect(prefNum){
 	var select = document.createElement("select");
-select.name = "prefTime";// + prefNum;
+	select.name = "prefTime";// + prefNum;
 
-for (var i = 0; i < timeslots.length; i++){
-	var opt = document.createElement('option');
-	opt.value = timeslots[i].day +"'s at " + timeslots[i].time;
-	opt.innerHTML = timeslots[i].day +"'s at " + timeslots[i].time;
-	select.appendChild(opt);
-}
+	for (var i = 0; i < timeslots.length; i++){
+		var opt = document.createElement('option');
+		opt.value = timeslots[i].day +"'s at " + timeslots[i].time;
+		opt.innerHTML = timeslots[i].day +"'s at " + timeslots[i].time;
+		select.appendChild(opt);
+	}
 
-return select;
+	return select;
 }
 
 /**
@@ -138,14 +129,14 @@ return select;
 */
 function createDaySelect(prefNum){
 	var select = document.createElement("select");
-select.name = "prefDay";// + prefNum;
+	select.name = "prefDay";// + prefNum;
 
-for (var i = 0; i < days.length; i++){
-	var opt = document.createElement('option');
-	opt.value = days[i];
-	opt.innerHTML = days[i];
-	select.appendChild(opt);
-}
+	for (var i = 0; i < days.length; i++){
+		var opt = document.createElement('option');
+		opt.value = days[i];
+		opt.innerHTML = days[i];
+		select.appendChild(opt);
+	}
 
-return select;
+	return select;
 }
