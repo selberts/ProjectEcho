@@ -74,9 +74,9 @@ function Assign_Teams(teaml, slotsl) {
     var done = 0;
     while (done == 0) {
       if (!teaml[n].pref_slots[pref]) {
-        alert(n + "and" + pref + "and" + prefs);
+        alert("Team#: " + n + " and pref#: " + pref + "and number of prefs: " + prefs);
       }
-      var timeslotID = slotl.length
+      var timeslotID = slotsl.length
       var id = teaml[n].id;
       if (slotsl[id - 1].teams.length < slotsl[id - 1].capacity) {
         slotsl[id - 1].teams.push(teaml[n]);
