@@ -114,8 +114,8 @@ function createTimeSelect(prefNum){
 
 	for (var i = 0; i < timeslots.length; i++){
 		var opt = document.createElement('option');
-		opt.value = timeslots[i].day +"'s at " + timeslots[i].time;
-		opt.innerHTML = timeslots[i].day +"'s at " + timeslots[i].time;
+		opt.value = timeslots[i].day +"s at " + timeslots[i].time;
+		opt.innerHTML = timeslots[i].day +"s at " + timeslots[i].time;
 		select.appendChild(opt);
 	}
 
