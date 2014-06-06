@@ -4,7 +4,7 @@ Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLv
 * Prepares name and pref_times, pref_days arrays for local storage
 * @returns {bool}  false signals page not to reload (ie, not sending info to webserve)
 */
-function sub(){
+function saveTeam(){
 /*  Uncomment to require 3 preferences 
 if(prefNum != 3) {
 alert("Need to add three preferences");

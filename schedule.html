@@ -32,7 +32,6 @@
   </head>
 
   <body>
-    window.onload = gettimeslots();
     <!-- Fixed navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -72,7 +71,7 @@
         <input type="button" value="Show Calendar" name="showCal" onclick="toggleCal()"/>
         <input type="button" value="Add mock event" name="addEvent" onclick="init()"/> -->
         
-        <form id="team_info" style="display: inline-block" onsubmit="return sub()">
+        <form id="team_info" style="display: inline-block" onsubmit="return saveTeam()">
                                     <input type="text" id="name" value="Team name" />
                                     <input type="button" id="addpref" value="Add pref" onclick="createPref()"/>
                                     <input type="submit" value="Submit">
