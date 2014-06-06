@@ -146,12 +146,7 @@ function removeDuplicate(daySelects, timeSelects) {
 
 var prefNum = 0;
 var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
-var times = new Array();
 
-function makeslots() {
-  for (var time = 5; time < 10; time++)
-    times.push(time + " PM");
-}
 
 
 /**
@@ -197,7 +192,10 @@ var removeEntry = function(e) {
 function createTimeSelect(prefNum) {
   var select = document.createElement("select");
   select.name = "prefTime"; // + prefNum;
+  var times = new Array();
 
+  for (var time = 5; time < 10; time++)
+    times.push(time + " PM");
   for (var i = 0; i < times.length; i++) {
     var opt = document.createElement('option');
     opt.value = times[i];
@@ -212,7 +210,7 @@ function createCourtSelect(prefNum) {
   var select = document.createElement("select");
   select.name = "courts"; // + prefNum;
 
-  for (var i = 1; i < 5; i++) {
+  for (var i = 1; i < 3; i++) {
     var opt = document.createElement('option');
     opt.value = i;
     opt.innerHTML = i;

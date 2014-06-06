@@ -30,7 +30,7 @@
     <![endif]-->
   </head>
 
-  <body onload="makeslots()">
+  <body>
 
     <!-- Fixed navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -68,7 +68,7 @@
                                 
         
         <form id="team_info" style="display: none" onsubmit="return submitTimeSlots()">
-                                    <Label>Time |</Label><Label> Day |</Label><Label> Number of Courts</Label>
+                                    <Label>Time</Label><Label style="text-indent: 5em;"> Day</Label><Label style="text-indent: 1em;"> Number of Courts</Label>
                                     <input type="button" id="addpref" value="Add pref" onclick="createPref()"/>
                                     <input type="submit" value="Submit">
                                 </form>
