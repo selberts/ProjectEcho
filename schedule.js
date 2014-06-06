@@ -10,12 +10,10 @@ var timeslots = gettimeslots();
 * @returns {bool}  false signals page not to reload (ie, not sending info to webserve)
 */
 function saveTeam(){
-	/*//Uncomment to require 3 preferences 
-	if(prefNum != 3) {
-	alert("You need to add three preferences");
+	if(prefNum < 1) {
+	alert("You need to add add least one preference");
 	return false;
 	}
-	*/
 
 	var pref_times = new Array();
 	var pref_days = new Array();                
