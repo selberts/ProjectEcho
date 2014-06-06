@@ -75,6 +75,8 @@ function gettimeslots(){
 		timeslots = JSON.parse(JSON.stringify(timeslots));
 		console.log(timeslots);
 	});
+	
+	prefnum++;
 
 	return timeslots;
 };
