@@ -10,6 +10,7 @@ var timeslots = gettimeslots();
 * @returns {bool}  false signals page not to reload (ie, not sending info to webserve)
 */
 function saveTeam(){
+	console.log("Prefnum: " + prefNum);
 	if(prefNum < 1) {
 	alert("You need to add add least one preference");
 	return false;
@@ -75,8 +76,6 @@ function gettimeslots(){
 		timeslots = JSON.parse(JSON.stringify(timeslots));
 		console.log(timeslots);
 	});
-	
-	prefnum++;
 
 	return timeslots;
 };
