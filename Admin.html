@@ -75,38 +75,38 @@
 
             Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
             
-            function passwordCheck(pwd){
+function passwordCheck(pwd){
 
 
 
-Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
-
-// Select the table Teamdata in the database
-var PWT = Parse.Object.extend("Password");
-// Prepare a query
-var query = new Parse.Query(PWT);
-// Find all the tuples in the table
-query.equalTo("type", "password");
-// Get the results set of the query
-query.find().then(function(results){   //the results set can only be accessed in this function!!!
-        var b = false;
-        for(var i=0;i<results.length;i++){
-    	var object = results[i];
-    	var password = object.get("password");
-        if(pwd == password){
-        	b = true;
+    Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+    
+    // Select the table Teamdata in the database
+    var PWT = Parse.Object.extend("Password");
+    // Prepare a query
+    var query = new Parse.Query(PWT);
+    // Find all the tuples in the table
+    query.equalTo("type", "password");
+    // Get the results set of the query
+    query.find().then(function(results){   //the results set can only be accessed in this function!!!
+            var b = false;
+            for(var i=0;i<results.length;i++){
+            var object = results[i];
+            var password = object.get("password");
+            if(pwd == password){
+                    b = true;
+            }
         }
-    }
-
-    if(b){
-
-    	Succeed();
-
-    }else{
-    	alert("Incorrect password");
-    }
-
-});
+    
+        if(b){
+    
+            Succeed();
+    
+        }else{
+            alert("Incorrect password");
+        }
+    
+    });
 
 }
 
@@ -143,6 +143,7 @@ function Succeed(){
 
                var daySelects = document.getElementsByName("prefDay");
                var timeSelects = document.getElementsByName("prefTime");
+               var courtSelects = document.getElementsByName("courts");
                
                if(daySelects.length == 0 || timeSelects.length == 0){
                		alert("Must submit at least one timeslot");
@@ -154,16 +155,17 @@ function Succeed(){
                while(removeDuplicate(daySelects, timeSelects)) {}
                if(removed > 0) alert("Removed " + removed + " duplicate timeslots");
                removed = 0;
-               
+               Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
                var Timeslots = Parse.Object.extend("Timeslots");
                var timeslots = new Timeslots();
                for(var i=0; i<daySelects.length; i++){ 
                		var time = timeSelects.item(i).value;
                		var day = daySelects.item(i).value;
-               		timeslots.save({ type:"timeslot" , day:day , time:time}).then(function(object) {
+                        var co = courtSelects.item(i).value;
+               		timeslots.save({ type:"timeslot" , day:day , time:time, courts:co}).then(function(object) {
 			     alert("Timeslots successfully added.");
                		});
-                	 timeslots.push(new Time_Slot(i, time, day, 2));
+                	// timeslots.push(new Time_Slot(i, time, day, 2));
                }
                
                /* Submit to database here*/
@@ -246,6 +248,7 @@ function Succeed(){
                 div.style.display = 'block';
                 div.appendChild(createTimeSelect(prefNum));
                 div.appendChild(createDaySelect(prefNum));
+                div.appendChild(createCourtSelect(prefNum));
                 div.appendChild(remove);
                 form.insertBefore(div, button);
                 
@@ -275,6 +278,19 @@ function Succeed(){
                     var opt = document.createElement('option');
                     opt.value = times[i];
                     opt.innerHTML = times[i];
+                    select.appendChild(opt);
+                }
+                
+                return select;
+            }
+            function createCourtSelect(prefNum){
+                var select = document.createElement("select");
+                select.name = "courts";// + prefNum;
+                
+                for (var i = 1; i < 5; i++){
+                    var opt = document.createElement('option');
+                    opt.value = i;
+                    opt.innerHTML = i;
                     select.appendChild(opt);
                 }
                 

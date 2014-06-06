@@ -72,7 +72,7 @@ function clearCal(){
     var request = gapi.client.calendar.events.clear({
         'calendarId': calendarID,
       });
-  }
+  })
 
 };
 /*
