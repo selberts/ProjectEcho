@@ -1,9 +1,37 @@
-function adminAssign() {/**
- * Takes all the teams and timeslots from the database.
- * Calls Games to make the games for all timeslots. 
- */
+function adminAssign() {
+  /**
+   * Takes all the teams and timeslots from the database.
+   * Calls Games to make the games for all timeslots.
+   */
   // Insert the key to connect with the Parse system
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+  //BEGIN Timeslot Import
+
+  // Select the table Timeslots in the database
+  var Timeslots = Parse.Object.extend("Timeslots");
+  // Prepare a query
+  var query = new Parse.Query(Timeslots);
+  // Find all the tuples in the table
+  query.equalTo("type", "timeslot");
+  // Get the results set of the query
+  var timeslots = new Array();
+  query.find().then(function(results) { //the results set can only be accessed in this function!!!
+
+    for (var i = 0; i < results.length; i++) {
+      var object = results[i];
+      var day = object.get("day");
+      var time = object.get("time");
+      var courts = object.get("courts");
+      var timeslot = new Time_Slot(i, time, day, courts);
+      timeslots.push(timeslot);
+    }
+
+    timeslots = JSON.parse(JSON.stringify(timeslots));
+  });
+  //END TimeslotImport
+
+
+  //BEGIN Teams Import
   // Select the table Teamdata in the database
   var Teamdata = Parse.Object.extend("Teamdata");
   // Prepare a query
@@ -14,8 +42,6 @@ function adminAssign() {/**
   // Get the results set of the query
   query.find().then(function(results) { //the results set can only be accessed in this function!!!
 
-    var timeslots = makeslots();
-
     var teamlist = [];
 
     for (var i = 0; i < results.length; i++) {
@@ -24,9 +50,10 @@ function adminAssign() {/**
       var days = object.get("pref_days");
       var times = object.get("pref_times");
       var preflist = [];
-      for (var j = 0; j < 3; j++) {
+      j = 0;
+      while (times[j] != null) {
         var day;
-        var time = times[j] - 5;
+        var time = times[j].slice(0, 1) - 5;
 
         switch (days[j]) {
           case "Sunday":
@@ -50,7 +77,7 @@ function adminAssign() {/**
 
         var id = day * 5 + time;
         preflist.push(timeslots[id]);
-
+        j++;
       }
       var team = new Team(i + 1, name, preflist);
       teamlist.push(team);
@@ -58,6 +85,7 @@ function adminAssign() {/**
     }
 
     teamlist = JSON.parse(JSON.stringify(teamlist));
+    //END team Import
 
 
 
@@ -71,12 +99,12 @@ function adminAssign() {/**
 }
 
 function Assign_Teams(teaml, slotsl) {
-/**
- * Takes a list of timeslots and teams and assigns them according to their prefrences.
- * Populates the teams array in the timeslots based on the teams prefrences.
- * @param {Team} teamL                         List of teams, stored as an array
- * @param {Time_Slot} slotsL                   List of time slots, stored as an array
- */
+  /**
+   * Takes a list of timeslots and teams and assigns them according to their prefrences.
+   * Populates the teams array in the timeslots based on the teams prefrences.
+   * @param {Team} teamL                         List of teams, stored as an array
+   * @param {Time_Slot} slotsL                   List of time slots, stored as an array
+   */
   n = 0;
   while (n < teaml.length) {
     var cteam = teaml[n];
@@ -106,11 +134,11 @@ function Assign_Teams(teaml, slotsl) {
 }
 
 function Games(timeslot) {
-/**
- * Takes a timeslot and matches the teams against eachother.
- * Matches 3-5 teams against each other over 5 weeks. Includes byes if nessecary
- * @param {Team} timeslot                      timeslot. Will access the group of teams
- */
+  /**
+   * Takes a timeslot and matches the teams against eachother.
+   * Matches 3-5 teams against each other over 5 weeks. Includes byes if nessecary
+   * @param {Team} timeslot                      timeslot. Will access the group of teams
+   */
   var numTeams = timeslot.teams.length;
   timeslot.games = [];
   if (numTeams < 3) { // need at least 4 teams to start. Otherwise, timeslot will not be used. 
@@ -122,7 +150,7 @@ function Games(timeslot) {
     timeslot.games[3] = new game(4, 1, 2, 4, 1)
     timeslot.games[4] = new game(5, 1, 3, 5, 1)
   } else if (numTeams == 4) {
-     //week one game(id, team1id, team2id, week, court)
+    //week one game(id, team1id, team2id, week, court)
     timeslot.games[0] = new game(1, 1, 2, 1, 1)
     timeslot.games[1] = new game(2, 3, 4, 1, 2)
     //week2
@@ -155,7 +183,7 @@ function Games(timeslot) {
     timeslot.games[9] = new game(10, 4, 5, 5, 2)
   }
   for (var x = 0; x < timeslot.games.length; x++) {
-    name = timeslot.teams[timeslot.games[x].team1id-1] + " vs " + timeslot.teams[timeslot.games[x].team1id-1];
+    name = timeslot.teams[timeslot.games[x].team1id - 1] + " vs " + timeslot.teams[timeslot.games[x].team1id - 1];
     s = getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time);
     e = getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time + 1)
     init(name, timeslot.games[x].court, "", s, e)
@@ -164,13 +192,13 @@ function Games(timeslot) {
 }
 
 function getDateTime(week, day, time) {
-/**
- * Finds the offset from the start date and uses this to find the date and time. 
- * @param {int} week                          week the game is played RANGE[1-5]
- * @param {string} day                           day from the timeslot. 
- * @param {int} time                          time. Will be 5-8 but refers to PM
- * @return {string}                           returns the date and time in the format needed to add to the gCal
- */
+  /**
+   * Finds the offset from the start date and uses this to find the date and time.
+   * @param {int} week                          week the game is played RANGE[1-5]
+   * @param {string} day                           day from the timeslot.
+   * @param {int} time                          time. Will be 5-8 but refers to PM
+   * @return {string}                           returns the date and time in the format needed to add to the gCal
+   */
 
   //date is the offset from April 6, the first day of games. 
   if (day == "Monday") date = 7;

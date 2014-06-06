@@ -54,7 +54,7 @@ function gettimeslots(){
 	console.log("running gettimeslots");
 	// Insert the key to connect with the Parse system
 	Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
-	// Select the table Teamdata in the database
+	// Select the table Timeslots in the database
 	var Timeslots = Parse.Object.extend("Timeslots");
 	// Prepare a query
 	var query = new Parse.Query(Timeslots);
