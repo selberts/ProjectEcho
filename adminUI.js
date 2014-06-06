@@ -38,9 +38,11 @@ function Succeed() {
 
   var teamform = document.getElementById('team_info');
   var passform = document.getElementById('password');
+  var adminAssign = document.getElementById('adminAssign');
 
   teamform.style.display = 'inline-block';
   passform.style.display = 'none';
+  adminAssign.style.display = 'inline-block';
 }
 
 function submitPass() {
