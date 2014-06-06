@@ -225,18 +225,8 @@ function Succeed(){
             var times = new Array();
 
             function makeslots() {
-              timeslots = []
-              i = 1;
-              for (var day = 0; day < 5; day ++) {
-                for (var time = 5; time < 10; time ++) {
-                  //for (var c = 1; c <7; c++) {
-                    var slot = new Time_Slot(i, time+ " PM", days[day], 2);
-                    timeslots.push(slot);
-                    i ++;
-                  //};
-                };
-              };
-              return timeslots;
+              for (var time = 5; time < 10; time ++)
+              		times.push(time + " PM");
             }
 
             
