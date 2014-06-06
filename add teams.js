@@ -130,9 +130,10 @@ function Assign_Teams(teaml, slotsl) {
 			if (!teaml[n].pref_slots[pref]) {
 				alert(n + "and" + pref + "and" + prefs);
 			}
-			var id = teaml[n].pref_slots[pref].id;
+			var timeslotID=slotl.length
+			var id = teaml[n].id;
 			if (slotsl[id-1].teams.length < slotsl[id-1].capacity) {
-				slotsl[id-1].teams.push(teamlist[n]);
+				slotsl[id-1].teams.push(teaml[n]);
 				teaml[n].timeslot = slotsl[id-1];
 				done = 1;
 			}
@@ -141,8 +142,9 @@ function Assign_Teams(teaml, slotsl) {
 				done = 1;
 				alert("Team " + (n+1) + " not added.");
 			}
-		}
 		n++;
+		}
+		
 	}
 }
 
