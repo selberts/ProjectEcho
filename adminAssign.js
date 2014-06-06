@@ -34,7 +34,7 @@ function adminAssign() {
           case "Tuesday":
             day = 2;
             break;
-          case "Wedsday":
+          case "Wednesday":
             day = 3;
             break;
           case "Thursday":
