@@ -76,6 +76,15 @@ function clearCal(){
     var request = gapi.client.calendar.events.clear({
         'calendarId': calendarID,
       });
+      
+    request.execute(function(resp) {
+    if (resp.id){
+ 	 console.log("Event added");
+     }
+     else{
+     	console.log(resp.message);
+     }
+      });
   })
 
 };
