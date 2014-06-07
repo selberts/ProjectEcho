@@ -56,6 +56,9 @@ function Succeed() {
   teamform.style.display = 'inline-block';
   passform.style.display = 'none';
   adminAssign.style.display = 'inline-block';
+  
+  // Authenticate for calendar access
+  init();
 }
 
 /**

@@ -3,12 +3,10 @@
 * Takes all the teams and timeslots from the database
 * Calls Games to make the games for all timeslots
 */
+var totalGames = 0;
 function adminAssign() {
-  
-    clearCal();
 
   // Insert the key to connect with the Parse system
-  clearCal();
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
   //BEGIN Timeslot Import
 
@@ -67,13 +65,34 @@ function adminAssign() {
 
       teamlist = JSON.parse(JSON.stringify(teamlist));
       Assign_Teams(teamlist, timeslots);
-      console.log("Assign_Teams succeeded");
       var timeslot = new Time_Slot();
       for (var x = 0; x < timeslots.length; x++) {
         Games(timeslots[x]);
       }
+      console.log("Assign_Teams succeeded. Total games: " + totalGames);
+      
+      waitFunction();
+
     });
   });
+}
+
+/*
+ * Sets a timeout if all events have not yet been submitted to calendar
+ * Recursively calls itself while events are still being submitted
+ * On submission, alerts user to submission
+ * @returns {undefined}
+ */
+function waitFunction(){
+    if(eventsSubmitted != totalGames) {
+          setTimeout(function(){
+                waitFunction();
+            }, 500);
+      }
+      else{
+          alert("Submission complete");
+          window.onbeforeunload = null;
+      }
 }
 
 /**
@@ -137,7 +156,7 @@ function Games(timeslot) {
   
   timeslot.games = [];
   if (numTeams < 3) { // need at least 4 teams to start. Otherwise, timeslot will not be used. 
-    errorString = "Not Enough Teams in Timeslot. Only " + numTeams + " Teams. Timeslot:" + timeslot.day+" at "+timeslot.time;
+    errorString = "Not Enough Teams in Timeslot. Only " + numTeams + " Teams. Timeslot: " + timeslot.day+" at "+timeslot.time;
         var text = document.createElement("div");
         text.innerHTML = errorString;
         text.style.display = "block";
@@ -181,12 +200,14 @@ function Games(timeslot) {
     timeslot.games[8] = new game(9, 2, 3, 5, 1)
     timeslot.games[9] = new game(10, 4, 5, 5, 2)
   }
+  
   for (var x = 0; x < timeslot.games.length; x++) {
     var intTime=parseInt(timeslot.time);
     name = timeslot.teams[timeslot.games[x].team1id - 1].team_name + " vs " + timeslot.teams[timeslot.games[x].team2id - 1].team_name;
     var s = getDateTime(timeslot.games[x].week, timeslot.day, intTime);
-    var e = getDateTime(timeslot.games[x].week, timeslot.day, intTime+1)
-    init(name, timeslot.games[x].court, "", s, e)
+    var e = getDateTime(timeslot.games[x].week, timeslot.day, intTime+1);
+    totalGames++;
+    makeApiCall(name, timeslot.games[x].court, "", s, e);
     //2014-05-19T20:00:00-06:00
   }
   

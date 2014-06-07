@@ -3,6 +3,7 @@
 // Except for refreshing the calendar, it works independent of the page
 
 var calDisplay = false;
+var eventsSubmitted = 0;
 // Game parameters; presumably handed by scheduling function
 var game = "Game";
 var loc = "Location";
@@ -30,15 +31,10 @@ else{
 
 /*
 * Autheticates our application for accessing Google API
-* @param game    Title of the game (displaces as summary in calendar interface)
-* @param loc     Location
-* @param desc    Description
-* @param start   Start time
-* @param end     End time
 * More information:
 * http://googleappsdeveloper.blogspot.com/2011/12/using-new-js-library-to-unlock-power-of.html
 */
-function init(game, loc, desc, start, end) {
+function init() {
 
  var clientId = '480075007100.apps.googleusercontent.com';
  var scopes = 'https://www.googleapis.com/auth/calendar';
@@ -54,14 +50,14 @@ function init(game, loc, desc, start, end) {
 
   function handleAuth(authResult) {
   	if (authResult && !authResult.error) {
-  		makeApiCall(game, loc, desc, start, end);
+  		console.log("Authorization succeeded");
   	}
   	else doAuth();
   }
   function doAuth() {
     // Get authorization to use private data
 
-    gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, makeApiCall(game, loc, desc, start, end));
+    gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuth);
     return false;
   }
 
@@ -72,6 +68,11 @@ function init(game, loc, desc, start, end) {
 Clear the calendar
 */
 function clearCal(){
+    // Prevent users from leaving until operation is complete
+    window.onbeforeunload = function() {
+            return "The events have not yet finished submitting to the calendar";
+        };
+        
   gapi.client.load('calendar', 'v3', function() {
     var request = gapi.client.calendar.calendars.clear({
         'calendarId': calendarID,
@@ -79,11 +80,13 @@ function clearCal(){
       
     request.execute(function(resp) {
     if (resp.id){
- 	 console.log("Calendar cleared");
+ 	console.log(resp.message);
      }
-     else{
-     	console.log(resp.message);
+     else{ // resp.id should be empty if succeeded
+         console.log("Calendar cleared");
+         adminAssign();
      }
+     
       });
   })
 
@@ -124,9 +127,12 @@ gapi.client.load('calendar', 'v3', function() {
   request.execute(function(resp) {
     if (resp.id){
  	 console.log("Event added");
+         eventsSubmitted++;
  }
  else{
  	console.log(resp.message);
+        //try again
+        makeApiCall(game, loc, desc, start, end);
  }
   });
 });
