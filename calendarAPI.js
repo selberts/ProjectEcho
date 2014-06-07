@@ -73,7 +73,7 @@ Clear the calendar
 */
 function clearCal(){
   gapi.client.load('calendar', 'v3', function() {
-    var request = gapi.client.calendar.events.clear({
+    var request = gapi.client.calendar.clear({
         'calendarId': calendarID,
       });
       
