@@ -17,59 +17,60 @@ function adminAssign() {
   var timeslots = new Array();
   query.find().then(function(results) { //the results set can only be accessed in this function!!!
 
+    for (var i = 0; i < results.length; i++) {
+      var object = results[i];
+      var day = object.get("day");
+      var time = object.get("time");
+      var courts = object.get("courts");
+      var timeslot = new Time_Slot(i, time, day, courts);
+      timeslots.push(timeslot);
+    }
+
+    timeslots = JSON.parse(JSON.stringify(timeslots));
+    var Teamdata = Parse.Object.extend("Teamdata");
+    // Prepare a query
+    var query = new Parse.Query(Teamdata);
+    // Find all the tuples in the table
+    query.equalTo("type", "team");
+    query.ascending("createdAt");
+    // Get the results set of the query
+    query.find().then(function(results) { //the results set can only be accessed in this function!!!
+
+      var teamlist = [];
+
       for (var i = 0; i < results.length; i++) {
         var object = results[i];
-        var day = object.get("day");
-        var time = object.get("time");
-        var courts = object.get("courts");
-        var timeslot = new Time_Slot(i, time, day, courts);
-        timeslots.push(timeslot);
+        var name = object.get("team_name");
+        var days = object.get("pref_days");
+        var times = object.get("pref_times");
+        var preflist = [];
+        j = 0;
+        while (times[j] != null) {
+          var day;
+          var time = times[j];
+          var xx = 0;
+          var check = 0; //check is if timeslot is found. xx interates through timeslots.
+          while (check == 0 && xx < timeslots.length) {}
+          if (days[j] == timeslots[xx].day && times[j] == timeslots[xx].time) { //if pref=timeslot
+            preflist.push(timeslots[xx]);
+            check = 1;
+          }
+          xx++;
+        }
+        j++;
+        var team = new Team(i + 1, name, preflist);
+        teamlist.push(team);
+
       }
 
-      timeslots = JSON.parse(JSON.stringify(timeslots));
-      var Teamdata = Parse.Object.extend("Teamdata");
-      // Prepare a query
-      var query = new Parse.Query(Teamdata);
-      // Find all the tuples in the table
-      query.equalTo("type", "team");
-      query.ascending("createdAt");
-      // Get the results set of the query
-      query.find().then(function(results) { //the results set can only be accessed in this function!!!
-
-          var teamlist = [];
-
-          for (var i = 0; i < results.length; i++) {
-            var object = results[i];
-            var name = object.get("team_name");
-            var days = object.get("pref_days");
-            var times = object.get("pref_times");
-            var preflist = [];
-            j = 0;
-            while (times[j] != null) {
-              var day;
-              var time = times[j];
-              var xx = 0;
-              var check = 0; //check is if timeslot is found. xx interates through timeslots.
-              while (check == 0 && xx < timeslots.length) {}
-              if (days[j] == timeslots[xx].day && times[j] == timeslots[xx].time) { //if pref=timeslot
-                preflist.push(timeslots[xx]);
-                check = 1;
-              }
-              xx++;
-            }
-            j++;
-          }
-          var team = new Team(i + 1, name, preflist);
-          teamlist.push(team);
-
-        }
-
-        teamlist = JSON.parse(JSON.stringify(teamlist)); Assign_Teams(teamlist, timeslots); console.log("Assign_Teams succeeded");
-        var timeslot = new Time_Slot();
-        for (var x = 0; x < timeslots.length; x++) {
-          Games(timeslots[x]);
-        }
-      });
+      teamlist = JSON.parse(JSON.stringify(teamlist));
+      Assign_Teams(teamlist, timeslots);
+      console.log("Assign_Teams succeeded");
+      var timeslot = new Time_Slot();
+      for (var x = 0; x < timeslots.length; x++) {
+        Games(timeslots[x]);
+      }
+    });
   });
 }
 
@@ -225,7 +226,7 @@ function getDateTime(week, day, time) {
   //date all set
 
   //start time
-  var temp=parseInt(time);
-  dateString = dateString + ( temp + 12) + ":00:00-06:00"
+  var temp = parseInt(time);
+  dateString = dateString + (temp + 12) + ":00:00-06:00"
   return dateString;
 }
