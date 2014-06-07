@@ -3,6 +3,7 @@ var prefNum = 0;
 var days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 var times = [5,6,7,8];
 var timeslots = gettimeslots();
+createLeagueSelect();
 
 /**
 * Callback function for form submission
@@ -138,4 +139,35 @@ function createDaySelect(prefNum){
 	}
 
 	return select;
+}
+
+function createLeagueSelect(){
+	var select = document.createElement("select");
+        select.id = "leagueselect";
+        
+        var div = document.getElementById("dg");
+	div.appendChild(select);
+
+        // Select the table Teamdata in the database
+	var League = Parse.Object.extend("League");
+	// Prepare a query
+	var query = new Parse.Query(League);
+	// Find all the tuples in the table
+        query.equalTo("type", "league");
+        // Get the results set of the query
+        query.find().then(function(results) { //the results set can only be accessed in this function!!!
+		  	  
+        var select = document.getElementById("leagueselect");
+              for(var i=0;i<results.length;i++){
+              	var object = results[i];
+              	
+              	var opt = document.createElement("option");
+			    opt.value = object.get("name");
+			    opt.innerHTML = object.get("name");
+			    select.appendChild(opt);
+
+              }
+              
+	    
+       });
 }
