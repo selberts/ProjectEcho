@@ -225,6 +225,7 @@ function Games(timeslot) {
 */
 function getDateTime(week, day, time) {
 
+  week--; // week is now zero indexed
   //date is the offset from April 6, the first day of games. 
   if (day == "Monday") date = 7;
   else if (day == "Tuesday") date = 8;
@@ -233,14 +234,16 @@ function getDateTime(week, day, time) {
   else date = 6; // Sunday
 
   date = date + 7 * week; // date now has the offset from the start date
-
-  if (date < 31) month = 4;
-  else if (date < 61) {
+  
+  var daysInApril = 30;
+  var daysInMay = 31;
+  if (date <= daysInApril) month = 4;
+  else if (date <= (daysInApril + daysInMay)) {
     month = 5; //advance month
-    date = date - 25 //set day to exclude the april days
+    date = date - daysInApril; //set day to exclude the april days
   } else {
     month = 6; // June
-    date = date - 55;
+    date = date - (daysInApril + daysInMay);
   }
 
   dateString = "2014-0" + month;
