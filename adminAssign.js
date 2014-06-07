@@ -133,6 +133,8 @@ function Games(timeslot) {
   var errorString = "";
   var div = document.createElement("div");
   var adminText = document.getElementById("adminText");
+  
+  clearCal();
 
   timeslot.games = [];
   if (numTeams < 3) { // need at least 4 teams to start. Otherwise, timeslot will not be used. 
