@@ -137,7 +137,7 @@ function Games(timeslot) {
   
   timeslot.games = [];
   if (numTeams < 3) { // need at least 4 teams to start. Otherwise, timeslot will not be used. 
-    errorString = "Not Enough Teams in Timeslot. Only " + numTeams + " Teams";
+    errorString = "Not Enough Teams in Timeslot. Only " + numTeams + " Teams. Timeslot:" + timeslot.day+" at "+timeslot.time;
         var text = document.createElement("div");
         text.innerHTML = errorString;
         text.style.display = "block";
@@ -182,9 +182,10 @@ function Games(timeslot) {
     timeslot.games[9] = new game(10, 4, 5, 5, 2)
   }
   for (var x = 0; x < timeslot.games.length; x++) {
-    name = timeslot.teams[timeslot.games[x].team1id - 1].team_name + " vs " + timeslot.teams[timeslot.games[x].team1id - 1].team_name;
-    var s = getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time);
-    var e = getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time + 1)
+    var intTime=parseInt(timeslot.time);
+    name = timeslot.teams[timeslot.games[x].team1id - 1].team_name + " vs " + timeslot.teams[timeslot.games[x].team2id - 1].team_name;
+    var s = getDateTime(timeslot.games[x].week, timeslot.day, intTime);
+    var e = getDateTime(timeslot.games[x].week, timeslot.day, intTime+1)
     init(name, timeslot.games[x].court, "", s, e)
     //2014-05-19T20:00:00-06:00
   }
