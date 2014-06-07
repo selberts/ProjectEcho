@@ -62,15 +62,15 @@ function adminAssign() {
           teamlist.push(team);
 
         }
-
-        teamlist = JSON.parse(JSON.stringify(teamlist));
-        Assign_Teams(teamlist, timeslots);
-        console.log("Assign_Teams succeeded");
-        var timeslot = new Time_Slot();
-        for (var x = 0; x < timeslots.length; x++) {
-          Games(timeslots[x]);
-        }
       }
+      teamlist = JSON.parse(JSON.stringify(teamlist));
+      Assign_Teams(teamlist, timeslots);
+      console.log("Assign_Teams succeeded");
+      var timeslot = new Time_Slot();
+      for (var x = 0; x < timeslots.length; x++) {
+        Games(timeslots[x]);
+      }
+
     });
   });
 }
