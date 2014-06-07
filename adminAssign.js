@@ -98,6 +98,10 @@ function Assign_Teams(teaml, slotsl) {
    * @param {Time_Slot} slotsL                   List of time slots, stored as an array
    */
   n = 0;
+  var errorString = "";
+  var div = document.createElement("div");
+  var adminText = document.getElementById("adminText");
+
   while (n < teaml.length) {
     var cteam = teaml[n]; //cteam=current team
     var prefs = teaml[n].pref_slots.length; //prefs= number of prefrences
@@ -106,7 +110,12 @@ function Assign_Teams(teaml, slotsl) {
     while (done == 0) {
       if (!cteam.pref_slots[pref]) { //If this will not be put in, send in an alert
         done = 1;
-        alert("Team " + (n + 1) + " not added.");
+        // Put error on page
+        errorString = "Team " + (n + 1) + " not added.";
+        var text = document.createElement("div");
+        text.innerHTML = errorString;
+        text.style.display = "block";
+        div.appendChild(text);
       }
       var xx = 0
       while (xx < slotsl.length&&done==0) { // iterate through all time slots
@@ -121,6 +130,9 @@ function Assign_Teams(teaml, slotsl) {
     }
     n++;
   }
+  
+  // Append div containing errors
+  adminText.appendChild(div);
 
 }
 
@@ -131,9 +143,17 @@ function Games(timeslot) {
    * @param {Team} timeslot                      timeslot. Will access the group of teams
    */
   var numTeams = timeslot.teams.length;
+  var errorString = "";
+  var div = document.createElement("div");
+  var adminText = document.getElementById("adminText");
+
   timeslot.games = [];
   if (numTeams < 3) { // need at least 4 teams to start. Otherwise, timeslot will not be used. 
-    alert("Not Enough Teams in Timeslot. Only " + numTeams + " Teams");
+    errorString = "Not Enough Teams in Timeslot. Only " + numTeams + " Teams";
+        var text = document.createElement("div");
+        text.innerHTML = errorString;
+        text.style.display = "block";
+        div.appendChild(text);
   } else if (numTeams == 3) {
     timeslot.games[0] = new game(1, 1, 2, 1, 1)
     timeslot.games[1] = new game(2, 1, 3, 2, 1)
@@ -180,6 +200,9 @@ function Games(timeslot) {
     init(name, timeslot.games[x].court, "", s, e)
     //2014-05-19T20:00:00-06:00
   }
+  
+    adminText.appendChild(div);
+
 }
 
 function getDateTime(week, day, time) {
