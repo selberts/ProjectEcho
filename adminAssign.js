@@ -1,8 +1,9 @@
+
+/**
+* Takes all the teams and timeslots from the database
+* Calls Games to make the games for all timeslots
+*/
 function adminAssign() {
-  /**
-   * Takes all the teams and timeslots from the database.
-   * Calls Games to make the games for all timeslots.
-   */
   // Insert the key to connect with the Parse system
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
   //BEGIN Timeslot Import
@@ -89,14 +90,14 @@ function adminAssign() {
   });
 }
 
-
+/**
+* Takes a list of timeslots and teams and assigns them according to their prefrences.
+* Populates the teams array in the timeslots based on the teams prefrences.
+* @param {Team} teamL                         List of teams, stored as an array
+* @param {Time_Slot} slotsL                   List of time slots, stored as an array
+*/
 function Assign_Teams(teaml, slotsl) {
-  /**
-   * Takes a list of timeslots and teams and assigns them according to their prefrences.
-   * Populates the teams array in the timeslots based on the teams prefrences.
-   * @param {Team} teamL                         List of teams, stored as an array
-   * @param {Time_Slot} slotsL                   List of time slots, stored as an array
-   */
+
   n = 0;
   var errorString = "";
   var div = document.createElement("div");
@@ -136,12 +137,13 @@ function Assign_Teams(teaml, slotsl) {
 
 }
 
+
+/**
+* Takes a timeslot and matches the teams against eachother.
+* Matches 3-5 teams against each other over 5 weeks. Includes byes if nessecary
+* @param {Team} timeslot                      timeslot. Will access the group of teams
+*/
 function Games(timeslot) {
-  /**
-   * Takes a timeslot and matches the teams against eachother.
-   * Matches 3-5 teams against each other over 5 weeks. Includes byes if nessecary
-   * @param {Team} timeslot                      timeslot. Will access the group of teams
-   */
   var numTeams = timeslot.teams.length;
   var errorString = "";
   var div = document.createElement("div");
@@ -205,14 +207,15 @@ function Games(timeslot) {
 
 }
 
+
+/**
+* Finds the offset from the start date and uses this to find the date and time.
+* @param {int} week                     week the game is played RANGE[1-5]
+* @param {string} day                   day from the timeslot
+* @param {int} time                     time will be 5-8 but refers to PM
+* @return {string}                      returns the date and time in the format needed to add to the calendar
+*/
 function getDateTime(week, day, time) {
-  /**
-   * Finds the offset from the start date and uses this to find the date and time.
-   * @param {int} week                          week the game is played RANGE[1-5]
-   * @param {string} day                           day from the timeslot.
-   * @param {int} time                          time. Will be 5-8 but refers to PM
-   * @return {string}                           returns the date and time in the format needed to add to the gCal
-   */
 
   //date is the offset from April 6, the first day of games. 
   if (day == "Monday") date = 7;
