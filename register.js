@@ -94,7 +94,7 @@ function createPref(){
 	//console.log(timeslots[1].time);
 	var div = document.createElement("div");
 	div.style.display = 'block';
-	div.appendChild(createTimeSelect(prefNum));
+	div.appendChild(createSelect(prefNum));
 	//div.appendChild(createDaySelect(prefNum));
 	form.insertBefore(div, button);
 
@@ -108,7 +108,7 @@ function createPref(){
 * @param {int} prefNum                         Preference number                      
 * @returns {createTimeSelect.select|Element}   Select created
 */
-function createTimeSelect(prefNum){
+function createSelect(prefNum){
 	var select = document.createElement("select");
 	select.name = "prefTime";// + prefNum;
 
