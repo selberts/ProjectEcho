@@ -242,6 +242,6 @@ function getDateTime(week, day, time) {
   //date all set
 
   //start time
-  dateString = dateString + (time.splice(0,1) + 12) + ":00:00-06:00"
+  dateString = dateString + (time.slice(0,1) + 12) + ":00:00-06:00"
   return dateString;
 }
