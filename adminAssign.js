@@ -99,30 +99,29 @@ function Assign_Teams(teaml, slotsl) {
    */
   n = 0;
   while (n < teaml.length) {
-    var cteam = teaml[n];
-    var prefs = teaml[n].pref_slots.length;
-    var pref = 0;
-    var done = 0;
+    var cteam = teaml[n]; //cteam=current team
+    var prefs = teaml[n].pref_slots.length; //prefs= number of prefrences
+    var pref = 0; // iterator through the prefrences of the team. can be used with cteam[pref] or teaml[n].prefz
+    var done = 0; //=0 until team is assigned or given up on
     while (done == 0) {
-      if (!teaml[n].pref_slots[pref]) {
-        alert("Team#: " + n + " and pref#: " + pref + "and number of prefs: " + prefs);
-      }
-      var timeslotID = slotsl.length
-      var id = teaml[n].id;
-      if (slotsl[id - 1].teams.length < slotsl[id - 1].capacity) {
-        slotsl[id - 1].teams.push(teaml[n]);
-        teaml[n].timeslot = slotsl[id - 1];
-        done = 1;
-      }
-      pref++;
-      if (pref == prefs) {
+      if (!cteam.pref_slots[pref]) { //If this will not be put in, send in an alert
         done = 1;
         alert("Team " + (n + 1) + " not added.");
       }
-      n++;
+      var xx = 0
+      while (xx < slotsl.length&&done==0) { // iterate through all time slots
+        if (cteam.pref_slots[pref].day == slotsl[xx].day && cteam.pref_slots[pref].time == slotsl[xx].time && slotsl[xx].teams.length < slotsl[xx].capacity) { // check the timeslot is a prefrence. If so check if full
+          slotsl[xx].teams.push(teaml[n]);
+          teaml[n].timeslot = slotsl[xx];
+          done = 1;
+        }
+        xx++;
+      }
+      pref++;
     }
-
+    n++;
   }
+
 }
 
 function Games(timeslot) {
