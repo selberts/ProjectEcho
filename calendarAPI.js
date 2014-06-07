@@ -14,6 +14,7 @@ var end = "2014-05-19";
 // We can change this if need be
 var calendarID = "lukeolney@gmail.com";
 
+
 function toggleCal(){
 var cal = document.getElementById("calendar");
 
@@ -26,6 +27,7 @@ else{
     cal.style.display = "block";
 }
 }
+
 /*
 * Autheticates our application for accessing Google API
 * @param game    Title of the game (displaces as summary in calendar interface)
@@ -66,6 +68,9 @@ function init(game, loc, desc, start, end) {
 }
 
 
+/*
+Clear the calendar
+*/
 function clearCal(){
   gapi.client.load('calendar', 'v3', function() {
     var request = gapi.client.calendar.events.clear({
@@ -74,6 +79,8 @@ function clearCal(){
   })
 
 };
+
+
 /*
 * Inserts an event into the calendar
 * @param game    Title of the game (displaces as summary in calendar interface)
@@ -82,7 +89,6 @@ function clearCal(){
 * @param start   Start time
 * @param end     End time
 */
-
 function makeApiCall(game, loc, desc, start, end){
 
   // Format for the event

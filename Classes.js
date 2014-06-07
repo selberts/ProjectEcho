@@ -1,6 +1,13 @@
 //This javascript holds all of the classes for the application
 
 
+/**
+* Creates the Team Class
+* @param id           
+* @param team_name    
+* @param pref_slots   Preference timeslots for each team  
+* @return   a reference to a Team object               
+*/
 function Team(id, team_name, pref_slots) {
     this.id = id;
     this.team_name = team_name;
@@ -14,7 +21,13 @@ Team.prototype.print = function(){
         var ts = this.timeslot.day +"s at " + this.timeslot.time;
         document.writeln("<PRE>\tTime Slot: " + ts+ "\n</PRE>");        
 };
-//takes a team object as an argument and returns a stringified version for storage, as well as prints it in the log for convenience purposes.
+
+
+/**
+* Generates a stringified version for storage
+* @param Team     a team object 
+* @return  a nicely formatted string representing this StringLog                 
+*/
 function Compress_Team(Team){
     var out;
     pref_slots = [];
@@ -32,14 +45,29 @@ function Compress_Team(Team){
     console.log(out);
     return out;
 }
-//takes a compressed team list and compressed slot list and creates two arrays of decompressed slots
-// and time slots which need to be assigned to variables using var timeslots = Decompress_Data().timeslots, etc.
+
+/**
+* Creates two arrays of decompressed slots
+* and time slots which need to be assigned to variables using var timeslots = Decompress_Data().timeslots, etc.
+* @param Tarr       a compressed team list
+* @param Slarr      a compressed timeslot list             
+*/
 function Decompress_Data(Tarr, Slarr){
     var timeslots = [];
     for (var i = 0; i < Tarr.length;i++){
         
     }
 }
+
+
+/**
+* Creates the Time_Slot Class
+* @param id       
+* @param time     
+* @param day      
+* @param courts   
+* @return   a reference to a Time_Slot object                  
+*/
 function Time_Slot(id, time, day, courts) {
     this.id = id;
     this.time = time;
@@ -47,9 +75,15 @@ function Time_Slot(id, time, day, courts) {
     this.courts = courts;
     this.capacity = courts*2;
     this.teams = [];
-    this.games = []; // all games in this timeslot. Not sure if we should do this or one array of games for all timeslots. 
-
+    this.games = []; // all games in this timeslot.
 }
+
+
+/**
+* Generates a stringified version for storage
+* @param Time_Slot        a Time_Slot object 
+* @return  a nicely formatted string representing this StringLog                 
+*/
 function Compress_Time_Slot(Time_Slot){
     var out;
     teams = [];
@@ -91,7 +125,15 @@ Time_Slot.prototype.print = function(){
     }
 };
     
-
+/**
+* Creates the game Class
+* @param id           The id for each game
+* @param team1id      The id for team1 in this game
+* @param team2id      The id for team2 in this game
+* @param week        
+* @param court 
+* @return   a reference to a game object              
+*/
 function game(id, team1id, team2id, week, court) {
     this.id=id;
     this.team1id = team1id;
