@@ -118,6 +118,13 @@ function submitTimeSlots() {
 }
 var removed = 0;
 
+
+/**
+ * Removes Duplicate for time and day 
+ * @param daySelects      a list of selected day
+ * @param timeSelects     a list of selected time 
+ * @returns {bool}        whether the removal succeed
+ */
 function removeDuplicate(daySelects, timeSelects) {
   var i;
   var remove = false;
@@ -206,6 +213,11 @@ function createTimeSelect(prefNum) {
   return select;
 }
 
+/**
+* Creates a select with values for each of the court preferenct choices
+* @param {int} prefNum                         Preference number
+* @returns {createCourtSelect.select|Element}   Select created
+*/
 function createCourtSelect(prefNum) {
   var select = document.createElement("select");
   select.name = "courts"; // + prefNum;
