@@ -99,10 +99,10 @@ function makeApiCall(game, loc, desc, start, end){
           "location": loc,
           "description": desc,
           "end": {
-              "date": end       // use dateTime instead to include time
+              "dateTime": end       // use dateTime instead to include time
           },
           "start": {
-              "date": start
+              "dateTime": start
           }
       };
 
