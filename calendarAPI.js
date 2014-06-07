@@ -115,9 +115,6 @@ gapi.client.load('calendar', 'v3', function() {
   request.execute(function(resp) {
     if (resp.id){
  	 console.log("Event added");
-             // Refresh the calendar
-             document.getElementById("calendar").innerHTML =
-                     '<iframe src="https://www.google.com/calendar/embed?src=lukeolney%40gmail.com&ctz=America/Chicago" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>';
  }
  else{
  	console.log(resp.message);
