@@ -51,31 +51,13 @@ function adminAssign() {
         var preflist = [];
         j = 0;
         while (times[j] != null) {
-          var day;
-          var time = times[j].slice(0, 1) - 5;
-
-          switch (days[j]) {
-            case "Sunday":
-              day = 0;
-              break;
-            case "Monday":
-              day = 1;
-              break;
-            case "Tuesday":
-              day = 2;
-              break;
-            case "Wednesday":
-              day = 3;
-              break;
-            case "Thursday":
-              day = 4;
-              break;
-            default:
-              break;
+          var xx=0;
+          while(xx<timeslots.length){
+            if (times[j]==timeslots[xx].time&&days[j]==timeslots[xx].day){
+              preflist.push(timeslots[xx]);
+            }
+            xx++;
           }
-
-          var id = day * 5 + time;
-          preflist.push(timeslots[id]);
           j++;
         }
         var team = new Team(i + 1, name, preflist);
@@ -200,7 +182,7 @@ function Games(timeslot) {
     timeslot.games[9] = new game(10, 4, 5, 5, 2)
   }
   for (var x = 0; x < timeslot.games.length; x++) {
-    name = timeslot.teams[timeslot.games[x].team1id - 1] + " vs " + timeslot.teams[timeslot.games[x].team1id - 1];
+    name = timeslot.teams[timeslot.games[x].team1id - 1].team_name + " vs " + timeslot.teams[timeslot.games[x].team1id - 1].team_name;
     var s = getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time);
     var e = getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time + 1)
     init(name, timeslot.games[x].court, "", s, e)
