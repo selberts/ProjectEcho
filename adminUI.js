@@ -1,4 +1,6 @@
 
+$.getScript("register.js", function(){});
+
 /**
  * Checks password against password in database
  * @param {String} pwd    Password
