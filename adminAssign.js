@@ -225,7 +225,7 @@ function getDateTime(week, day, time) {
   //date all set
 
   //start time
-  int temp = time.slice(0, 1)
-  dateString = dateString + (temp + 12) + ":00:00-06:00"
+  var temp=parseInt(time);
+  dateString = dateString + ( temp + 12) + ":00:00-06:00"
   return dateString;
 }
