@@ -93,7 +93,7 @@ function submitTimeSlots() {
 
   // Check for duplicates
   while (removeDuplicate(daySelects, timeSelects)) {}
-  if (removed > 0) alert("Removed " + removed + " duplicate timeslots");
+  if (removed > 0) //alert("Removed " + removed + " duplicate timeslots");
   removed = 0;
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
   var Timeslots = Parse.Object.extend("Timeslots");

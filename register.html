@@ -70,10 +70,10 @@
         </form>
         <input type="button" value="Show Calendar" name="showCal" onclick="toggleCal()"/>
         <input type="button" value="Add mock event" name="addEvent" onclick="init()"/> -->
-        
+        <p> Enter your preferred times, with most preferred first.
         <form id="team_info" style="display: inline-block" onsubmit="return saveTeam()">
-                                    <input type="text" id="name" value="Team name" />
-                                    <input type="button" id="addpref" value="Add pref" onclick="createPref()"/>
+                                    <input type="text" id="name" placeholder="Team name" />
+                                    <input type="button" id="addpref" value="Add Time Preference" onclick="createPref()"/>
                                     <input type="submit" value="Submit">
                                 </form>
 
