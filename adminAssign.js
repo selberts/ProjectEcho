@@ -175,8 +175,8 @@ function Games(timeslot) {
   }
   for (var x = 0; x < timeslot.games.length; x++) {
     name = timeslot.teams[timeslot.games[x].team1id - 1] + " vs " + timeslot.teams[timeslot.games[x].team1id - 1];
-    s = getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time);
-    e = getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time + 1)
+    var s = getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time);
+    var e = getDateTime(timeslot.games[x].week, timeslot.day, timeslot.time + 1)
     init(name, timeslot.games[x].court, "", s, e)
     //2014-05-19T20:00:00-06:00
   }
