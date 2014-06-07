@@ -45,11 +45,12 @@ function passwordCheck(pwd) {
  * @returns {undefined}
  */
 function Succeed() {
-
+  showtimeslots(timeslots);
   var teamform = document.getElementById('team_info');
   var passform = document.getElementById('password');
   var adminAssign = document.getElementById('adminAssign');
-
+  var curts = document.getElementById('curts');
+  curts.style.display = 'inline-block';
   teamform.style.display = 'inline-block';
   passform.style.display = 'none';
   adminAssign.style.display = 'inline-block';
@@ -161,7 +162,7 @@ var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
  * Unlimited number of time slots
  * @returns {undefined}
  */
-function createPref() {
+function createTS() {
   var form = document.getElementById('team_info');
   var button = document.getElementById('addpref');
 
@@ -250,3 +251,35 @@ function createDaySelect(prefNum) {
 
   return select;
 }
+/**
+ * Generates the current list of time slots for the Admin to view.
+ * @returns
+ */
+function showtimeslots(timeslots){
+  console.log("trying");
+  console.log(timeslots);
+  var div = document.getElementById('curts');
+  var table = document.createElement("table");
+  table.id = 'tab';
+  var row = document.createElement("tr");
+  var next = 0;
+  for (var i = 0; i < timeslots.length; i++) {
+    var text ="";
+    text =timeslots[i].day + " at " + timeslots[i].time;
+    var cell = document.createElement("td");
+    cell.innerHTML = text;
+    row.appendChild(cell);
+    if (next == 1) {
+      table.appendChild(row);
+      row = document.createElement("tr");
+      next = 0;
+    }
+    else{
+      next++;
+    }
+  }
+  table.border="1";
+  table.style="width:300px"
+  div.appendChild(table);
+}
+
