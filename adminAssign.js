@@ -48,17 +48,30 @@ function adminAssign() {
         j = 0;
         while (times[j] != null) {
           var day;
-          var time = times[j];
-          var check = 0;
-          var ii = 0;
-          while (check == 0 && ii < timeslots.length) {
+          var time = times[j].slice(0, 1) - 5;
 
-            if (days[j] == timeslots[ii].day && times[j] = timeslots[ii].time) {
-              preflist.push(timeslots[ii]);
-            }
-            ii++;
+          switch (days[j]) {
+            case "Sunday":
+              day = 0;
+              break;
+            case "Monday":
+              day = 1;
+              break;
+            case "Tuesday":
+              day = 2;
+              break;
+            case "Wednesday":
+              day = 3;
+              break;
+            case "Thursday":
+              day = 4;
+              break;
+            default:
+              break;
           }
 
+          var id = day * 5 + time;
+          preflist.push(timeslots[id]);
           j++;
         }
         var team = new Team(i + 1, name, preflist);
@@ -106,7 +119,7 @@ function Assign_Teams(teaml, slotsl) {
         div.appendChild(text);
       }
       var xx = 0
-      while (xx < slotsl.length && done == 0) { // iterate through all time slots
+      while (xx < slotsl.length&&done==0) { // iterate through all time slots
         if (cteam.pref_slots[pref].day == slotsl[xx].day && cteam.pref_slots[pref].time == slotsl[xx].time && slotsl[xx].teams.length < slotsl[xx].capacity) { // check the timeslot is a prefrence. If so check if full
           slotsl[xx].teams.push(teaml[n]);
           teaml[n].timeslot = slotsl[xx];
@@ -118,7 +131,7 @@ function Assign_Teams(teaml, slotsl) {
     }
     n++;
   }
-
+  
   // Append div containing errors
   adminText.appendChild(div);
 
@@ -139,10 +152,10 @@ function Games(timeslot) {
   timeslot.games = [];
   if (numTeams < 3) { // need at least 4 teams to start. Otherwise, timeslot will not be used. 
     errorString = "Not Enough Teams in Timeslot. Only " + numTeams + " Teams";
-    var text = document.createElement("div");
-    text.innerHTML = errorString;
-    text.style.display = "block";
-    div.appendChild(text);
+        var text = document.createElement("div");
+        text.innerHTML = errorString;
+        text.style.display = "block";
+        div.appendChild(text);
   } else if (numTeams == 3) {
     timeslot.games[0] = new game(1, 1, 2, 1, 1)
     timeslot.games[1] = new game(2, 1, 3, 2, 1)
@@ -189,8 +202,8 @@ function Games(timeslot) {
     init(name, timeslot.games[x].court, "", s, e)
     //2014-05-19T20:00:00-06:00
   }
-
-  adminText.appendChild(div);
+  
+    adminText.appendChild(div);
 
 }
 
@@ -229,6 +242,6 @@ function getDateTime(week, day, time) {
   //date all set
 
   //start time
-  dateString = dateString + (time.splice(0,1) + 12) + ":00:00-06:00"
+  dateString = dateString + (time + 12) + ":00:00-06:00"
   return dateString;
 }
