@@ -1,12 +1,14 @@
+
 /**
- * Takes all the teams and timeslots from the database
- * Calls Games to make the games for all timeslots
- */
+* Takes all the teams and timeslots from the database
+* Calls Games to make the games for all timeslots
+*/
 function adminAssign() {
   
     clearCal();
 
   // Insert the key to connect with the Parse system
+  clearCal();
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
   //BEGIN Timeslot Import
 
@@ -50,22 +52,37 @@ function adminAssign() {
         j = 0;
         while (times[j] != null) {
           var day;
-          var time = times[j];
-          var xx = 0;
-          var check = 0; //check is if timeslot is found. xx interates through timeslots.
-          while (check == 0 && xx < timeslots.length) {
-            if (days[j] == timeslots[xx].day && times[j] == timeslots[xx].time) { //if pref=timeslot
-              preflist.push(timeslots[xx]);
-              check = 1;
-            }
-            xx++;
-          }
-          j++;
-          var team = new Team(i + 1, name, preflist);
-          teamlist.push(team);
+          var time = times[j].slice(0, 1) - 5;
 
+          switch (days[j]) {
+            case "Sunday":
+              day = 0;
+              break;
+            case "Monday":
+              day = 1;
+              break;
+            case "Tuesday":
+              day = 2;
+              break;
+            case "Wednesday":
+              day = 3;
+              break;
+            case "Thursday":
+              day = 4;
+              break;
+            default:
+              break;
+          }
+
+          var id = day * 5 + time;
+          preflist.push(timeslots[id]);
+          j++;
         }
+        var team = new Team(i + 1, name, preflist);
+        teamlist.push(team);
+
       }
+
       teamlist = JSON.parse(JSON.stringify(teamlist));
       Assign_Teams(teamlist, timeslots);
       console.log("Assign_Teams succeeded");
@@ -73,17 +90,16 @@ function adminAssign() {
       for (var x = 0; x < timeslots.length; x++) {
         Games(timeslots[x]);
       }
-
     });
   });
 }
 
 /**
- * Takes a list of timeslots and teams and assigns them according to their prefrences.
- * Populates the teams array in the timeslots based on the teams prefrences.
- * @param {Team} teamL                         List of teams, stored as an array
- * @param {Time_Slot} slotsL                   List of time slots, stored as an array
- */
+* Takes a list of timeslots and teams and assigns them according to their prefrences.
+* Populates the teams array in the timeslots based on the teams prefrences.
+* @param {Team} teamL                         List of teams, stored as an array
+* @param {Time_Slot} slotsL                   List of time slots, stored as an array
+*/
 function Assign_Teams(teaml, slotsl) {
 
   n = 0;
@@ -107,7 +123,7 @@ function Assign_Teams(teaml, slotsl) {
         div.appendChild(text);
       }
       var xx = 0
-      while (xx < slotsl.length && done == 0) { // iterate through all time slots
+      while (xx < slotsl.length&&done==0) { // iterate through all time slots
         if (cteam.pref_slots[pref].day == slotsl[xx].day && cteam.pref_slots[pref].time == slotsl[xx].time && slotsl[xx].teams.length < slotsl[xx].capacity) { // check the timeslot is a prefrence. If so check if full
           slotsl[xx].teams.push(teaml[n]);
           teaml[n].timeslot = slotsl[xx];
@@ -119,7 +135,7 @@ function Assign_Teams(teaml, slotsl) {
     }
     n++;
   }
-
+  
   // Append div containing errors
   adminText.appendChild(div);
 
@@ -127,10 +143,10 @@ function Assign_Teams(teaml, slotsl) {
 
 
 /**
- * Takes a timeslot and matches the teams against eachother.
- * Matches 3-5 teams against each other over 5 weeks. Includes byes if nessecary
- * @param {Team} timeslot                      timeslot. Will access the group of teams
- */
+* Takes a timeslot and matches the teams against eachother.
+* Matches 3-5 teams against each other over 5 weeks. Includes byes if nessecary
+* @param {Team} timeslot                      timeslot. Will access the group of teams
+*/
 function Games(timeslot) {
   var numTeams = timeslot.teams.length;
   var errorString = "";
@@ -140,10 +156,10 @@ function Games(timeslot) {
   timeslot.games = [];
   if (numTeams < 3) { // need at least 4 teams to start. Otherwise, timeslot will not be used. 
     errorString = "Not Enough Teams in Timeslot. Only " + numTeams + " Teams";
-    var text = document.createElement("div");
-    text.innerHTML = errorString;
-    text.style.display = "block";
-    div.appendChild(text);
+        var text = document.createElement("div");
+        text.innerHTML = errorString;
+        text.style.display = "block";
+        div.appendChild(text);
   } else if (numTeams == 3) {
     timeslot.games[0] = new game(1, 1, 2, 1, 1)
     timeslot.games[1] = new game(2, 1, 3, 2, 1)
@@ -190,19 +206,19 @@ function Games(timeslot) {
     init(name, timeslot.games[x].court, "", s, e)
     //2014-05-19T20:00:00-06:00
   }
-
-  adminText.appendChild(div);
+  
+    adminText.appendChild(div);
 
 }
 
 
 /**
- * Finds the offset from the start date and uses this to find the date and time.
- * @param {int} week                     week the game is played RANGE[1-5]
- * @param {string} day                   day from the timeslot
- * @param {int} time                     time will be 5-8 but refers to PM
- * @return {string}                      returns the date and time in the format needed to add to the calendar
- */
+* Finds the offset from the start date and uses this to find the date and time.
+* @param {int} week                     week the game is played RANGE[1-5]
+* @param {string} day                   day from the timeslot
+* @param {int} time                     time will be 5-8 but refers to PM
+* @return {string}                      returns the date and time in the format needed to add to the calendar
+*/
 function getDateTime(week, day, time) {
 
   //date is the offset from April 6, the first day of games. 
