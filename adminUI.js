@@ -48,14 +48,11 @@ function passwordCheck(pwd) {
  */
 function Succeed() {
   showtimeslots(timeslots);
-  var teamform = document.getElementById('team_info');
   var passform = document.getElementById('password');
-  var adminAssign = document.getElementById('adminAssign');
-  var curts = document.getElementById('curts');
-  curts.style.display = 'inline-block';
-  teamform.style.display = 'inline-block';
+  var adminDiv = document.getElementById('secretAdminDiv');
+  
   passform.style.display = 'none';
-  adminAssign.style.display = 'inline-block';
+  adminDiv.style.display = 'inline-block';
   
   // Authenticate for calendar access
   init();
