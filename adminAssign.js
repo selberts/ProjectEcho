@@ -3,6 +3,9 @@
  * Calls Games to make the games for all timeslots
  */
 function adminAssign() {
+  
+    clearCal();
+
   // Insert the key to connect with the Parse system
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
   //BEGIN Timeslot Import
@@ -134,8 +137,6 @@ function Games(timeslot) {
   var div = document.createElement("div");
   var adminText = document.getElementById("adminText");
   
-  clearCal();
-
   timeslot.games = [];
   if (numTeams < 3) { // need at least 4 teams to start. Otherwise, timeslot will not be used. 
     errorString = "Not Enough Teams in Timeslot. Only " + numTeams + " Teams";
