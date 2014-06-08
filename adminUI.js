@@ -87,6 +87,7 @@ function submitTimeSlots() {
   var daySelects = document.getElementsByName("prefDay");
   var timeSelects = document.getElementsByName("prefTime");
   var courtSelects = document.getElementsByName("courts");
+  var leagueSelect = document.getElementById("leagueselect").value;
 
   if (daySelects.length == 0 || timeSelects.length == 0) {
     alert("Must submit at least one timeslot");
@@ -109,7 +110,9 @@ function submitTimeSlots() {
       type: "timeslot",
       day: day,
       time: time,
-      courts: co
+      courts: co,
+      league: leagueSelect
+      
     }).then(function(object) {
       alert("Timeslots successfully added.");
     });
