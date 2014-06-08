@@ -324,13 +324,14 @@ function update(team){
                 }
         });
     }
+    return true;
 }
 function updates(teamlist){
-    
+    var x;
     for (var i =0; i < teamlist.length;i++){
-        update(teamlist[i]);
+        x = update(teamlist[i]);
 
     }
-    return true;
+    return x;
 }
 
