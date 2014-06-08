@@ -68,18 +68,6 @@ function adminAssign(league) {
       if (updatefunc) {
         alert("Updating Database complete.")
       }
-      //trying to find a way to update the objects in the database
-      //for (var i =0; i < teamlist.length; i++){
-        //var Teamdata = Parse.Object.extend("Teamdata");
-        //var teamdata = new Parse.Query(Teamdata);
-        //teamdata.get(teamlist[i].id);
-        //var t = new Teamdata();
-        //t= teamdata;
-        //t.set("timeslot", teamlist[i].timeslot.day);
-        //t.save({success: function(team) {
-          //  alert(teamlist[i].name + "saved");
-            //}});
-      //}
       var timeslot = new Time_Slot();
       for (var x = 0; x < timeslots.length; x++) {
         Games(timeslots[x]);
@@ -329,6 +317,7 @@ function update(team){
 function updates(teamlist){
     var x;
     for (var i =0; i < teamlist.length;i++){
+        x = false;
         x = update(teamlist[i]);
 
     }
