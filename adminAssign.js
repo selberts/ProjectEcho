@@ -323,6 +323,7 @@ function update(team){
                 return true;
                 }
         });
+    }
 }
 function updates(teamlist){
     
