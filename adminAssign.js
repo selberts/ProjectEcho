@@ -3,7 +3,7 @@
 * Takes all the teams and timeslots from the database
 * Calls Games to make the games for all timeslots
 */
-function adminAssign() {  
+function adminAssign(league) {  
   // Insert the key to connect with the Parse system
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
   //BEGIN Timeslot Import
@@ -13,7 +13,7 @@ function adminAssign() {
   // Prepare a query
   var query = new Parse.Query(Timeslots);
   // Find all the tuples in the table
-  query.equalTo("type", "timeslot");
+  query.equalTo("league", league);
   // Get the results set of the query
   var timeslots = new Array();
   query.find().then(function(results) { //the results set can only be accessed in this function!!!
@@ -32,7 +32,7 @@ function adminAssign() {
     // Prepare a query
     var query = new Parse.Query(Teamdata);
     // Find all the tuples in the table
-    query.equalTo("type", "team");
+    query.equalTo("league", league);
     query.ascending("createdAt");
     // Get the results set of the query
     query.find().then(function(results) { //the results set can only be accessed in this function!!!
