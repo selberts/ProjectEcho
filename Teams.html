@@ -30,7 +30,7 @@
       <![endif]-->
     </head>
 
-    <body>
+    <body onload="Team.js">
 
       <!-- Fixed navbar -->
       <div class="navbar navbar-inverse navbar-fixed-top">
@@ -49,7 +49,8 @@
               <li><a href="about.html">ABOUT</a></li>
               <li><a href="calendar.html">CALENDAR</a></li>
               <li><a href="register.html">REGISTER</a></li>
-              <li class="active"><a href="Admin.html">ADMIN</a></li>
+              <li><a href="Admin.html">ADMIN</a></li>
+              <li class="active"><a href="Teams.html">TEAMS</a></li>
               
             </ul>
           </div><!--/.nav-collapse -->
@@ -58,37 +59,21 @@
       
       <div id="dg">
         <div class="container">
+            <h4>Teams</h4>
+            <div>
+            League<select id = "leagueselect"></select>
+            <input type="button" id="addpref" style="display: inline-block" value="View Teams" onclick="LoadTeams(createtable)"/>
+            </div>
+            <div id = "curts" style="display: inline-block; margin-top: 10px;"></div>
          
-        
-        <form id="password" style="display: inline-block" onsubmit="return submitPass()">
-          Password: <input type="password" id="adminpassword"/>
-          <input type="submit" value="Submit">
-        </form>
-        
-        <div id="secretAdminDiv" style="display: none">
-            <h4>Current Timeslots</h4>
-            <div id = "curts"></div>
-            
-            <h4>Add Timeslots</h4>
-            <form id="team_info" onsubmit="return submitTimeSlots()">
-              <Label>Time</Label><Label style="text-indent: 5em;"> Day</Label><Label style="text-indent: 1em;"> Number of Courts</Label>
-              <input type="button" id="addpref" value="Add New Timeslot" onclick="createTS()"/>
-              <input type="submit" value="Submit">
-            </form>
-            
-          </br></br><h4>Schedule Games</h4>
-          <input type="button" id="adminAssign" value="Assign Teams" style="margin-left: auto;
-  margin-right: auto;" onclick="setCalendar()"/>
 
-        </div>
-            
         <div class="row centered" id="adminText">
 
         
 
 
         <script src="https://apis.google.com/js/client.js"></script>
-        <script src="adminUI.js"></script>
+        <script src="Team.js"></script>
         <script src="seed_data.js"></script>
         <script src="calendarAPI.js"></script>
         <script src="adminAssign.js"></script>
