@@ -3,7 +3,7 @@
 * Takes all the teams and timeslots from the database
 * Calls Games to make the games for all timeslots
 */
-function adminAssign() {  
+function adminAssign(league) {  
   // Insert the key to connect with the Parse system
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
   //BEGIN Timeslot Import
@@ -13,7 +13,7 @@ function adminAssign() {
   // Prepare a query
   var query = new Parse.Query(Timeslots);
   // Find all the tuples in the table
-  query.equalTo("type", "timeslot");
+  query.equalTo("league", league);
   // Get the results set of the query
   var timeslots = new Array();
   query.find().then(function(results) { //the results set can only be accessed in this function!!!
@@ -32,7 +32,7 @@ function adminAssign() {
     // Prepare a query
     var query = new Parse.Query(Teamdata);
     // Find all the tuples in the table
-    query.equalTo("type", "team");
+    query.equalTo("league", league);
     query.ascending("createdAt");
     // Get the results set of the query
     query.find().then(function(results) { //the results set can only be accessed in this function!!!
@@ -44,6 +44,7 @@ function adminAssign() {
         var name = object.get("team_name");
         var days = object.get("pref_days");
         var times = object.get("pref_times");
+        var t = object.id;
         var preflist = [];
         j = 0;
         while (times[j] != null) {
@@ -56,13 +57,17 @@ function adminAssign() {
           }
           j++;
         }
-        var team = new Team(i + 1, name, preflist);
+        var team = new Team(t, name, preflist);
         teamlist.push(team);
 
       }
 
       teamlist = JSON.parse(JSON.stringify(teamlist));
       Assign_Teams(teamlist, timeslots);
+      var updatefunc = updates(teamlist);
+      if (updatefunc) {
+        alert("Updating Database complete.")
+      }
       //trying to find a way to update the objects in the database
       //for (var i =0; i < teamlist.length; i++){
         //var Teamdata = Parse.Object.extend("Teamdata");
@@ -289,3 +294,44 @@ function getDateTime(week, day, time, startMonth, startDay) {
   dateString = dateString + (temp + 12) + ":00:00-06:00"
   return dateString;*/
 }
+function update(team){
+    var Teamdata = Parse.Object.extend("Teamdata");
+    var teamdata = new Parse.Query(Teamdata);
+    var id = team.id;
+    var name = team.team_name;
+    name = JSON.parse(JSON.stringify(name));
+    if (team.timeslot !== undefined) {
+        var ts = team.timeslot.day;
+        ts = JSON.parse(JSON.stringify(ts));
+        var tst = team.timeslot.time;
+        tst = JSON.parse(JSON.stringify(tst));
+        ts = ts + "s at " + tst;
+        teamdata.get(id, {
+            success: function(Teamdata) {
+                // The object was retrieved successfully.
+                Teamdata.set("timeslot", ts);
+                Teamdata.save({success: function(team) {
+                console.log(name + " saved");
+                return true;
+            }});
+            },
+            error: function(object, error) {
+                // The object was not retrieved successfully.
+                // error is a Parse.Error with an error code and description.
+                error =JSON.parse(JSON.stringify(error));
+                console.log(error);
+                return true;
+                }
+        });
+    }
+    return true;
+}
+function updates(teamlist){
+    var x;
+    for (var i =0; i < teamlist.length;i++){
+        x = update(teamlist[i]);
+
+    }
+    return x;
+}
+

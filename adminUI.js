@@ -1,6 +1,7 @@
+//Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
 
 $.getScript("register.js", function(){});
-
+createLeagueSelect2();
 /**
  * Checks password against password in database
  * @param {String} pwd    Password
@@ -53,7 +54,6 @@ function Succeed() {
   
   passform.style.display = 'none';
   adminDiv.style.display = 'inline-block';
-  
   // Authenticate for calendar access
   init();
 }
@@ -87,6 +87,7 @@ function submitTimeSlots() {
   var daySelects = document.getElementsByName("prefDay");
   var timeSelects = document.getElementsByName("prefTime");
   var courtSelects = document.getElementsByName("courts");
+  var leagueSelect = document.getElementById("leagueselect").value;
 
   if (daySelects.length == 0 || timeSelects.length == 0) {
     alert("Must submit at least one timeslot");
@@ -109,7 +110,9 @@ function submitTimeSlots() {
       type: "timeslot",
       day: day,
       time: time,
-      courts: co
+      courts: co,
+      league: leagueSelect
+      
     }).then(function(object) {
       alert("Timeslots successfully added.");
     });
@@ -286,7 +289,7 @@ function showtimeslots(timeslots){
 }
 
 function createLeagueSelect2(){
-  //Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+  Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
   //var select = document.getElementById("leagueselect");
         
         
@@ -302,7 +305,7 @@ function createLeagueSelect2(){
         // Get the results set of the query
         query.find().then(function(results) { //the results set can only be accessed in this function!!!
           
-        var select = document.getElementById("leagueselect2");
+        var select = document.getElementById("leagueselect");
               for(var i=0;i<results.length;i++){
                 var object = results[i];
                 
