@@ -319,3 +319,83 @@ function createLeagueSelect2(){
       
        });
 }
+
+/*
+ * Generates select to choose start year to schedule
+ * @return {select} select generated
+ */
+function createYearSelect(){
+    var d = new Date(Date.now());
+    var startYear = d.getFullYear();
+    var select = document.createElement("startYearSelect");
+    
+    for(var i=startYear; i<4; i++){
+        var opt = document.createElement("option");
+        opt.value = i;
+        opt.innerHTML = i;
+        select.appendChild(opt);        
+    }
+    
+    return select;
+    
+}
+
+/*
+ * Generates select to choose start month for scheduling
+ * @return {select} select generated
+ */
+function createStartMonthSelect(){
+    var months = ["October","January","April"];
+    
+    var select = document.createElement("startMonthSelect");
+    
+    for(var i=0; i<months.length; i++){
+          var opt = document.createElement("option");
+            opt.value = months[i];
+            opt.innerHTML = months[i];
+            select.appendChild(opt);
+    }
+    
+    return select;
+}
+
+/*
+ * Generates select to choose start day for scheduling
+ * Only inserts Sundays
+ * @return {select} select generated
+ */
+function createStartDaySelect(){
+    var monthSelect = document.getElementById("startMonthSelect");
+    var month; 
+    if(monthSelect) month = sel.options[sel.selectedIndex].value;
+    else month = "April";
+    
+    var year = 2014;
+    
+    switch(month){
+        case "October":
+            month = 10;
+        case "January":
+            month = 1;
+        case "April":
+            month = 4;
+    }
+    
+    var d;
+    var select = document.createElement("startDaySelect");
+
+    for(var i=0; i<30; i++){
+        d = new Date(year, month, i, 12, 0, 0, 0);
+        var day = d.getUTCDay(); //day of the week, 0 - 6; 0 is Sunday
+        if(day == 0){
+            d.getUTCDate()
+            var opt = document.createElement("option");
+            opt.value = day;
+            opt.innerHTML = day;
+            select.appendChild(opt);
+        }
+        
+    }
+    
+    return select;
+}
