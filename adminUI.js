@@ -1,6 +1,7 @@
 //Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
 
 $.getScript("register.js", function(){});
+$('#dg').children().last().hide()
 //createLeagueSelect2();
 /**
  * Checks password against password in database
@@ -54,7 +55,7 @@ function Succeed() {
   
   passform.style.display = 'none';
   adminDiv.style.display = 'inline-block';
-  
+  $('#dg').children().last().show()
   // Authenticate for calendar access
   init();
 }
