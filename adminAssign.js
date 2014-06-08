@@ -223,8 +223,8 @@ function Games(timeslot) {
   for (var x = 0; x < timeslot.games.length; x++) {
     var intTime=parseInt(timeslot.time);
     name = timeslot.teams[timeslot.games[x].team1id - 1].team_name + " vs " + timeslot.teams[timeslot.games[x].team2id - 1].team_name;
-    var s = getDateTime(timeslot.games[x].week, timeslot.day, intTime);
-    var e = getDateTime(timeslot.games[x].week, timeslot.day, intTime+1);
+    var s = getDateTime(timeslot.games[x].week, timeslot.day, intTime, 3, 6);
+    var e = getDateTime(timeslot.games[x].week, timeslot.day, intTime+1, 3, 6);
     totalGames++;
     makeApiCall(name, timeslot.games[x].court, "", s, e);
     //2014-05-19T20:00:00-06:00
@@ -240,20 +240,33 @@ function Games(timeslot) {
 * @param {int} week                     week the game is played RANGE[1-5]
 * @param {string} day                   day from the timeslot
 * @param {int} time                     time will be 5-8 but refers to PM
+* @param {int} startMonth               0-indexed int corresponding to month
+* @param {int} startDay                 First day of games
 * @return {string}                      returns the date and time in the format needed to add to the calendar
 */
-function getDateTime(week, day, time) {
+function getDateTime(week, day, time, startMonth, startDay) {
 
   week--; // week is now zero indexed
   //date is the offset from April 6, the first day of games. 
-  if (day == "Monday") date = 7;
-  else if (day == "Tuesday") date = 8;
-  else if (day == "Wednesday") date = 9;
-  else if (day == "Thursday") date = 10;
-  else date = 6; // Sunday
+  if (day == "Monday") date = startDay + 1;
+  else if (day == "Tuesday") date = startDay + 2;
+  else if (day == "Wednesday") date = startDay + 3;
+  else if (day == "Thursday") date = startDay + 4;
+  else date = startDay; // Sunday
 
   date = date + 7 * week; // date now has the offset from the start date
   
+  var d = new Date(2014, startMonth, date, parseInt(time), 0, 0, 0);
+  
+ function add0(n){return n<10 ? '0'+n : n}
+ return d.getUTCFullYear()+'-'
+      + add0(d.getUTCMonth()+1)+'-'
+      + add0(d.getUTCDate())+'T'
+      + add0(d.getUTCHours())+':'
+      + add0(d.getUTCMinutes())+':'
+      + add0(d.getUTCSeconds())+'Z';
+
+  /*
   var daysInApril = 30;
   var daysInMay = 31;
   if (date <= daysInApril) month = 4;
@@ -274,5 +287,5 @@ function getDateTime(week, day, time) {
   //start time
   var temp = parseInt(time);
   dateString = dateString + (temp + 12) + ":00:00-06:00"
-  return dateString;
+  return dateString;*/
 }
