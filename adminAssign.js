@@ -67,8 +67,10 @@ function adminAssign() {
         var Teamdata = Parse.Object.extend("Teamdata");
         var teamdata = new Parse.Query(Teamdata);
         teamdata.get(teamlist[i].id);
-        teamdata.set("timeslot", teamlist[i].timeslot.day);
-        teamdata.save({success: function(team) {
+        var t = new Teamdata();
+        t= teamdata;
+        t.set("timeslot", teamlist[i].timeslot.day);
+        t.save({success: function(team) {
             alert(teamlist[i].name + "saved");
             }});
       }
