@@ -300,7 +300,7 @@ function update(team){
     var id = team.id;
     var name = team.team_name;
     name = JSON.parse(JSON.stringify(name));
-    if (team.timeslot.day !== undefined) {
+    if (team.timeslot !== undefined) {
         var ts = team.timeslot.day;
         ts = JSON.parse(JSON.stringify(ts));
         var tst = team.timeslot.time;
