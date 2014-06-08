@@ -65,6 +65,9 @@ function adminAssign(league) {
       teamlist = JSON.parse(JSON.stringify(teamlist));
       Assign_Teams(teamlist, timeslots);
       var updatefunc = updates(teamlist);
+      if (updatefunc) {
+        alert("Updating Database complete.")
+      }
       //trying to find a way to update the objects in the database
       //for (var i =0; i < teamlist.length; i++){
         //var Teamdata = Parse.Object.extend("Teamdata");
