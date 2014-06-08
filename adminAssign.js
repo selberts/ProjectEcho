@@ -300,28 +300,29 @@ function update(team){
     var id = team.id;
     var name = team.team_name;
     name = JSON.parse(JSON.stringify(name));
-    var ts = team.timeslot.day;
-    ts = JSON.parse(JSON.stringify(ts));
-    var tst = team.timeslot.time;
-    tst = JSON.parse(JSON.stringify(tst));
-    ts = ts + "s at " + tst;
-    teamdata.get(id, {
-        success: function(Teamdata) {
-            // The object was retrieved successfully.
-            Teamdata.set("timeslot", ts);
-            Teamdata.save({success: function(team) {
-            console.log(name + " saved");
-            return true;
-        }});
-        },
-        error: function(object, error) {
-            // The object was not retrieved successfully.
-            // error is a Parse.Error with an error code and description.
-            error =JSON.parse(JSON.stringify(error));
-            console.log(error);
-            return true;
-            }
-    });
+    if (team.timeslot.day !== undefined) {
+        var ts = team.timeslot.day;
+        ts = JSON.parse(JSON.stringify(ts));
+        var tst = team.timeslot.time;
+        tst = JSON.parse(JSON.stringify(tst));
+        ts = ts + "s at " + tst;
+        teamdata.get(id, {
+            success: function(Teamdata) {
+                // The object was retrieved successfully.
+                Teamdata.set("timeslot", ts);
+                Teamdata.save({success: function(team) {
+                console.log(name + " saved");
+                return true;
+            }});
+            },
+            error: function(object, error) {
+                // The object was not retrieved successfully.
+                // error is a Parse.Error with an error code and description.
+                error =JSON.parse(JSON.stringify(error));
+                console.log(error);
+                return true;
+                }
+        });
 }
 function updates(teamlist){
     
