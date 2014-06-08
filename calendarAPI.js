@@ -354,11 +354,18 @@ function toDatabase(ids) {
 
   var Leagues = Parse.Object.extend("League");
   var league = new Parse.Query(Leagues);
-  query.find().then(function(results) {
+  league.find().then(function(results) {
     for (var ii = 0; ii < ids.length; ii++) {
       object = results[ii];
-      league.save(null, {
-        league.set("calID", ids[ii]);
+      
+      object.save(null, {
+          success: function(league) {
+                object.set("calID", ids[ii]);
+                object.save();
+            }
+          , error:  function(model, error) {
+              console.log("Error for "  + ids[ii] + ": " + error.code);
+          }
       });
     }
   });
