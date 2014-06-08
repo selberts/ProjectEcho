@@ -63,6 +63,15 @@ function adminAssign() {
 
       teamlist = JSON.parse(JSON.stringify(teamlist));
       Assign_Teams(teamlist, timeslots);
+            for (var i =0; i < teamlist.length; i++){
+        var Team = Parse.Object.extend("Teamdata");
+        var team = new Parse.Query(Team);
+        team.get(teamlist[i].id);
+        team.set("timeslot", teamlist[i].timeslot.day);
+        team.save({success: function(team) {
+            alert(teamlist[i].name + "saved");
+            }});
+      }
       var timeslot = new Time_Slot();
       for (var x = 0; x < timeslots.length; x++) {
         Games(timeslots[x]);
