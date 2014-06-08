@@ -84,7 +84,11 @@ function clearCal(calName){
      }
      else{ // resp.id should be empty if succeeded
          console.log("Calendar cleared");
-         adminAssign();
+         
+         var sel = document.getElementById('leagueselect');
+         var league = sel.options[sel.selectedIndex].value;
+         
+         adminAssign(league);
      }
      
       });
@@ -314,7 +318,11 @@ function getCalendarId(calName){
             if (resp.id){
                  console.log("Calendar " + calName + " added");
                  calendarID = resp.id;
-                 adminAssign();
+                 
+                 var sel = document.getElementById('leagueselect');
+                 var league = sel.options[sel.selectedIndex].value;
+                 
+                 adminAssign(league);
          }
          else{
                 console.log(resp.message);
