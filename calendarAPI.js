@@ -15,7 +15,7 @@ var end = "2014-05-19";
 
 // Note that I'm currently hosting the calendar with my email address;
 // We can change this if need be
-var calendarID = "lukeolney@gmail.com";
+var calendarID = 'primary';//"lukeolney@gmail.com";
 
 
 function toggleCal(){
@@ -70,17 +70,7 @@ function init() {
 Clear the calendar
 */
 function clearCal(){
-    // Prevent user from clicking button again until submssion complete
-    if(!submissionComplete) return false;
-    submissionComplete = false;
     
-    // Prevent users from leaving until operation is complete
-    window.onbeforeunload = function() {
-            return "The events have not yet finished submitting to the calendar";
-        };
-     
-     // Insert progress indicator
-     createProgressText(document.getElementById("adminAssign"));
         
   gapi.client.load('calendar', 'v3', function() {
     var request = gapi.client.calendar.calendars.clear({
@@ -191,3 +181,82 @@ gapi.client.load('calendar', 'v3', function() {
   });
 });
 }
+
+var attempts = 0;
+/*
+ * Requests the list of the user's calendars,
+ * then sets calendarID to the id of the calendar whose
+ * description matches calName
+ * @param   calName     Description of the calendar to be set
+ */
+function getCalendarId(calName){
+    
+    gapi.client.load('calendar', 'v3', function() {
+        var request = gapi.client.calendar.calendarList.list({});      
+        
+          request.execute(function(resp) {
+            if (resp.items.length > 0){
+                    var found = false;
+                    for(var i=0; i<resp.items.length; i++){
+                        console.log(resp.items[i].summary);
+                        if(resp.items[i].summary === calName){
+                            found = true;
+                            calendarID =  resp.items[i].id;
+                            
+                            console.log(calendarID);
+                        }
+                    }
+                    if(found) clearCal();
+                    else{
+                        alert("Requested calendar not found");
+                        submissionComplete = true;
+                        window.onbeforeunload = null;
+                    }
+                }
+            else{
+                    console.log(resp.message);
+                    attempts++;
+                    if(attempts < 3) getCalendarId(calName);
+                    else {
+                        submissionComplete = true;
+                        window.onbeforeunload = null;
+                        alert("Could not retrieve calendar list");
+                    }
+                }
+          });
+      });
+      
+ }
+ 
+ /*
+  * Entry point for calendar submission
+  * Takes value of leagueselect, then makes changes to the correct calendar
+  * based on the sport selected
+  */
+ function setCalendar(){
+     // Prevent user from clicking button again until submssion complete
+    if(!submissionComplete) return false;
+    submissionComplete = false;
+    
+    // Prevent users from leaving until operation is complete
+    window.onbeforeunload = function() {
+            return "The events have not yet finished submitting to the calendar";
+        };
+     
+     // Insert progress indicator
+     createProgressText(document.getElementById("adminAssign"));
+     
+     // Base sport to schedule on the value of the league select
+     var sel = document.getElementById('leagueselect');
+     var league = sel.options[sel.selectedIndex].value;
+     
+     switch(league){
+         case "Baseball":
+             getCalendarId('Baseball Schedule');
+             break;
+         case "Basketball":
+             getCalendarId('Basketball Schedule');
+             break;
+     }
+ }
+      
