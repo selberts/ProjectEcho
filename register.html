@@ -71,11 +71,15 @@
         <input type="button" value="Show Calendar" name="showCal" onclick="toggleCal()"/>
         <input type="button" value="Add mock event" name="addEvent" onclick="init()"/> -->
         <p> Enter your preferred times, with most preferred first.
-        <form id="team_info" style="display: inline-block" onsubmit="return saveTeam()">
-                                    <input type="text" id="name" placeholder="Team name" />
-                                    <input type="button" id="addpref" value="Add Time Preference" onclick="createPref()"/>
-                                    <input type="submit" value="Submit">
-                                </form>
+        <form id="team_info" style="display: inline-block" class="form-horizontal" onsubmit="return saveTeam()">
+          <div class="form-group">
+          <div>
+            <input type="text" class="form-control" id="name" placeholder="Team Name">
+          </div>
+          </div>
+            <input type="button" id="addpref" value="Add Time Preference" class="btn" onclick="createPref()"/>
+            </br><input type="submit" value="Submit" class="btn btn-default">
+        </form>
 
         <script src="register.js"></script>
         <script src="calendarAPI.js"></script>

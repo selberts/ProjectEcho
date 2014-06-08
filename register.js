@@ -96,9 +96,11 @@ function createPref(){
 	div.style.display = 'block';
 	div.appendChild(createSelect(prefNum));
 	//div.appendChild(createDaySelect(prefNum));
+	div.firstChild.classList.add('form-control');
 	form.insertBefore(div, button);
 
 	prefNum++;
+	// document.querySelector('#team_info > div:nth-child(2) > select').addClass('form-control')
 
 	if(prefNum == 3) form.removeChild(button);
 }
@@ -110,7 +112,7 @@ function createPref(){
 */
 function createSelect(prefNum){
 	var select = document.createElement("select");
-	select.name = "prefTime";// + prefNum;
+	select.name = "prefTime";
 
 	for (var i = 0; i < timeslots.length; i++){
 		var opt = document.createElement('option');
@@ -119,6 +121,7 @@ function createSelect(prefNum){
 		select.appendChild(opt);
 	}
 
+	// select.addClass("form-control");
 	return select;
 }
 
@@ -129,6 +132,7 @@ function createSelect(prefNum){
 */
 function createDaySelect(prefNum){
 	var select = document.createElement("select");
+	select.class= "form-control";
 	select.name = "prefDay";// + prefNum;
 
 	for (var i = 0; i < days.length; i++){
@@ -144,6 +148,7 @@ function createDaySelect(prefNum){
 function createLeagueSelect(){
 	var select = document.createElement("select");
         select.id = "leagueselect";
+        select.class= "form-control";
         
         var div = document.getElementById("dg");
 	div.appendChild(select);
