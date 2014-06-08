@@ -338,5 +338,36 @@ function getCalendarId(calName){
      var text = document.getElementById("submissionText");
      text.innerHTML = "Failure to submit games";
  }
+ 
+ 
+ function toDatabase(ids){
+     //Send ids list to database
+ }
+ 
+ function getCalendarList(){
+    var ids = new Array();
+    gapi.client.load('calendar', 'v3', function() {
+        var request = gapi.client.calendar.calendarList.list({});      
+        
+          request.execute(function(resp) {
+            if (resp.items.length > 0){
+                    for(var i=0; i<resp.items.length; i++){
+                        ids.push(resp.items[i].id);
+                    }
+                    toDatabase(ids);
+                }
+            else{
+                    console.log(resp.message);
+                    attempts++;
+                    if(attempts < 3) getCalendarId(calName);
+                    else {
+                        handleFail();
+                        alert("Could not retrieve calendar list");
+                    }
+                }
+          });
+      });
+      
+ }
 
       
