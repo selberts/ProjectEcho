@@ -106,16 +106,23 @@ function submitTimeSlots() {
     var time = timeSelects.item(i).value;
     var day = daySelects.item(i).value;
     var co = courtSelects.item(i).value;
-    timeslots.save({
-      type: "timeslot",
-      day: day,
-      time: time,
-      courts: co,
-      league: leagueSelect
-      
-    }).then(function(object) {
-      alert("Timeslots successfully added.");
+    timeslots.set("type","timeslot");
+    timeslots.set("day",day);
+    timeslots.set("time",time);
+    timeslots.set("courts",co);
+    timeslots.set("league",leagueSelect);
+    var query = new Parse.Query(Timeslots);
+    query.equalTo("day",timeslots.get("day"));
+    query.equalTo("time",timeslots.get("time"));
+    query.find().then(function(results){
+        if(results.length>0){
+          alert(day+" "+time+" already exist");
+        }else{
+          timeslots.save();
+          alert("Timeslots successfully added.");
     });
+
+   
     // timeslots.push(new Time_Slot(i, time, day, 2));
   }
 
@@ -321,31 +328,13 @@ function createLeagueSelect2(){
 }
 
 /*
- * 
- * @param {type} object     Element before which the div should be inserted
- * @returns {undefined}     
- */
-function insertStartSelects(object){
-    
-    var div = document.createElement("div");
-    div.style.display = 'block';
-    div.appendChild(createYearSelect());
-    div.appendChild(createStartMonthSelect());
-    div.appendChild(createCourtSelect(prefNum));
-    div.appendChild(remove);
-    object.parentNode.insertBefore(div, object);
-    
-}
-
-/*
  * Generates select to choose start year to schedule
  * @return {select} select generated
  */
 function createYearSelect(){
     var d = new Date(Date.now());
     var startYear = d.getFullYear();
-    var select = document.createElement("select");
-    select.id = "startYearSelect";
+    var select = document.createElement("startYearSelect");
     
     for(var i=startYear; i<4; i++){
         var opt = document.createElement("option");
@@ -365,8 +354,7 @@ function createYearSelect(){
 function createStartMonthSelect(){
     var months = ["October","January","April"];
     
-    var select = document.createElement("select");
-    select.id = "startMonthSelect";
+    var select = document.createElement("startMonthSelect");
     
     for(var i=0; i<months.length; i++){
           var opt = document.createElement("option");
@@ -401,14 +389,13 @@ function createStartDaySelect(){
     }
     
     var d;
-    var select = document.createElement("select");
-    select.id = "startDaySelect";
+    var select = document.createElement("startDaySelect");
 
     for(var i=0; i<30; i++){
         d = new Date(year, month, i, 12, 0, 0, 0);
         var day = d.getUTCDay(); //day of the week, 0 - 6; 0 is Sunday
         if(day == 0){
-            d.getUTCDate();
+            d.getUTCDate()
             var opt = document.createElement("option");
             opt.value = day;
             opt.innerHTML = day;
