@@ -1,6 +1,6 @@
 
-$.getScript("register.js", function(){});
-
+//$.getScript("register.js", function(){});
+createLeagueSelect2();
 /**
  * Checks password against password in database
  * @param {String} pwd    Password
