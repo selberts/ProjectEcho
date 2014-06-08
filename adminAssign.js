@@ -62,11 +62,13 @@ function adminAssign(league) {
 
       }
 
+      var text = document.getElementById("submissionText");
       teamlist = JSON.parse(JSON.stringify(teamlist));
       Assign_Teams(teamlist, timeslots);
+      text.innerHTML = "Submitting to database";
       var updatefunc = updates(teamlist);
       if (updatefunc) {
-        alert("Updating Database complete.")
+        text.innerHTML = "Submitting games to calendar";
       }
       var timeslot = new Time_Slot();
       for (var x = 0; x < timeslots.length; x++) {
@@ -74,8 +76,6 @@ function adminAssign(league) {
       }
       console.log("Assign_Teams succeeded. Total games: " + totalGames);
       
-      var text = document.getElementById("submissionText");
-      text.innerHTML = "Submitting games to calendar";
       
       var meter = document.getElementById("submissionProgress");
       meter.max = totalGames;
@@ -238,7 +238,7 @@ function Games(timeslot) {
 * @return {string}                      returns the date and time in the format needed to add to the calendar
 */
 function getDateTime(week, day, time, startMonth, startDay) {
-
+  
   week--; // week is now zero indexed
   //date is the offset from April 6, the first day of games. 
   if (day == "Monday") date = startDay + 1;
@@ -249,7 +249,7 @@ function getDateTime(week, day, time, startMonth, startDay) {
 
   date = date + 7 * week; // date now has the offset from the start date
   
-  var d = new Date(2014, startMonth, date, parseInt(time), 0, 0, 0);
+  var d = new Date(2014, startMonth, date, parseInt(time) + 12, 0, 0, 0);
   
  function add0(n){return n<10 ? '0'+n : n}
  return d.getUTCFullYear()+'-'
