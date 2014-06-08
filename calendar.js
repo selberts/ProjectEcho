@@ -56,7 +56,7 @@ function pullFromDatabase(){
       var object = results[i];
       calIDs.push(object.get("calID"));
     }
-    insertDiv(callIDs);
+    insertDiv(calIDs);
   });
 }
 
