@@ -63,17 +63,18 @@ function adminAssign() {
 
       teamlist = JSON.parse(JSON.stringify(teamlist));
       Assign_Teams(teamlist, timeslots);
-            for (var i =0; i < teamlist.length; i++){
-        var Teamdata = Parse.Object.extend("Teamdata");
-        var teamdata = new Parse.Query(Teamdata);
-        teamdata.get(teamlist[i].id);
-        var t = new Teamdata();
-        t= teamdata;
-        t.set("timeslot", teamlist[i].timeslot.day);
-        t.save({success: function(team) {
-            alert(teamlist[i].name + "saved");
-            }});
-      }
+      //trying to find a way to update the objects in the database
+      //for (var i =0; i < teamlist.length; i++){
+        //var Teamdata = Parse.Object.extend("Teamdata");
+        //var teamdata = new Parse.Query(Teamdata);
+        //teamdata.get(teamlist[i].id);
+        //var t = new Teamdata();
+        //t= teamdata;
+        //t.set("timeslot", teamlist[i].timeslot.day);
+        //t.save({success: function(team) {
+          //  alert(teamlist[i].name + "saved");
+            //}});
+      //}
       var timeslot = new Time_Slot();
       for (var x = 0; x < timeslots.length; x++) {
         Games(timeslots[x]);
