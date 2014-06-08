@@ -49,7 +49,6 @@ function pullFromDatabase(){
   // Find all the tuples in the table
   query.equalTo("type", "league");
   // Get the results set of the query
-  var timeslots = new Array();
   query.find().then(function(results) { //the results set can only be accessed in this function!!!
     var calIDs=[]
     for (var i = 0; i < results.length; i++) {
