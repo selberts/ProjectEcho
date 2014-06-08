@@ -120,6 +120,7 @@ function submitTimeSlots() {
         }else{
           timeslots.save();
           alert("Timeslots successfully added.");
+        }
     });
 
    
