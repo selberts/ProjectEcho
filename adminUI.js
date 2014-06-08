@@ -321,13 +321,31 @@ function createLeagueSelect2(){
 }
 
 /*
+ * 
+ * @param {type} object     Element before which the div should be inserted
+ * @returns {undefined}     
+ */
+function insertStartSelects(object){
+    
+    var div = document.createElement("div");
+    div.style.display = 'block';
+    div.appendChild(createYearSelect());
+    div.appendChild(createStartMonthSelect());
+    div.appendChild(createCourtSelect(prefNum));
+    div.appendChild(remove);
+    object.parentNode.insertBefore(div, object);
+    
+}
+
+/*
  * Generates select to choose start year to schedule
  * @return {select} select generated
  */
 function createYearSelect(){
     var d = new Date(Date.now());
     var startYear = d.getFullYear();
-    var select = document.createElement("startYearSelect");
+    var select = document.createElement("select");
+    select.id = "startYearSelect";
     
     for(var i=startYear; i<4; i++){
         var opt = document.createElement("option");
@@ -347,7 +365,8 @@ function createYearSelect(){
 function createStartMonthSelect(){
     var months = ["October","January","April"];
     
-    var select = document.createElement("startMonthSelect");
+    var select = document.createElement("select");
+    select.id = "startMonthSelect";
     
     for(var i=0; i<months.length; i++){
           var opt = document.createElement("option");
@@ -382,13 +401,14 @@ function createStartDaySelect(){
     }
     
     var d;
-    var select = document.createElement("startDaySelect");
+    var select = document.createElement("select");
+    select.id = "startDaySelect";
 
     for(var i=0; i<30; i++){
         d = new Date(year, month, i, 12, 0, 0, 0);
         var day = d.getUTCDay(); //day of the week, 0 - 6; 0 is Sunday
         if(day == 0){
-            d.getUTCDate()
+            d.getUTCDate();
             var opt = document.createElement("option");
             opt.value = day;
             opt.innerHTML = day;
