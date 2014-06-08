@@ -47,7 +47,7 @@ function pullFromDatabase(){
   // Prepare a query
   var query = new Parse.Query(Leagues);
   // Find all the tuples in the table
-  query.equalTo("name", league);
+  query.equalTo("type", "league");
   // Get the results set of the query
   var timeslots = new Array();
   query.find().then(function(results) { //the results set can only be accessed in this function!!!
@@ -56,6 +56,7 @@ function pullFromDatabase(){
       var object = results[i];
       calIDs.push(object.get("calID"));
     }
-    insertDiv(callIDs);
-  }
+    insertDiv(calIDs);
+  });
 }
+
