@@ -28,9 +28,23 @@
  
  
 
-function pullFromDatabase(){
+function pullFromDatabase(league){
     var ids;
-    // retrieve calendar ids from db
-    return ids;
+    Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+
+  var Leagues = Parse.Object.extend("League");
+  // Prepare a query
+  var query = new Parse.Query(Leagues);
+  // Find all the tuples in the table
+  query.equalTo("name", league);
+  // Get the results set of the query
+  var timeslots = new Array();
+  query.find().then(function(results) { //the results set can only be accessed in this function!!!
+    var calIDs=[]
+    for (var i = 0; i < results.length; i++) {
+      var object = results[i];
+      calIDs.push(object.get("calID"));
+    }
+  }
 }
 
