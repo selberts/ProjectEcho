@@ -124,7 +124,7 @@ function submitTimeSlots() {
 
    
     // timeslots.push(new Time_Slot(i, time, day, 2));
-  }
+  
 
   return false;
 
