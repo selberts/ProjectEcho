@@ -81,6 +81,9 @@ function adminAssign() {
       }
       console.log("Assign_Teams succeeded. Total games: " + totalGames);
       
+      var text = document.getElementById("submissionText");
+      text.innerHTML = "Submitting games to calendar";
+      
       var meter = document.getElementById("submissionProgress");
       meter.max = totalGames;
       waitFunction(meter);

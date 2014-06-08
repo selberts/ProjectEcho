@@ -69,17 +69,18 @@ function init() {
 /*
 Clear the calendar
 */
-function clearCal(){
+function clearCal(calName){
     
         
   gapi.client.load('calendar', 'v3', function() {
     var request = gapi.client.calendar.calendars.clear({
-        'calendarId': calendarID,
+        'calendarId': calendarID
       });
       
     request.execute(function(resp) {
-    if (resp.id){
+    if (resp.message){
  	console.log(resp.message);
+        deleteCal(calendarID, calName);
      }
      else{ // resp.id should be empty if succeeded
          console.log("Calendar cleared");
@@ -107,7 +108,7 @@ function createProgressText(adminAssign){
       
       var text = document.createElement("div");
       text.id = "submissionText";
-      text.innerHTML = "Submitting games to calendar";
+      text.innerHTML = "Running scheduling routine";
       
       // Insert after schedule button
       var secretAdminDiv = adminAssign.parentNode;
@@ -202,15 +203,14 @@ function getCalendarId(calName){
                         if(resp.items[i].summary === calName){
                             found = true;
                             calendarID =  resp.items[i].id;
-                            
                             console.log(calendarID);
                         }
                     }
-                    if(found) clearCal();
+                    if(found) clearCal(calName);
                     else{
-                        alert("Requested calendar not found");
-                        submissionComplete = true;
-                        window.onbeforeunload = null;
+                        var r = window.confirm("Could not find calendar. Perhaps you are not using the admin account, or perhaps you are trying to schedule a sport that does not have a calendar initialized. \n\ \n\Add to your calendar list?");
+                        if(r) createCal(calName);
+                        else handleFail();
                     }
                 }
             else{
@@ -218,8 +218,7 @@ function getCalendarId(calName){
                     attempts++;
                     if(attempts < 3) getCalendarId(calName);
                     else {
-                        submissionComplete = true;
-                        window.onbeforeunload = null;
+                        handleFail();
                         alert("Could not retrieve calendar list");
                     }
                 }
@@ -259,4 +258,85 @@ function getCalendarId(calName){
              break;
      }
  }
+ 
+ /*
+  * Deletes (non-primary) calendar of the given ID, then creates another by the same name
+  * Used to clear non-primary calendars
+  * @param {String} calID       ID of calendar to be deleted
+  * @param {String} calName     Name of calendar to pass to createCal
+  * @returns {undefined}
+  */
+ function deleteCal(calID, calName){
+     if(attempts == 3) attempts = 0;
+  // Format for the event
+  // Note: can add more parameters; documentation here: 
+  // https://developers.google.com/google-apps/calendar/v3/reference/events/insert
+
+    gapi.client.load('calendar', 'v3', function() {
+        var request = gapi.client.calendar.calendars.delete({
+            "calendarId": calID
+          });
+
+      request.execute(function(resp) {
+         if (resp.message){
+                 console.log(resp.message);
+                //try again
+                if(attempts < 3) {
+                    deleteCal(calID, calName);
+                    attempts++;
+                } else handleFail();
+         }
+         else{
+                console.log("Calendar deleted: " + calID);
+                createCal(calName);
+         }
+          });
+    });
+ }
+ 
+ /*
+  * Creates a calendar with the given name
+  * Calls admin assign to populate
+  * @parma calName          Name of calendar to be created
+  */
+ function createCal(calName){
+    if(attempts == 3) attempts = 0;
+    var cal = {
+          "summary": calName
+      };
+      
+    gapi.client.load('calendar', 'v3', function() {
+        var request = gapi.client.calendar.calendars.insert({
+            "resource": cal
+          });
+
+      request.execute(function(resp) {
+            if (resp.id){
+                 console.log("Calendar " + calName + " added");
+                 calendarID = resp.id;
+                 adminAssign();
+         }
+         else{
+                console.log(resp.message);
+                //try again
+                if(attempts < 3) {
+                    createCal(calName);
+                    attempts++;
+                } else handleFail();
+         }
+          });
+    });
+ }
+ 
+ /*
+  * Called on failure of calendar upload
+  */
+ function handleFail(){
+     submissionComplete = true;
+     window.onbeforeunload = null;
+     
+     var text = document.getElementById("submissionText");
+     text.innerHTML = "Failure to submit games";
+ }
+
       
