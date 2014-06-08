@@ -111,6 +111,7 @@ function createPref(){
 function createSelect(prefNum){
 	var select = document.createElement("select");
 	select.name = "prefTime";// + prefNum;
+	select.addClass("form-control")
 
 	for (var i = 0; i < timeslots.length; i++){
 		var opt = document.createElement('option');
@@ -130,6 +131,7 @@ function createSelect(prefNum){
 function createDaySelect(prefNum){
 	var select = document.createElement("select");
 	select.name = "prefDay";// + prefNum;
+	select.addClass("form-control")
 
 	for (var i = 0; i < days.length; i++){
 		var opt = document.createElement('option');
@@ -144,6 +146,7 @@ function createDaySelect(prefNum){
 function createLeagueSelect(){
 	var select = document.createElement("select");
         select.id = "leagueselect";
+        select.addClass("form-control")
         
         var div = document.getElementById("dg");
 	div.appendChild(select);
