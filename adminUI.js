@@ -302,7 +302,7 @@ function createLeagueSelect2(){
         // Get the results set of the query
         query.find().then(function(results) { //the results set can only be accessed in this function!!!
           
-        var select = document.getElementById("leagueselect2");
+        var select = document.getElementById("leagueselect");
               for(var i=0;i<results.length;i++){
                 var object = results[i];
                 
