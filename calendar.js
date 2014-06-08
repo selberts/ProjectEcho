@@ -26,11 +26,17 @@
       div.innerHTML = iframe;
  }
  
+ /*
+  * Replaces @ in string with %40, so that we can put it in the calendar iFrame
+  * @arg {String} string        string to be parsed
+  */
+ function removeAt(string){
+     var subs = string.split("@");
+     if(subs.length != 2){
+         console.log("Error: could not parse calendar ID");
+         return string;
+     } else {
+         return subs[0] + "%40" + subs[1];
+     }
+ }
  
-
-function pullFromDatabase(){
-    var ids;
-    // retrieve calendar ids from db
-    return ids;
-}
-
