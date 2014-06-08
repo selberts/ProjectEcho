@@ -287,7 +287,7 @@ function showtimeslots(timeslots){
 }
 
 function createLeagueSelect2(){
-  //Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+  Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
   //var select = document.getElementById("leagueselect");
         
         
