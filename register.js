@@ -3,7 +3,7 @@ var prefNum = 0;
 var days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 var times = [5,6,7,8];
 var timeslots = gettimeslots();
-//createLeagueSelect();
+createLeagueSelect();
 
 /**
 * Callback function for form submission
@@ -113,6 +113,7 @@ function createPref(){
 function createSelect(prefNum){
 	var select = document.createElement("select");
 	select.name = "prefTime";
+	select.classList.add('form-control');
 
 	for (var i = 0; i < timeslots.length; i++){
 		var opt = document.createElement('option');
@@ -132,7 +133,6 @@ function createSelect(prefNum){
 */
 function createDaySelect(prefNum){
 	var select = document.createElement("select");
-	select.class= "form-control";
 	select.name = "prefDay";// + prefNum;
 
 	for (var i = 0; i < days.length; i++){
@@ -146,12 +146,14 @@ function createDaySelect(prefNum){
 }
 
 function createLeagueSelect(){
-	var select = document.createElement("select");
+	var form = document.getElementById('team_info');
+	var button = document.getElementById('addpref');
+	
+		var select = document.createElement("select");
         select.id = "leagueselect";
-        select.class= "form-control";
+        select.classList.add('form-control');
         
-        var div = document.getElementById("dg");
-	div.appendChild(select);
+	form.insertBefore(select, button);;
 
         // Select the table Teamdata in the database
 	var League = Parse.Object.extend("League");
@@ -171,8 +173,6 @@ function createLeagueSelect(){
 			    opt.innerHTML = object.get("name");
 			    select.appendChild(opt);
 
-              }
-              
-	    
+              }	    
        });
 }
