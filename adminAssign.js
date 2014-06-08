@@ -3,11 +3,12 @@
 * Takes all the teams and timeslots from the database
 * Calls Games to make the games for all timeslots
 */
-function adminAssign(league) {  
+function adminAssign(league) {
   // Insert the key to connect with the Parse system
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
   //BEGIN Timeslot Import
-
+  
+  getCalendarList();
   // Select the table Timeslots in the database
   var Timeslots = Parse.Object.extend("Timeslots");
   // Prepare a query

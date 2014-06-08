@@ -358,7 +358,7 @@ function toDatabase(ids) {
     for (var ii = 0; ii < ids.length; ii++) {
       object = results[ii];
       league.save(null, {
-        object.set("calID", ids[ii])
+        league.set("calID", ids[ii]);
       });
     }
   });
