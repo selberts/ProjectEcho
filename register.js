@@ -3,7 +3,7 @@ var prefNum = 0;
 var days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 var times = [5,6,7,8];
 var timeslots = gettimeslots();
-createLeagueSelect();
+//createLeagueSelect();
 
 /**
 * Callback function for form submission
