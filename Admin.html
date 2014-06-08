@@ -58,7 +58,6 @@
       
       <div id="dg">
         <div class="container">
-         <div class="row centered" id="adminText">
          
         
         <form id="password" style="display: inline-block" onsubmit="return submitPass()">
@@ -78,17 +77,21 @@
             </form>
             
           </br></br><h4>Schedule Games</h4>
-          <input type="button" id="adminAssign" value="Assign Teams"onclick="clearCal()"/>
+          <input type="button" id="adminAssign" value="Assign Teams" style="margin-left: auto;
+  margin-right: auto;" onclick="clearCal()"/>
 
         </div>
+            
+        <div class="row centered" id="adminText">
+
         
 
 
         <script src="https://apis.google.com/js/client.js"></script>
         <script src="adminUI.js"></script>
         <script src="seed_data.js"></script>
-        <script src="adminAssign.js"></script>
         <script src="calendarAPI.js"></script>
+        <script src="adminAssign.js"></script>
         <script src="Classes.js"></script>
 
 

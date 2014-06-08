@@ -3,7 +3,9 @@
 // Except for refreshing the calendar, it works independent of the page
 
 var calDisplay = false;
+var totalGames = 0;
 var eventsSubmitted = 0;
+var submissionComplete = true;
 // Game parameters; presumably handed by scheduling function
 var game = "Game";
 var loc = "Location";
@@ -68,10 +70,17 @@ function init() {
 Clear the calendar
 */
 function clearCal(){
+    // Prevent user from clicking button again until submssion complete
+    if(!submissionComplete) return false;
+    submissionComplete = false;
+    
     // Prevent users from leaving until operation is complete
     window.onbeforeunload = function() {
             return "The events have not yet finished submitting to the calendar";
         };
+     
+     // Insert progress indicator
+     createProgressText(document.getElementById("adminAssign"));
         
   gapi.client.load('calendar', 'v3', function() {
     var request = gapi.client.calendar.calendars.clear({
@@ -91,6 +100,51 @@ function clearCal(){
   })
 
 };
+
+/*
+ * 
+ * @param {elementID} adminAssign       Node after which elements are to be inserted
+ * @returns {undefined}
+ */
+function createProgressText(adminAssign){
+      removeText();
+      
+      // Create Progress meter
+      var meter = document.createElement("progress");
+      meter.value = eventsSubmitted;
+      meter.max = 40;
+      meter.id = "submissionProgress";
+      
+      var text = document.createElement("div");
+      text.id = "submissionText";
+      text.innerHTML = "Submitting games to calendar";
+      
+      // Insert after schedule button
+      var secretAdminDiv = adminAssign.parentNode;
+      secretAdminDiv.insertBefore(meter, adminAssign.nextSibling);
+      secretAdminDiv.insertBefore(text, meter);
+
+}
+
+/*
+ * Removes all text or elements created by any previous calls of adminAssign
+ * @returns {undefined}
+ */
+function removeText(){
+    totalGames = 0;
+    eventsSubmitted = 0;
+
+    var secretAdminDiv = document.getElementById("secretAdminDiv");
+    var adminAssign = document.getElementById("adminAssign");
+    
+    while(adminAssign.nextSibling){
+        var next = adminAssign.nextSibling;
+        secretAdminDiv.removeChild(next);
+    }
+    
+    var adminText = document.getElementById("adminText");
+    adminText.innerHTML = "";
+}
 
 
 /*

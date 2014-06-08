@@ -3,9 +3,7 @@
 * Takes all the teams and timeslots from the database
 * Calls Games to make the games for all timeslots
 */
-var totalGames = 0;
-function adminAssign() {
-
+function adminAssign() {  
   // Insert the key to connect with the Parse system
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
   //BEGIN Timeslot Import
@@ -71,7 +69,9 @@ function adminAssign() {
       }
       console.log("Assign_Teams succeeded. Total games: " + totalGames);
       
-      waitFunction();
+      var meter = document.getElementById("submissionProgress");
+      meter.max = totalGames;
+      waitFunction(meter);
 
     });
   });
@@ -81,19 +81,23 @@ function adminAssign() {
  * Sets a timeout if all events have not yet been submitted to calendar
  * Recursively calls itself while events are still being submitted
  * On submission, alerts user to submission
+ * @param   meter           The progress indicator, which gets updated on each call
  * @returns {undefined}
  */
-function waitFunction(){
+function waitFunction(meter){
+    meter.value = eventsSubmitted;
     if(eventsSubmitted != totalGames) {
           setTimeout(function(){
-                waitFunction();
-            }, 500);
+                waitFunction(meter);
+            }, 100);
       }
       else{
           alert("Submission complete");
+          submissionComplete = true;
           window.onbeforeunload = null;
       }
 }
+
 
 /**
 * Takes a list of timeslots and teams and assigns them according to their prefrences.
@@ -156,7 +160,7 @@ function Games(timeslot) {
   
   timeslot.games = [];
   if (numTeams < 3) { // need at least 4 teams to start. Otherwise, timeslot will not be used. 
-    errorString = "Not Enough Teams in Timeslot. Only " + numTeams + " Teams. Timeslot: " + timeslot.day+" at "+timeslot.time;
+    errorString = "Not Enough Teams (" + numTeams + ") in " + timeslot.day+" at "+timeslot.time;
         var text = document.createElement("div");
         text.innerHTML = errorString;
         text.style.display = "block";
