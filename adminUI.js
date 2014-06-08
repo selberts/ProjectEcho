@@ -285,3 +285,34 @@ function showtimeslots(timeslots){
   div.appendChild(table);
 }
 
+function createLeagueSelect2(){
+  //Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+  //var select = document.getElementById("leagueselect");
+        
+        
+  //var div = document.getElementById("dg");
+  //div.appendChild(select);
+
+        // Select the table Teamdata in the database
+  var League = Parse.Object.extend("League");
+  // Prepare a query
+  var query = new Parse.Query(League);
+  // Find all the tuples in the table
+        query.equalTo("type", "league");
+        // Get the results set of the query
+        query.find().then(function(results) { //the results set can only be accessed in this function!!!
+          
+        var select = document.getElementById("leagueselect2");
+              for(var i=0;i<results.length;i++){
+                var object = results[i];
+                
+                var opt = document.createElement("option");
+          opt.value = object.get("name");
+          opt.innerHTML = object.get("name");
+          select.appendChild(opt);
+
+              }
+              
+      
+       });
+}
