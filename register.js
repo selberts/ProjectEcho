@@ -93,17 +93,17 @@ function gettimeslots(callb){
 function createPref(add){
 	var form = document.getElementById('team_info');
 	var button = document.getElementById('addpref');
-
+            
 	var div = document.createElement("div");
+        div.className = 'selectsDiv';
 	div.style.display = 'block';
 	div.appendChild(add);
 	div.firstChild.classList.add('form-control');
 	form.insertBefore(div, button);
 
 	prefNum++;
-	// document.querySelector('#team_info > div:nth-child(2) > select').addClass('form-control')
 
-	if(prefNum == 3) form.removeChild(button);
+	if(prefNum == 3) button.style.display = 'none';
 }
 
 /**
@@ -140,6 +140,7 @@ function createLeagueSelect(){
         select.id = "leagueselect";
         select.classList.add('form-control');
         select.style = "margin-bottom: 10px;";
+        select.onchange = removeTimeSlotSelects;
 	form.insertBefore(select, button);
 
         // Select the table Teamdata in the database
@@ -162,5 +163,24 @@ function createLeagueSelect(){
 
               }	    
        });
+}
+
+/**
+ * Removes all the time selects and re-adds the button if it is hidden
+ * @returns {undefined}
+ */
+function removeTimeSlotSelects(){
+	prefNum = 0;
+        var selects = document.getElementsByClassName("selectsDiv");
+        
+        var elem;
+	while(selects.length != 0){
+                elem = selects[0];
+		elem.parentNode.removeChild(elem);
+	}
+        
+        var button = document.getElementById('addpref');
+        button.style.display = 'inline';
+        
 }
 
