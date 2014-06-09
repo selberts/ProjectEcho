@@ -84,6 +84,7 @@ function gettimeslots(callb){
 	var leagueSelect = document.getElementById("leagueselect").value;
 	// Find all the tuples in the table
 	query.equalTo("league", leagueSelect);
+	query.ascending("day");
 	// Get the results set of the query
 	var timeslots = new Array();
 	query.find().then(function(results){   //the results set can only be accessed in this function!!!
