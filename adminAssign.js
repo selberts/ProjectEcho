@@ -1,8 +1,10 @@
 
 /**
-* Takes all the teams and timeslots from the database
-* Calls Games to make the games for all timeslots
-*/
+ * Takes all the teams and timeslots from the database
+ * Calls Games to make the games for all timeslots
+ * @param {String} league       League (as titled in databse) to be scheduled
+ * @returns {undefined}
+ */
 function adminAssign(league) {
   // Insert the key to connect with the Parse system
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
@@ -86,7 +88,7 @@ function adminAssign(league) {
   });
 }
 
-/*
+/**
  * Sets a timeout if all events have not yet been submitted to calendar
  * Recursively calls itself while events are still being submitted
  * On submission, alerts user to submission
@@ -109,11 +111,12 @@ function waitFunction(meter){
 
 
 /**
-* Takes a list of timeslots and teams and assigns them according to their prefrences.
-* Populates the teams array in the timeslots based on the teams prefrences.
-* @param {Team} teamL                         List of teams, stored as an array
-* @param {Time_Slot} slotsL                   List of time slots, stored as an array
-*/
+ * Takes a list of timeslots and teams and assigns them according to their prefrences.
+ * Populates the teams array in the timeslots based on the teams prefrences.
+ * @param {Array|Team} teamL                         List of teams, stored as an array
+ * @param {Array|Time_Slot} slotsL                   List of time slots, stored as an array
+ * @returns {undefined}
+ */
 function Assign_Teams(teaml, slotsl) {
 
   n = 0;
@@ -160,6 +163,7 @@ function Assign_Teams(teaml, slotsl) {
 * Takes a timeslot and matches the teams against eachother.
 * Matches 3-5 teams against each other over 5 weeks. Includes byes if nessecary
 * @param {Team} timeslot                      timeslot. Will access the group of teams
+* @returns {undefined}
 */
 function Games(timeslot) {
   var numTeams = timeslot.teams.length;
@@ -272,29 +276,13 @@ function getDateTime(week, day, time, startYear, startMonth, startDay) {
       + add0(d.getUTCMinutes())+':'
       + add0(d.getUTCSeconds())+'Z';
 
-  /*
-  var daysInApril = 30;
-  var daysInMay = 31;
-  if (date <= daysInApril) month = 4;
-  else if (date <= (daysInApril + daysInMay)) {
-    month = 5; //advance month
-    date = date - daysInApril; //set day to exclude the april days
-  } else {
-    month = 6; // June
-    date = date - (daysInApril + daysInMay);
-  }
-
-  dateString = "2014-0" + month;
-  if (date < 10) {
-    dateString = dateString + "-0" + date + "T"
-  } else dateString = dateString + "-" + date + "T";
-  //date all set
-
-  //start time
-  var temp = parseInt(time);
-  dateString = dateString + (temp + 12) + ":00:00-06:00"
-  return dateString;*/
 }
+
+/**
+ * Sends a single team to the database
+ * @param {Team} team       Team to be added
+ * @returns {Boolean}       True if success
+ */
 function update(team){
     var Teamdata = Parse.Object.extend("Teamdata");
     var teamdata = new Parse.Query(Teamdata);
@@ -327,6 +315,12 @@ function update(team){
     }
     return true;
 }
+
+/**
+ * Sends the results of the scheduling function to the database
+ * @param {Array|Team}         The list of teams assigned by the scheduling function
+ * @returns {Boolean}          True on success
+ */
 function updates(teamlist){
     var x;
     for (var i =0; i < teamlist.length;i++){

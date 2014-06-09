@@ -1,39 +1,30 @@
-// This javascript will have to be server side in the final product,
-// since it gives away the information needed to access the calendar
-// Except for refreshing the calendar, it works independent of the page
-
-var calDisplay = false;
+/**
+ * Indicates the total number of games assigned by the scheduling function
+ * @type Number|Number
+ */
 var totalGames = 0;
+/**
+ * Indicates total submissions to the calendar
+ * @type Number|Number
+ */
 var eventsSubmitted = 0;
+/**
+ * Set to false to prevent user from clicking button again
+ * @type Boolean|Boolean|Boolean
+ */
 var submissionComplete = true;
-// Game parameters; presumably handed by scheduling function
-var game = "Game";
-var loc = "Location";
-var desc = "Description";
-var start = "2014-05-18";
-var end = "2014-05-19";
 
-// Note that I'm currently hosting the calendar with my email address;
-// We can change this if need be
-var calendarID = 'primary'; //"lukeolney@gmail.com";
+/**
+ * Identifies the calendar ID used for all operations on this page
+ * @type String
+ */
+var calendarID = 'primary';
 
-
-function toggleCal() {
-  var cal = document.getElementById("calendar");
-
-  if (calDisplay) {
-    calDisplay = false;
-    cal.style.display = "none";
-  } else {
-    calDisplay = true;
-    cal.style.display = "block";
-  }
-}
-
-/*
+/**
  * Autheticates our application for accessing Google API
  * More information:
  * http://googleappsdeveloper.blogspot.com/2011/12/using-new-js-library-to-unlock-power-of.html
+ * @returns {undefined}
  */
 function init() {
 
@@ -73,9 +64,11 @@ function init() {
 }
 
 
-/*
-Clear the calendar
-*/
+/**
+ * Clear the calendar
+ * @param {type} calName    Name ("summary" in Google Calendar terms) of calendar to be cleared
+ * @returns {undefined}
+ */
 function clearCal(calName) {
 
 
@@ -102,8 +95,9 @@ function clearCal(calName) {
 
 };
 
-/*
- *
+/**
+ *  Creates a progress bar and text indicating status of operation
+ *  Adds to page after summit button
  * @param {elementID} adminAssign       Node after which elements are to be inserted
  * @returns {undefined}
  */
@@ -127,7 +121,7 @@ function createProgressText(adminAssign) {
 
 }
 
-/*
+/**
  * Removes all text or elements created by any previous calls of adminAssign
  * @returns {undefined}
  */
@@ -148,13 +142,14 @@ function removeText() {
 }
 
 
-/*
+/**
  * Inserts an event into the calendar
  * @param game    Title of the game (displaces as summary in calendar interface)
  * @param loc     Location
  * @param desc    Description
  * @param start   Start time
  * @param end     End time
+ * @returns {undefined}
  */
 function makeApiCall(game, loc, desc, start, end) {
 
@@ -193,11 +188,13 @@ function makeApiCall(game, loc, desc, start, end) {
 }
 
 var attempts = 0;
-/*
+
+/**
  * Requests the list of the user's calendars,
  * then sets calendarID to the id of the calendar whose
  * description matches calName
  * @param   calName     Description of the calendar to be set
+ * @returns {undefined}
  */
 function getCalendarId(calName) {
 
@@ -235,10 +232,11 @@ function getCalendarId(calName) {
 
 }
 
-/*
+/**
  * Entry point for calendar submission
  * Takes value of leagueselect, then makes changes to the correct calendar
  * based on the sport selected
+ * @returns {undefined}     
  */
 function setCalendar() {
   // Prevent user from clicking button again until submssion complete
@@ -267,7 +265,7 @@ function setCalendar() {
   }
 }
 
-/*
+/**
  * Deletes (non-primary) calendar of the given ID, then creates another by the same name
  * Used to clear non-primary calendars
  * @param {String} calID       ID of calendar to be deleted
@@ -301,10 +299,11 @@ function deleteCal(calID, calName) {
   });
 }
 
-/*
+/**
  * Creates a calendar with the given name
  * Calls admin assign to populate
  * @parma calName          Name of calendar to be created
+ * @returns {undefined}
  */
 function createCal(calName) {
   if (attempts == 3) attempts = 0;
@@ -339,7 +338,7 @@ function createCal(calName) {
   });
 }
 
-/*
+/**
  * Sets tbe newly-created calendar to have public access
  * @param {type} calID      CalendarID
  * @returns {undefined}
@@ -373,8 +372,9 @@ function makePublic(calID){
   });
 }
 
-/*
+/**
  * Called on failure of calendar upload
+ * @returns {undefined}
  */
 function handleFail() {
   submissionComplete = true;
@@ -384,9 +384,10 @@ function handleFail() {
   text.innerHTML = "Failure to submit games";
 }
 
-/*
- * Submits the list of calendars to the database
- * @param {Array}   ids     Calendars ids
+/**
+ * Sends a list of calendar ids to the database
+ * @param {Array} ids       Calendar Ids (in the Google Calendar sense) to be added
+ * @returns {undefined}
  */
 function toDatabase(ids) {
 

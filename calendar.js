@@ -1,5 +1,7 @@
- /*
+ /**
   * Inserts the calendar into the page
+  * @param {Array} ids       List of calendar ids to include on calendar
+  * @returns {undefined}
   */
  function insertDiv(ids){
      var div = document.getElementById("calendar");
@@ -24,9 +26,10 @@
       div.innerHTML = iframe;
  }
  
- /*
+ /**
   * Replaces @ in string with %40, so that we can put it in the calendar iFrame
-  * @arg {String} string        string to be parsed
+  * @param {String} string      String to be parsed
+  * @returns {String}           The parsed string
   */
  function removeAt(string){
      var subs = string.split("@");
@@ -38,7 +41,10 @@
      }
  }
   
-
+/**
+ * Gets the calendar ids from the database so that they can be displayed on the calendar
+ * @returns {undefined}
+ */
 function pullFromDatabase(){
     var ids;
     Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
