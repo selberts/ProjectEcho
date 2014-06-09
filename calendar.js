@@ -16,7 +16,7 @@
           iframe +="&amp;src=";
           iframe +=ids[i];
           iframe +="&amp;color=%23";
-          iframe += colors[randInt(0, colors.length-1)];
+          iframe += colors[i%colors.length];
       } 
       iframe +=  "&amp;ctz=America%2FWinnipeg'";
       iframe += "style='border-width:0' width='800' height='600' frameborder='0' scrolling='no'></iframe>";
