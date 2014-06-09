@@ -13,7 +13,7 @@ function LoadTeams(callb) {
     // Find all the tuples in the table
     var leagueSelect = document.getElementById("leagueselect").value;
     query.equalTo("league", leagueSelect);
-    query.ascending("name");
+    query.ascending("team_name");
     // Get the results set of the query
     var teamlist = [];
     query.find().then(function(results) { //the results set can only be accessed in this function!!!

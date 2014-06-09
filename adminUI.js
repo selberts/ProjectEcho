@@ -109,7 +109,7 @@ function submitTimeSlots() {
     query.equalTo("time",timeslots.get("time"));
     query.find().then(function(results){
         if(results.length>0){
-          alert(day+" "+time+" already exist");
+          alert(day+" "+time+" already exists");
         }else{
           timeslots.save();
           alert("Timeslots successfully added.");
