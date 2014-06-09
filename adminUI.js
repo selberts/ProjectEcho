@@ -406,8 +406,8 @@ function createYearSelect(){
  * @return {select} select generated
  */
 function createStartMonthSelect(){
-    var months = ["April","January","February","March","May","June","July","August","September","October","November","December"];
-    var monthIndices = [4,1,2,3,5,6,7,8,9,10,11,12];
+    var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    var monthIndices = [1,2,3,4,5,6,7,8,9,10,11,12];
     
     var select = document.createElement("select");
     select.id = "startMonthSelect";
@@ -417,6 +417,7 @@ function createStartMonthSelect(){
           var opt = document.createElement("option");
             opt.value = monthIndices[i];
             opt.innerHTML = months[i];
+            if(monthIndices[i] == 6) opt.selected = "selected"; //default
             select.appendChild(opt);
     }
     
