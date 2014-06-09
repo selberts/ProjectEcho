@@ -90,7 +90,7 @@ function gettimeslots(callb){
 * @param {element} add the selection element to be added to the page 
 * 
 */
-function createPref(add){
+function createPref(add, timeslots){
 	var form = document.getElementById('team_info');
 	var button = document.getElementById('addpref');
             
@@ -102,8 +102,7 @@ function createPref(add){
 	form.insertBefore(div, button);
 
 	prefNum++;
-
-	if(prefNum == 3) button.style.display = 'none';
+	if(prefNum>=timeslots.length) button.style.display = 'none';
 }
 
 /**
@@ -111,7 +110,7 @@ function createPref(add){
 * @param {int} prefNum                         Preference number
 * @param {array} timeslots		       Array of timeslots to be added to selection
 * @param {function} callb		       A call back function, createPref
-* @returns {function} callb(select)            A function to add the element to the page
+* @returns {function} callb(select, timeslots) A function to add the element to the page
 */
 function createSelect(prefNum, timeslots, callb){
 	var select = document.createElement("select");
@@ -124,7 +123,7 @@ function createSelect(prefNum, timeslots, callb){
 		opt.innerHTML = timeslots[i].day +"s at " + timeslots[i].time;
 		select.appendChild(opt);
 	}
-	return callb(select);
+	return callb(select, timeslots);
 }
 
 /**
