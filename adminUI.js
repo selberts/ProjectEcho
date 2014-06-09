@@ -406,8 +406,8 @@ function createYearSelect(){
  * @return {select} select generated
  */
 function createStartMonthSelect(){
-    var months = ["April","October","January"];
-    var monthIndices = [4,10,1];
+    var months = ["April","January","February","March","May","June","July","August","September","October","November","December"];
+    var monthIndices = [4,1,2,3,5,6,7,8,9,10,11,12];
     
     var select = document.createElement("select");
     select.id = "startMonthSelect";
