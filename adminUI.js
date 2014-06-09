@@ -228,7 +228,7 @@ function createTimeSelect(prefNum) {
 }
 
 /**
-* Creates a select with values for each of the court preferenct choices
+* Creates a select with values for each of the court preference choices
 * @param {int} prefNum                         Preference number
 * @returns {createCourtSelect.select|Element}   Select created
 */
@@ -265,8 +265,9 @@ function createDaySelect(prefNum) {
   return select;
 }
 /**
- * Generates the current list of time slots for the Admin to view.
- * @returns
+ * Removes the first child of the curts div which is used to display the current timeslots
+ * @param NA
+ * @returns NA
  */
 function remo() {
     var div = document.getElementById('curts');
@@ -276,6 +277,12 @@ function remo() {
     }
     
 }
+/**
+ * Adds the timeslots to a table and appends the table to the page.
+ * @param {array} timeslots An array of timeslots to be added
+ * @returns NA
+ **/
+
 function showtimeslots(timeslots){
   console.log("trying");
   remo();
@@ -304,6 +311,13 @@ function showtimeslots(timeslots){
   table.style="width:300px"
   div.appendChild(table);
 }
+/**
+ * Loads the current timeslots for the league selected and adds them to an array
+ * which is passed to a call back function that creates the table and appends them
+ * to the page
+ * @param {function} callb                A callback function, showtimeslots
+ * @returns {function} callb(timeslotsl)  Passes the timeslot list to the callback function 
+ */
 function LoadTimeS(callb) {
     Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
     var Timeslots = Parse.Object.extend("Timeslots");
@@ -330,37 +344,27 @@ function LoadTimeS(callb) {
       return callb(timeslotl);
     });
 }
-
+/**
+ * creates the league select 
+ */
 function createLeagueSelect2(){
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
-  //var select = document.getElementById("leagueselect");
-        
-        
-  //var div = document.getElementById("dg");
-  //div.appendChild(select);
-
-        // Select the table Teamdata in the database
   var League = Parse.Object.extend("League");
   // Prepare a query
   var query = new Parse.Query(League);
   // Find all the tuples in the table
         query.equalTo("type", "league");
         // Get the results set of the query
-        query.find().then(function(results) { //the results set can only be accessed in this function!!!
-          
+        query.find().then(function(results) { //the results set can only be accessed in this function!!! 
         var select = document.getElementById("leagueselect");
               for(var i=0;i<results.length;i++){
                 var object = results[i];
-                
                 var opt = document.createElement("option");
-          opt.value = object.get("name");
-          opt.innerHTML = object.get("name");
-          select.appendChild(opt);
-
+                opt.value = object.get("name");
+                opt.innerHTML = object.get("name");
+                select.appendChild(opt);
               }
-              
-      
-       });
+        });
 }
 
 function insertStartDateSelects(){
