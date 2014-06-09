@@ -49,6 +49,7 @@ function passwordCheck(pwd) {
  */
 function Succeed() {
   showtimeslots(timeslots);
+  insertStartDateSelects();
   var passform = document.getElementById('password');
   var adminDiv = document.getElementById('secretAdminDiv');
   
@@ -328,6 +329,24 @@ function createLeagueSelect2(){
        });
 }
 
+function insertStartDateSelects(){
+        var button = document.getElementById("adminAssign");
+        
+        var text = document.createElement("div");
+        text.innerHTML = "Choose the day that games start";
+        
+        var div = document.createElement("div");
+        div.style.display = 'block';
+        div.id = "startDateSelects";
+        div.appendChild(createYearSelect());
+        div.appendChild(createStartMonthSelect());
+        
+        button.parentNode.insertBefore(text, button);
+        button.parentNode.insertBefore(div, button);
+        
+        div.appendChild(createStartDaySelect("startDaySelect"));
+}
+
 /*
  * Generates select to choose start year to schedule
  * @return {select} select generated
@@ -335,9 +354,11 @@ function createLeagueSelect2(){
 function createYearSelect(){
     var d = new Date(Date.now());
     var startYear = d.getFullYear();
-    var select = document.createElement("startYearSelect");
+    var select = document.createElement("select");
+    select.id = "startYearSelect";
+    select.onchange = updateStartDaySelect;
     
-    for(var i=startYear; i<4; i++){
+    for(var i=startYear; i<startYear+4; i++){
         var opt = document.createElement("option");
         opt.value = i;
         opt.innerHTML = i;
@@ -353,13 +374,16 @@ function createYearSelect(){
  * @return {select} select generated
  */
 function createStartMonthSelect(){
-    var months = ["October","January","April"];
+    var months = ["April","October","January"];
+    var monthIndices = [4,10,1];
     
-    var select = document.createElement("startMonthSelect");
+    var select = document.createElement("select");
+    select.id = "startMonthSelect";
+    select.onchange = updateStartDaySelect;
     
     for(var i=0; i<months.length; i++){
           var opt = document.createElement("option");
-            opt.value = months[i];
+            opt.value = monthIndices[i];
             opt.innerHTML = months[i];
             select.appendChild(opt);
     }
@@ -372,38 +396,39 @@ function createStartMonthSelect(){
  * Only inserts Sundays
  * @return {select} select generated
  */
-function createStartDaySelect(){
-    var monthSelect = document.getElementById("startMonthSelect");
-    var month; 
-    if(monthSelect) month = sel.options[sel.selectedIndex].value;
-    else month = "April";
+function createStartDaySelect(id){
+    var sel = document.getElementById("startMonthSelect");
+    var month = sel.options[sel.selectedIndex].value;
     
-    var year = 2014;
-    
-    switch(month){
-        case "October":
-            month = 10;
-        case "January":
-            month = 1;
-        case "April":
-            month = 4;
-    }
-    
-    var d;
-    var select = document.createElement("startDaySelect");
+    sel = document.getElementById("startYearSelect");
+    var year = sel.options[sel.selectedIndex].value;
+        
+    var select = document.createElement("select");
+    select.id = id;
 
-    for(var i=0; i<30; i++){
-        d = new Date(year, month, i, 12, 0, 0, 0);
+    for(var i=1; i<=30; i++){
+        var d = new Date(year, month-1, i, 12, 0, 0, 0);
         var day = d.getUTCDay(); //day of the week, 0 - 6; 0 is Sunday
+        
         if(day == 0){
-            d.getUTCDate()
             var opt = document.createElement("option");
-            opt.value = day;
-            opt.innerHTML = day;
+            opt.value = d.getUTCDate();
+            opt.innerHTML = d.getUTCDate();
             select.appendChild(opt);
         }
-        
     }
     
     return select;
+}
+
+/**
+ * Updates the startDaySelect (callback for year and month selects)
+ * @returns {undefined}
+ */
+function updateStartDaySelect(){
+    
+    var oldSelect = document.getElementById("startDaySelect");
+    oldSelect.parentNode.replaceChild(createStartDaySelect("temp"), oldSelect);
+    document.getElementById("temp").id = "startDaySelect";
+    
 }

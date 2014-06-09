@@ -215,10 +215,19 @@ function Games(timeslot) {
   }
   
   for (var x = 0; x < timeslot.games.length; x++) {
+    var sel = document.getElementById("startMonthSelect");
+    var month = sel.options[sel.selectedIndex].value;
+    
+    sel = document.getElementById("startDaySelect");
+    var day = sel.options[sel.selectedIndex].value;
+    
+    sel = document.getElementById("startYearSelect");
+    var year = sel.options[sel.selectedIndex].value;
+    
     var intTime=parseInt(timeslot.time);
     name = timeslot.teams[timeslot.games[x].team1id - 1].team_name + " vs " + timeslot.teams[timeslot.games[x].team2id - 1].team_name;
-    var s = getDateTime(timeslot.games[x].week, timeslot.day, intTime, 3, 6);
-    var e = getDateTime(timeslot.games[x].week, timeslot.day, intTime+1, 3, 6);
+    var s = getDateTime(timeslot.games[x].week, timeslot.day, intTime, year, month-1, day);
+    var e = getDateTime(timeslot.games[x].week, timeslot.day, intTime+1, year, month-1, day);
     totalGames++;
     makeApiCall(name, timeslot.games[x].court, "", s, e);
     //2014-05-19T20:00:00-06:00
@@ -234,12 +243,15 @@ function Games(timeslot) {
 * @param {int} week                     week the game is played RANGE[1-5]
 * @param {string} day                   day from the timeslot
 * @param {int} time                     time will be 5-8 but refers to PM
+* @param {int} startYear                Year in which games will take place
 * @param {int} startMonth               0-indexed int corresponding to month
 * @param {int} startDay                 First day of games
 * @return {string}                      returns the date and time in the format needed to add to the calendar
 */
-function getDateTime(week, day, time, startMonth, startDay) {
-  
+function getDateTime(week, day, time, startYear, startMonth, startDay) {
+ 
+  startYear = parseInt(startYear);
+  startDay = parseInt(startDay);
   week--; // week is now zero indexed
   //date is the offset from April 6, the first day of games. 
   if (day == "Monday") date = startDay + 1;
