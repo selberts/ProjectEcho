@@ -321,7 +321,8 @@ function createCal(calName) {
       if (resp.id) {
         console.log("Calendar " + calName + " added");
         calendarID = resp.id;
-
+        makePublic(calendarID);
+        
         var sel = document.getElementById('leagueselect');
         var league = sel.options[sel.selectedIndex].value;
 
@@ -339,6 +340,40 @@ function createCal(calName) {
 }
 
 /*
+ * Sets tbe newly-created calendar to have public access
+ * @param {type} calID      CalendarID
+ * @returns {undefined}
+ */
+function makePublic(calID){
+    var acl = {
+        "role": "reader",
+        "scope": {
+            "type": "default"
+        }
+    };
+    
+    gapi.client.load('calendar', 'v3', function() {
+    var request = gapi.client.calendar.acl.insert({
+      "calendarId": calID,
+      "resource": acl
+    });
+
+    request.execute(function(resp) {
+      if (resp.id) {
+        console.log("Calendar " + calID + " set to public");
+      } else {
+        console.log(resp.message);
+        //try again
+        if (attempts < 3) {
+          makePublic(calID);
+          attempts++;
+        }
+      }
+    });
+  });
+}
+
+/*
  * Called on failure of calendar upload
  */
 function handleFail() {
@@ -349,7 +384,10 @@ function handleFail() {
   text.innerHTML = "Failure to submit games";
 }
 
-
+/*
+ * Submits the list of calendars to the database
+ * @param {Array}   ids     Calendars ids
+ */
 function toDatabase(ids) {
 
   var Leagues = Parse.Object.extend("League");
@@ -357,21 +395,22 @@ function toDatabase(ids) {
   league.find().then(function(results) {
     for (var ii = 0; ii < ids.length; ii++) {
       object = results[ii];
-      
-      object.save(null, {
-          success: function(league) {
-                object.set("calID", ids[ii]);
-                object.save();
-            }
-          , error:  function(model, error) {
+      console.log("Saving " + ids[ii] + " to " + results[ii]);
+      object.set("calID", ids[ii]);
+      object.save(null,{success: function(object) {
+                    console.log(ids[ii] + "successfully saved");
+            }}
+          , {error:  function(model, error) {
               console.log("Error for "  + ids[ii] + ": " + error.code);
-          }
-      });
+          }});
     }
   });
 }
 
-
+/**
+ * Retrieves the list of calendars of the user
+ * @returns {undefined}
+ */
 function getCalendarList() {
   var ids = new Array();
   gapi.client.load('calendar', 'v3', function() {
