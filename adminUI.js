@@ -293,6 +293,9 @@ function showtimeslots(timeslots){
       next++;
     }
   }
+  if (next == 1) {
+      table.appendChild(row);
+    }
   table.border="1";
   table.style="width:300px"
   div.appendChild(table);
