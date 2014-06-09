@@ -50,7 +50,6 @@ function saveTeam(){
         		
         	}
         });
-        /*
 	teamdata.save({team_name: name , type:"team" , pref_days:pref_days , pref_times:pref_times, league: leagueSelect}).then(function(object) {
 		console.log("Team successfully added.");
 		var success = document.createElement("div");
@@ -59,7 +58,6 @@ function saveTeam(){
 		success.style.display = 'block';
 		loc.appendChild(success);
 	});
-	*/
 
 	return false;
 }
