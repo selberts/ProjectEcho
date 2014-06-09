@@ -1,13 +1,13 @@
 var days = ["Sunday", "Monday","Tuesday","Wednesday","Thursday"]
 
 /**
-@author projectcho
-@description This function generates team data for testing the functions for the scheduling app.
-@param {integer} num_teams The number of teams to generate
-@param {integer} num_prefs The number of preferences to generate per team
-@param {integer} num_slots The number of time slots to generate
-@returns {JSON}
-
+*@author projectcho
+*@description This function generates team data for testing the functions for the scheduling app.
+*@param {integer} num_teams The number of teams to generate
+*@param {integer} num_prefs The number of preferences to generate per team
+*@param {integer} num_slots The number of time slots to generate
+*@returns {JSON}
+*
 */
 function maketeams(num_teams, num_prefs, slots){
 	var team_list = []; //initialize empty array, this will be our output
@@ -34,10 +34,10 @@ function maketeams(num_teams, num_prefs, slots){
 
 
 /**
-@author projectcho
-@description This function generates dummy timeslot data for testing the functions for the scheduling app.
-@returns {JSON}
-
+*@author projectcho
+*@description This function generates dummy timeslot data for testing the functions for the scheduling app.
+*@returns {JSON}
+*
 */
 function makeslots() {
 timeslot_list = []
