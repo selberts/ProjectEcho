@@ -170,14 +170,20 @@ function Games(timeslot) {
   var errorString = "";
   var div = document.createElement("div");
   var adminText = document.getElementById("adminText");
-  
+
   timeslot.games = [];
-  if (numTeams < 3) { // need at least 4 teams to start. Otherwise, timeslot will not be used. 
-    errorString = "Not Enough Teams (" + numTeams + ") in " + timeslot.day+" at "+timeslot.time;
-        var text = document.createElement("div");
-        text.innerHTML = errorString;
-        text.style.display = "block";
-        div.appendChild(text);
+  if (numTeams < 2) { // need at least 4 teams to start. Otherwise, timeslot will not be used. 
+    errorString = "Not Enough Teams (" + numTeams + ") in " + timeslot.day + " at " + timeslot.time;
+    var text = document.createElement("div");
+    text.innerHTML = errorString;
+    text.style.display = "block";
+    div.appendChild(text);
+  }else if (numTeams==2){
+    timeslot.games[0] = new game(1, 1, 2, 1, 1)
+    timeslot.games[1] = new game(2, 1, 2, 2, 1)
+    timeslot.games[2] = new game(3, 1, 2, 3, 1)
+    timeslot.games[3] = new game(4, 1, 2, 4, 1)
+    timeslot.games[4] = new game(5, 1, 2, 5, 1)
   } else if (numTeams == 3) {
     timeslot.games[0] = new game(1, 1, 2, 1, 1)
     timeslot.games[1] = new game(2, 1, 3, 2, 1)

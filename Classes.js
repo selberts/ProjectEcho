@@ -30,7 +30,7 @@ function Time_Slot(id, time, day, courts) {
     this.time = time;
     this.day = day;
     this.courts = courts;
-    this.capacity = courts*2;
+    this.capacity = courts*2+1;
     this.teams = [];
     this.games = []; // all games in this timeslot.
 }
