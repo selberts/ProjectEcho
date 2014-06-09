@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: register.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: register.js</h1>
+
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+var prefNum = 0;
+createLeagueSelect();
+var TimeSlots;
+
+/**
+ * Checks to see if the team being registered has entered preferences. If
+ * not, returns with an error messsage. Otherwise it
+ * Saves the team that is being registered to the database.
+ * 
+ * @returns boolean false
+*/
+function saveTeam(){
+	console.log("Prefnum: " + prefNum);
+	if(prefNum &lt; 1) {
+	alert("You need to add add least one preference");
+	return false;
+	}
+	var leagueSelect = document.getElementById("leagueselect").value;
+	var pref_times = new Array();
+	var pref_days = new Array();                
+	var name = document.getElementById("name").value;
+	var timeSelects = document.getElementsByName("prefTime");
+
+	for (var i=0; i&lt;timeSelects.length; i++){
+		var num = timeSelects[i].selectedIndex;
+		pref_times.push(TimeSlots[num].time);
+		pref_days.push(TimeSlots[num].day);
+	}
+
+	var Teamdata = Parse.Object.extend("Teamdata");
+	var teamdata = new Teamdata();
+
+	teamdata.save({team_name: name , type:"team" , pref_days:pref_days , pref_times:pref_times, league: leagueSelect}).then(function(object) {
+		console.log("Team successfully added.");
+		var success = document.createElement("div");
+		var loc = document.getElementById('dg');
+		success.innerHTML = "Team successfully added.";
+		success.style.display = 'block';
+		loc.appendChild(success);
+	});
+
+	return false;
+}
+
+
+/**
+* Retrieves the timeslots from the database based on selection of league for the purposes of generating
+* a selection dropdown for timeslot preferences
+* @argument callb a callback function to be executed after this function, Create Select.
+* 
+* @returns callb a callback function with prefNum, timeslots, and the creatPref function as an input 
+*/
+function gettimeslots(callb){
+	console.log("running gettimeslots");
+	// Insert the key to connect with the Parse system
+	Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+	// Select the table Timeslots in the database
+	var Timeslots = Parse.Object.extend("Timeslots");
+	// Prepare a query
+	var query = new Parse.Query(Timeslots);
+	var leagueSelect = document.getElementById("leagueselect").value;
+	// Find all the tuples in the table
+	query.equalTo("league", leagueSelect);
+	// Get the results set of the query
+	var timeslots = new Array();
+	query.find().then(function(results){   //the results set can only be accessed in this function!!!
+
+		for(var i=0;i&lt;results.length;i++){
+			var object = results[i];
+			var day = object.get("day");
+			var time = object.get("time");
+			var courts = object.get("courts");
+			var timeslot = new Time_Slot(i, time, day, courts);
+			timeslots.push(timeslot);
+		}
+	
+		timeslots = JSON.parse(JSON.stringify(timeslots));
+		console.log(timeslots);
+		TimeSlots = timeslots;
+		return callb(prefNum, timeslots, createPref);
+	});
+
+	
+};
+
+
+/**
+* Adds div into form to select one more preference.
+* @param {element} add the selection element to be added to the page 
+* 
+*/
+function createPref(add, timeslots){
+	var form = document.getElementById('team_info');
+	var button = document.getElementById('addpref');
+            
+	var div = document.createElement("div");
+        div.className = 'selectsDiv';
+	div.style.display = 'block';
+	div.appendChild(add);
+	div.firstChild.classList.add('form-control');
+	form.insertBefore(div, button);
+
+	prefNum++;
+	if(prefNum>=timeslots.length) button.style.display = 'none';
+}
+
+/**
+* Creates a select with values for each of the timeslot preference choices
+* @param {int} prefNum                         Preference number
+* @param {array} timeslots		       Array of timeslots to be added to selection
+* @param {function} callb		       A call back function, createPref
+* @returns {function} callb(select, timeslots) A function to add the element to the page
+*/
+function createSelect(prefNum, timeslots, callb){
+	var select = document.createElement("select");
+	select.name = "prefTime";
+	select.classList.add('form-control');
+
+	for (var i = 0; i &lt; timeslots.length; i++){
+		var opt = document.createElement('option');
+		opt.value = timeslots[i].day +"s at " + timeslots[i].time;
+		opt.innerHTML = timeslots[i].day +"s at " + timeslots[i].time;
+		select.appendChild(opt);
+	}
+	return callb(select, timeslots);
+}
+
+/**
+ * Loads the options for league and appends them to a select HTML element
+ * which is then added to the page
+ * @argument NA
+ * @returns NA
+ */
+function createLeagueSelect(){
+	var form = document.getElementById('team_info');
+	var button = form.firstElementChild;	
+	var select = document.createElement("select");
+        select.id = "leagueselect";
+        select.classList.add('form-control');
+        select.style = "margin-bottom: 10px;";
+        select.onchange = removeTimeSlotSelects;
+	form.insertBefore(select, button);
+
+        // Select the table Teamdata in the database
+	var League = Parse.Object.extend("League");
+	// Prepare a query
+	var query = new Parse.Query(League);
+	// Find all the tuples in the table
+        query.equalTo("type", "league");
+        // Get the results set of the query
+        query.find().then(function(results) { //the results set can only be accessed in this function!!!
+		  	  
+        var select = document.getElementById("leagueselect");
+              for(var i=0;i&lt;results.length;i++){
+              	var object = results[i];
+              	
+              	var opt = document.createElement("option");
+			    opt.value = object.get("name");
+			    opt.innerHTML = object.get("name");
+			    select.appendChild(opt);
+
+              }	    
+       });
+}
+
+/**
+ * Removes all the time selects and re-adds the button if it is hidden
+ * @returns {undefined}
+ */
+function removeTimeSlotSelects(){
+	prefNum = 0;
+        var selects = document.getElementsByClassName("selectsDiv");
+        
+        var elem;
+	while(selects.length != 0){
+                elem = selects[0];
+		elem.parentNode.removeChild(elem);
+	}
+        
+        var button = document.getElementById('addpref');
+        button.style.display = 'inline';
+        
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#adminAssign">adminAssign</a></li><li><a href="global.html#Assign_Teams">Assign_Teams</a></li><li><a href="global.html#calendarID">calendarID</a></li><li><a href="global.html#clearCal">clearCal</a></li><li><a href="global.html#createCal">createCal</a></li><li><a href="global.html#createCourtSelect">createCourtSelect</a></li><li><a href="global.html#createDaySelect">createDaySelect</a></li><li><a href="global.html#createLeagueSelect">createLeagueSelect</a></li><li><a href="global.html#createLeagueSelect2">createLeagueSelect2</a></li><li><a href="global.html#createPref">createPref</a></li><li><a href="global.html#createProgressText">createProgressText</a></li><li><a href="global.html#createSelect">createSelect</a></li><li><a href="global.html#createStartDaySelect">createStartDaySelect</a></li><li><a href="global.html#createStartMonthSelect">createStartMonthSelect</a></li><li><a href="global.html#createtable">createtable</a></li><li><a href="global.html#createTimeSelect">createTimeSelect</a></li><li><a href="global.html#createTS">createTS</a></li><li><a href="global.html#createYearSelect">createYearSelect</a></li><li><a href="global.html#deleteCal">deleteCal</a></li><li><a href="global.html#eventsSubmitted">eventsSubmitted</a></li><li><a href="global.html#game">game</a></li><li><a href="global.html#Games">Games</a></li><li><a href="global.html#getCalendarId">getCalendarId</a></li><li><a href="global.html#getCalendarList">getCalendarList</a></li><li><a href="global.html#getDateTime">getDateTime</a></li><li><a href="global.html#gettimeslots">gettimeslots</a></li><li><a href="global.html#handleFail">handleFail</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#insertDiv">insertDiv</a></li><li><a href="global.html#insertStartDateSelects">insertStartDateSelects</a></li><li><a href="global.html#LoadTeams">LoadTeams</a></li><li><a href="global.html#LoadTimeS">LoadTimeS</a></li><li><a href="global.html#makeApiCall">makeApiCall</a></li><li><a href="global.html#makePublic">makePublic</a></li><li><a href="global.html#makeslots">makeslots</a></li><li><a href="global.html#maketeams">maketeams</a></li><li><a href="global.html#passwordCheck">passwordCheck</a></li><li><a href="global.html#pullFromDatabase">pullFromDatabase</a></li><li><a href="global.html#remo">remo</a></li><li><a href="global.html#removeAt">removeAt</a></li><li><a href="global.html#removeDuplicate">removeDuplicate</a></li><li><a href="global.html#removeText">removeText</a></li><li><a href="global.html#removeTimeSlotSelects">removeTimeSlotSelects</a></li><li><a href="global.html#saveTeam">saveTeam</a></li><li><a href="global.html#setCalendar">setCalendar</a></li><li><a href="global.html#showtimeslots">showtimeslots</a></li><li><a href="global.html#submissionComplete">submissionComplete</a></li><li><a href="global.html#submitPass">submitPass</a></li><li><a href="global.html#submitTimeSlots">submitTimeSlots</a></li><li><a href="global.html#Succeed">Succeed</a></li><li><a href="global.html#Team">Team</a></li><li><a href="global.html#Time_Slot">Time_Slot</a></li><li><a href="global.html#toDatabase">toDatabase</a></li><li><a href="global.html#totalGames">totalGames</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#updates">updates</a></li><li><a href="global.html#updateStartDaySelect">updateStartDaySelect</a></li><li><a href="global.html#waitFunction">waitFunction</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Mon Jun 09 2014 14:19:20 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
