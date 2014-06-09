@@ -30,7 +30,27 @@ function saveTeam(){
 
 	var Teamdata = Parse.Object.extend("Teamdata");
 	var teamdata = new Teamdata();
-
+        teamdata.set("team_name",name);
+        teamdata.set("type","team");
+        teamdata.set("pref_days",pref_days);
+        teamdata.set("pref_times",pref_times);
+        teamdata.set("league",leagueSelect);
+        var query=new Parse.Query(Teamdata);
+        query.equalTo("team_name", teamdata.get("team_name"));
+        query.find().then(function(results) {
+        	if(results.length>0){
+        		alert("Team name already exists!")
+        	}else{
+        		console.log("Team successfully added.");
+			var success = document.createElement("div");
+			var loc = document.getElementById('dg');
+			success.innerHTML = "Team successfully added.";
+			success.style.display = 'block';
+			loc.appendChild(success);
+        		
+        	}
+        });
+        /*
 	teamdata.save({team_name: name , type:"team" , pref_days:pref_days , pref_times:pref_times, league: leagueSelect}).then(function(object) {
 		console.log("Team successfully added.");
 		var success = document.createElement("div");
@@ -39,6 +59,7 @@ function saveTeam(){
 		success.style.display = 'block';
 		loc.appendChild(success);
 	});
+	*/
 
 	return false;
 }
