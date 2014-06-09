@@ -136,8 +136,8 @@ var removed = 0;
 
 /**
  * Removes Duplicate for time and day 
- * @param daySelects      a list of selected day
- * @param timeSelects     a list of selected time 
+ * @param {Array} daySelects      a list of selected days
+ * @param {Array} timeSelects     a list of selected times
  * @returns {bool}        whether the removal succeed
  */
 function removeDuplicate(daySelects, timeSelects) {
@@ -266,8 +266,7 @@ function createDaySelect(prefNum) {
 }
 /**
  * Removes the first child of the curts div which is used to display the current timeslots
- * @param NA
- * @returns NA
+ * @returns {undefined}
  */
 function remo() {
     var div = document.getElementById('curts');
@@ -277,12 +276,12 @@ function remo() {
     }
     
 }
+
 /**
  * Adds the timeslots to a table and appends the table to the page.
  * @param {array} timeslots An array of timeslots to be added
- * @returns NA
+ * @returns {undefined}
  **/
-
 function showtimeslots(timeslots){
   console.log("trying");
   remo();
@@ -311,6 +310,7 @@ function showtimeslots(timeslots){
   table.style="width:300px"
   div.appendChild(table);
 }
+
 /**
  * Loads the current timeslots for the league selected and adds them to an array
  * which is passed to a call back function that creates the table and appends them
@@ -344,8 +344,10 @@ function LoadTimeS(callb) {
       return callb(timeslotl);
     });
 }
+
 /**
- * creates the league select 
+ * Adds choices to the league select the league select 
+ * @returns {undefined}
  */
 function createLeagueSelect2(){
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
@@ -367,6 +369,11 @@ function createLeagueSelect2(){
         });
 }
 
+/**
+ * Appends the selects for selecting the date that games begin
+ * Adds before the adminAssign button
+ * returns {undefined}
+ */
 function insertStartDateSelects(){
         var button = document.getElementById("adminAssign");
         
@@ -385,7 +392,7 @@ function insertStartDateSelects(){
         div.appendChild(createStartDaySelect("startDaySelect"));
 }
 
-/*
+/**
  * Generates select to choose start year to schedule
  * @return {select} select generated
  */
@@ -407,7 +414,7 @@ function createYearSelect(){
     
 }
 
-/*
+/**
  * Generates select to choose start month for scheduling
  * @return {select} select generated
  */
@@ -429,7 +436,7 @@ function createStartMonthSelect(){
     return select;
 }
 
-/*
+/**
  * Generates select to choose start day for scheduling
  * Only inserts Sundays
  * @return {select} select generated
