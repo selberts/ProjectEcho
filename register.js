@@ -1,14 +1,14 @@
 Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
 var prefNum = 0;
-var days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-var times = [5,6,7,8];
 createLeagueSelect();
 var TimeSlots;
 
 /**
-* Callback function for form submission
-* Prepares name and pref_times, pref_days arrays for local storage
-* @returns {bool}  false signals page not to reload (ie, not sending info to webserve)
+ * Checks to see if the team being registered has entered preferences. If
+ * not, returns with an error messsage. Otherwise it
+ * Saves the team that is being registered to the database.
+ * 
+ * @returns boolean false
 */
 function saveTeam(){
 	console.log("Prefnum: " + prefNum);
@@ -45,9 +45,11 @@ function saveTeam(){
 
 
 /**
-* Adds preference selects (time, day) to form
-* Limited to 3 preferences 
-* @returns {JSON}
+* Retrieves the timeslots from the database based on selection of league for the purposes of generating
+* a selection dropdown for timeslot preferences
+* @argument callb a callback function to be executed after this function, Create Select.
+* 
+* @returns callb a callback function with prefNum, timeslots, and the creatPref function as an input 
 */
 function gettimeslots(callb){
 	console.log("running gettimeslots");
@@ -85,8 +87,8 @@ function gettimeslots(callb){
 
 /**
 * Adds div into form to select one more preference.
-* @param {}
-* @returns {}
+* @param {element} add the selection element to be added to the page 
+* 
 */
 function createPref(add){
 	var form = document.getElementById('team_info');
@@ -105,9 +107,11 @@ function createPref(add){
 }
 
 /**
-* Creates a select with values for each of the time preference choices
-* @param {int} prefNum                         Preference number                      
-* @returns {createTimeSelect.select|Element}   Select created
+* Creates a select with values for each of the timeslot preference choices
+* @param {int} prefNum                         Preference number
+* @param {array} timeslots		       Array of timeslots to be added to selection
+* @param {function} callb		       A call back function, createPref
+* @returns {function} callb(select)            A function to add the element to the page
 */
 function createSelect(prefNum, timeslots, callb){
 	var select = document.createElement("select");
@@ -124,24 +128,11 @@ function createSelect(prefNum, timeslots, callb){
 }
 
 /**
-* Creates a select with values for each of the day preference choices
-* @param {int} prefNum                         Preference number                      
-* @returns {createTimeSelect.select|Element}   Select created
-*/
-function createDaySelect(prefNum){
-	var select = document.createElement("select");
-	select.name = "prefDay";// + prefNum;
-
-	for (var i = 0; i < days.length; i++){
-		var opt = document.createElement('option');
-		opt.value = days[i];
-		opt.innerHTML = days[i];
-		select.appendChild(opt);
-	}
-
-	return select;
-}
-
+ * Loads the options for league and appends them to a select HTML element
+ * which is then added to the page
+ * @argument NA
+ * @returns NA
+ */
 function createLeagueSelect(){
 	var form = document.getElementById('team_info');
 	var button = form.firstElementChild;	
