@@ -2,16 +2,13 @@
 
 //$.getScript("register.js", function(){});
 createLeagueSelect2();
+var TimeSlotL = [];
 /**
  * Checks password against password in database
  * @param {String} pwd    Password
  * @returns {undefined}
  */
-var TimeSlotL = [];
 function passwordCheck(pwd) {
-
-
-
   Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
 
   // Select the table Teamdata in the database
@@ -30,17 +27,12 @@ function passwordCheck(pwd) {
         b = true;
       }
     }
-
     if (b) {
-
       Succeed();
-
     } else {
       alert("Incorrect password");
     }
-
   });
-
 }
 
 /**
@@ -123,13 +115,8 @@ function submitTimeSlots() {
           alert("Timeslots successfully added.");
         }
     });
-
-   
-    }// timeslots.push(new Time_Slot(i, time, day, 2));
-  
-
+    }
   return false;
-
 }
 var removed = 0;
 
