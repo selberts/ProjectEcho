@@ -177,7 +177,6 @@ var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
  * @returns {undefined}
  */
 function createTS() {
-  var form = document.getElementById('team_info');
   var button = document.getElementById('addpref');
 
   var remove = document.createElement("BUTTON");
@@ -192,7 +191,7 @@ function createTS() {
   div.appendChild(createDaySelect(prefNum));
   div.appendChild(createCourtSelect(prefNum));
   div.appendChild(remove);
-  form.insertBefore(div, button);
+  button.parentNode.insertBefore(div, button);
 
   prefNum++;
 }
