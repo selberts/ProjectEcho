@@ -1,12 +1,13 @@
 //Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
 
-$.getScript("register.js", function(){});
+//$.getScript("register.js", function(){});
 createLeagueSelect2();
 /**
  * Checks password against password in database
  * @param {String} pwd    Password
  * @returns {undefined}
  */
+var TimeSlotL = [];
 function passwordCheck(pwd) {
 
 
@@ -48,7 +49,6 @@ function passwordCheck(pwd) {
  * @returns {undefined}
  */
 function Succeed() {
-  showtimeslots(timeslots);
   var passform = document.getElementById('password');
   var adminDiv = document.getElementById('secretAdminDiv');
   
@@ -268,8 +268,17 @@ function createDaySelect(prefNum) {
  * Generates the current list of time slots for the Admin to view.
  * @returns
  */
+function remo() {
+    var div = document.getElementById('curts');
+    var child = div.firstElementChild;
+    if (child !== null) {
+       div.removeChild(child);
+    }
+    
+}
 function showtimeslots(timeslots){
   console.log("trying");
+  remo();
   console.log(timeslots);
   var div = document.getElementById('curts');
   var table = document.createElement("table");
@@ -294,6 +303,32 @@ function showtimeslots(timeslots){
   table.border="1";
   table.style="width:300px"
   div.appendChild(table);
+}
+function LoadTimeS(callb) {
+    Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
+    var Timeslots = Parse.Object.extend("Timeslots");
+    // Prepare a query
+    var query = new Parse.Query(Timeslots);
+    // Find all the tuples in the table
+    var leagueSelect = document.getElementById("leagueselect").value;
+    query.equalTo("league", leagueSelect);
+    query.ascending("day");
+    // Get the results set of the query
+    var timeslotl = [];
+    query.find().then(function(results) { //the results set can only be accessed in this function!!!
+        for (var i = 0; i < results.length; i++) {
+        var object = results[i];
+        var day = object.get("day");
+        var time = object.get("time");
+        var courts = object.get("courts");
+        var id = object.id;
+        var timeslot = new Time_Slot(id, time, day, courts);
+        timeslotl.push(timeslot);
+      }
+      timeslotl = JSON.parse(JSON.stringify(timeslotl));
+      console.log(timeslotl);
+      return callb(timeslotl);
+    });
 }
 
 function createLeagueSelect2(){

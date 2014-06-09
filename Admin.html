@@ -67,6 +67,9 @@
         </form>
         
         <div id="secretAdminDiv" style="display: none">
+            <h3>EDIT TIME SLOTS</h3>
+            <h4>Select a League</h4>
+            <select id = "leagueselect" class = "form-control"></select><input type="button" id="addpref" style="display: inline-block" value="View/Edit Selection" onclick="LoadTimeS(showtimeslots)"/>
             <h4>Current Timeslots</h4>
             <div id = "curts"></div>
             
@@ -74,8 +77,7 @@
             <form id="team_info" onsubmit="return submitTimeSlots()">
               <Label>Time</Label><Label style="text-indent: 5em;"> Day</Label><Label style="text-indent: 1em;"> Number of Courts</Label>
               </br><input type="button" id="addpref" value="Add New Timeslot" onclick="createTS()" class="btn btn-default"/></br>
-              <div class="form-group">
-              </br><label class="control-label">League</label><select id = "leagueselect" class = "form-control"></select></div>
+              
               </br><input type="submit" class="btn btn-default" value="Submit">
             </form>
             
