@@ -58,7 +58,8 @@ function createtable(teamlist){
     remo();
     var div = document.getElementById('curts');
     var table = document.createElement("table");
-    table.classList.add("table table-striped");
+    table.classList.add("table");
+    table.classList.add("table-striped");
     table.id = 'tab';
     var row = document.createElement("tr");
     var head1 = document.createElement("td");
