@@ -71,37 +71,28 @@
         </form>
         <input type="button" value="Show Calendar" name="showCal" onclick="toggleCal()"/>
         <input type="button" value="Add mock event" name="addEvent" onclick="init()"/> -->
-        <p> Enter your preferred times, with most preferred first.
+        <p id = 't'>Please Select a League First, Then enter a Team name.</p>
+	
         <form id="team_info" style="display: inline-block" class="form-horizontal" onsubmit="return saveTeam()">
           <div class="form-group">
-          <div>
+          <div id='t'>
             <input type="text" class="form-control" id="name" placeholder="Team Name">
           </div>
+	  <p> Click the button below to add scheduling preferences.<br>Select slots your team is available to compete in<br>in order of preference.</p>
+
           </div>
-            <input type="button" id="addpref" value="Add Time Preference" class="btn" onclick="createPref()"/>
+            <input type="button" id="addpref" value="Add Time Preference" class="btn" onclick="gettimeslots(createSelect)"/>
             </br><input type="submit" value="Submit" class="btn btn-default">
         </form>
 
         <script src="register.js"></script>
-        <script src="calendarAPI.js"></script>
+
 				
 			</div><!-- row -->
 		</div><!-- container -->
 	</div><!-- DG -->
 
 
-<!-- 	
-	<div id="r">
-		<div class="container">
-			<div class="row centered">
-				<div class="col-lg-8 col-lg-offset-2">
-					<h4>WE ARE STORYTELLERS. BRANDS ARE OUR SUBJECTS. DESIGN IS OUR VOICE.</h4>
-					<p>We believe ideas come from everyone, everywhere. At BlackTie, everyone within our agency walls is a designer in their own right. And there are a few principles we believe—and we believe everyone should believe—about our design craft. These truths drive us, motivate us, and ultimately help us redefine the power of design.</p>
-				</div>
-			</div>
-		</div>
-	</div> -->
-	
 	
 	<!-- FOOTER -->
 	<div id="f">

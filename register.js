@@ -2,8 +2,8 @@ Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLv
 var prefNum = 0;
 var days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 var times = [5,6,7,8];
-var timeslots = gettimeslots();
-//createLeagueSelect();
+createLeagueSelect();
+var TimeSlots;
 
 /**
 * Callback function for form submission
@@ -16,24 +16,22 @@ function saveTeam(){
 	alert("You need to add add least one preference");
 	return false;
 	}
-
+	var leagueSelect = document.getElementById("leagueselect").value;
 	var pref_times = new Array();
 	var pref_days = new Array();                
 	var name = document.getElementById("name").value;
-
-	//var daySelects = document.getElementsByName("prefDay");
 	var timeSelects = document.getElementsByName("prefTime");
 
 	for (var i=0; i<timeSelects.length; i++){
 		var num = timeSelects[i].selectedIndex;
-		pref_times.push(timeslots[num].time);
-		pref_days.push(timeslots[num].day);
+		pref_times.push(TimeSlots[num].time);
+		pref_days.push(TimeSlots[num].day);
 	}
 
 	var Teamdata = Parse.Object.extend("Teamdata");
 	var teamdata = new Teamdata();
 
-	teamdata.save({team_name: name , type:"team" , pref_days:pref_days , pref_times:pref_times}).then(function(object) {
+	teamdata.save({team_name: name , type:"team" , pref_days:pref_days , pref_times:pref_times, league: leagueSelect}).then(function(object) {
 		console.log("Team successfully added.");
 		var success = document.createElement("div");
 		var loc = document.getElementById('dg');
@@ -51,7 +49,7 @@ function saveTeam(){
 * Limited to 3 preferences 
 * @returns {JSON}
 */
-function gettimeslots(){
+function gettimeslots(callb){
 	console.log("running gettimeslots");
 	// Insert the key to connect with the Parse system
 	Parse.initialize("r3WndIFb85R0lx1qhchN4nquvAQVeKVrkA3TBnpI", "Wui7puCTZpnTmA5ZLvJmlj5R044vAyDerOBXhYzq");
@@ -59,8 +57,9 @@ function gettimeslots(){
 	var Timeslots = Parse.Object.extend("Timeslots");
 	// Prepare a query
 	var query = new Parse.Query(Timeslots);
+	var leagueSelect = document.getElementById("leagueselect").value;
 	// Find all the tuples in the table
-	query.equalTo("type", "timeslot");
+	query.equalTo("league", leagueSelect);
 	// Get the results set of the query
 	var timeslots = new Array();
 	query.find().then(function(results){   //the results set can only be accessed in this function!!!
@@ -76,9 +75,11 @@ function gettimeslots(){
 	
 		timeslots = JSON.parse(JSON.stringify(timeslots));
 		console.log(timeslots);
+		TimeSlots = timeslots;
+		return callb(prefNum, timeslots, createPref);
 	});
 
-	return timeslots;
+	
 };
 
 
@@ -87,15 +88,13 @@ function gettimeslots(){
 * @param {}
 * @returns {}
 */
-function createPref(){
+function createPref(add){
 	var form = document.getElementById('team_info');
 	var button = document.getElementById('addpref');
 
-	//console.log(timeslots[1].time);
 	var div = document.createElement("div");
 	div.style.display = 'block';
-	div.appendChild(createSelect(prefNum));
-	//div.appendChild(createDaySelect(prefNum));
+	div.appendChild(add);
 	div.firstChild.classList.add('form-control');
 	form.insertBefore(div, button);
 
@@ -110,7 +109,7 @@ function createPref(){
 * @param {int} prefNum                         Preference number                      
 * @returns {createTimeSelect.select|Element}   Select created
 */
-function createSelect(prefNum){
+function createSelect(prefNum, timeslots, callb){
 	var select = document.createElement("select");
 	select.name = "prefTime";
 	select.classList.add('form-control');
@@ -121,9 +120,7 @@ function createSelect(prefNum){
 		opt.innerHTML = timeslots[i].day +"s at " + timeslots[i].time;
 		select.appendChild(opt);
 	}
-
-	// select.addClass("form-control");
-	return select;
+	return callb(select);
 }
 
 /**
@@ -147,13 +144,12 @@ function createDaySelect(prefNum){
 
 function createLeagueSelect(){
 	var form = document.getElementById('team_info');
-	var button = document.getElementById('addpref');
-	
-		var select = document.createElement("select");
+	var button = form.firstElementChild;	
+	var select = document.createElement("select");
         select.id = "leagueselect";
         select.classList.add('form-control');
-        
-	form.insertBefore(select, button);;
+        select.style = "margin-bottom: 10px;";
+	form.insertBefore(select, button);
 
         // Select the table Teamdata in the database
 	var League = Parse.Object.extend("League");
@@ -176,3 +172,4 @@ function createLeagueSelect(){
               }	    
        });
 }
+
