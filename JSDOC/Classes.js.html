@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Classes.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Classes.js</h1>
+
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//This javascript holds all of the classes for the application
+
+
+/**
+* Creates the Team Class
+* @param id           
+* @param team_name    
+* @param pref_slots   Preference timeslots for each team  
+* @return   a reference to a Team object               
+*/
+function Team(id, team_name, pref_slots) {
+    this.id = id;
+    this.team_name = team_name;
+    this.pref_slots = pref_slots;
+    this.timeslot;
+}
+
+
+
+/**
+* Creates the Time_Slot Class
+* @param id       
+* @param time     
+* @param day      
+* @param courts   
+* @return   a reference to a Time_Slot object                  
+*/
+function Time_Slot(id, time, day, courts) {
+    this.id = id;
+    this.time = time;
+    this.day = day;
+    this.courts = courts;
+    this.capacity = courts*2+1;
+    this.teams = [];
+    this.games = []; // all games in this timeslot.
+}
+
+    
+/**
+* Creates the game Class
+* @param id           The id for each game
+* @param team1id      The id for team1 in this game
+* @param team2id      The id for team2 in this game
+* @param week        
+* @param court 
+* @return   a reference to a game object              
+*/
+function game(id, team1id, team2id, week, court) {
+    this.id=id;
+    this.team1id = team1id;
+    this.team2id = team2id;
+    this.week = week;
+    this.court = court;
+}
+
+game.prototype.print = function (){
+    document.writeln("&lt;PRE>id: " + this.id + "\n&lt;/PRE>");
+    document.writeln("&lt;PRE>\tTeam1: " + this.team1id + " vs Team2: "+ this.team2id + "\n &lt;/PRE>");
+    document.writeln("&lt;PRE \t Week: " + this.week + "Location: " + this.court + "\n &lt;/PRE>");
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#adminAssign">adminAssign</a></li><li><a href="global.html#Assign_Teams">Assign_Teams</a></li><li><a href="global.html#calendarID">calendarID</a></li><li><a href="global.html#clearCal">clearCal</a></li><li><a href="global.html#createCal">createCal</a></li><li><a href="global.html#createCourtSelect">createCourtSelect</a></li><li><a href="global.html#createDaySelect">createDaySelect</a></li><li><a href="global.html#createLeagueSelect">createLeagueSelect</a></li><li><a href="global.html#createLeagueSelect2">createLeagueSelect2</a></li><li><a href="global.html#createPref">createPref</a></li><li><a href="global.html#createProgressText">createProgressText</a></li><li><a href="global.html#createSelect">createSelect</a></li><li><a href="global.html#createStartDaySelect">createStartDaySelect</a></li><li><a href="global.html#createStartMonthSelect">createStartMonthSelect</a></li><li><a href="global.html#createtable">createtable</a></li><li><a href="global.html#createTimeSelect">createTimeSelect</a></li><li><a href="global.html#createTS">createTS</a></li><li><a href="global.html#createYearSelect">createYearSelect</a></li><li><a href="global.html#deleteCal">deleteCal</a></li><li><a href="global.html#eventsSubmitted">eventsSubmitted</a></li><li><a href="global.html#game">game</a></li><li><a href="global.html#Games">Games</a></li><li><a href="global.html#getCalendarId">getCalendarId</a></li><li><a href="global.html#getCalendarList">getCalendarList</a></li><li><a href="global.html#getDateTime">getDateTime</a></li><li><a href="global.html#gettimeslots">gettimeslots</a></li><li><a href="global.html#handleFail">handleFail</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#insertDiv">insertDiv</a></li><li><a href="global.html#insertStartDateSelects">insertStartDateSelects</a></li><li><a href="global.html#LoadTeams">LoadTeams</a></li><li><a href="global.html#LoadTimeS">LoadTimeS</a></li><li><a href="global.html#makeApiCall">makeApiCall</a></li><li><a href="global.html#makePublic">makePublic</a></li><li><a href="global.html#makeslots">makeslots</a></li><li><a href="global.html#maketeams">maketeams</a></li><li><a href="global.html#passwordCheck">passwordCheck</a></li><li><a href="global.html#pullFromDatabase">pullFromDatabase</a></li><li><a href="global.html#remo">remo</a></li><li><a href="global.html#removeAt">removeAt</a></li><li><a href="global.html#removeDuplicate">removeDuplicate</a></li><li><a href="global.html#removeText">removeText</a></li><li><a href="global.html#removeTimeSlotSelects">removeTimeSlotSelects</a></li><li><a href="global.html#saveTeam">saveTeam</a></li><li><a href="global.html#setCalendar">setCalendar</a></li><li><a href="global.html#showtimeslots">showtimeslots</a></li><li><a href="global.html#submissionComplete">submissionComplete</a></li><li><a href="global.html#submitPass">submitPass</a></li><li><a href="global.html#submitTimeSlots">submitTimeSlots</a></li><li><a href="global.html#Succeed">Succeed</a></li><li><a href="global.html#Team">Team</a></li><li><a href="global.html#Time_Slot">Time_Slot</a></li><li><a href="global.html#toDatabase">toDatabase</a></li><li><a href="global.html#totalGames">totalGames</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#updates">updates</a></li><li><a href="global.html#updateStartDaySelect">updateStartDaySelect</a></li><li><a href="global.html#waitFunction">waitFunction</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Mon Jun 09 2014 14:19:20 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -16,6 +16,11 @@
 
     <!-- Custom styles for this template -->
     <link href="assets/css/main.css" rel="stylesheet">
+    
+    <!-- Database calls source-->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+      <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+
 
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -25,8 +30,7 @@
     <![endif]-->
   </head>
 
-  <body onload='pullFromDatabase()'>
-
+  <body>
     <!-- Fixed navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -38,12 +42,13 @@
           </button>
           <a class="navbar-brand" href="index.html">NU INTRAMURAL SP<i class="fa fa-circle"></i>RTS</a>
         </div>
+
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="index.html">HOME</a></li>
             <li><a href="about.html">ABOUT</a></li>
-            <li class="active"><a href="calendar.html">CALENDAR</a></li>
-            <li><a href="register.html">REGISTER</a></li>
+            <li><a href="calendar.html">CALENDAR</a></li>
+            <li class="active"><a href="register.html">REGISTER</a></li>
 	    <li><a href="Admin.html">ADMIN</a></li>
 	    <li><a href="Teams.html">TEAMS</a></li>
             
@@ -52,31 +57,49 @@
       </div>
     </div>
 
-    <div class="container desc">
-		<div class="centered row">
-                    <p>The schedules for all leagues are shown on this page once they are available.</p>
-                    <p>Use the arrow on the upper right of the calendar to choose which calendars are displayed.</p>
-			<div class="col-lg-4 col-lg-offset-2 centered">
-				<script src="https://apis.google.com/js/client.js?onload=init"></script>
-				<div id="calendar">
-                                    <!-- Temporary calendar. Will want to pull from calendar list for sources instead.-->
-                                    <!--  https://www.google.com/calendar/embedhelper -->
-                                        	
-                                </div>				
-			</div>
-		</div>
-	</div>	
+	<!-- PRICING SECTION -->
+	<div id="dg">
+		<div class="container">
+			<div class="row centered">
+				<h4>REGISTER YOUR TEAM</h4>
+		<!-- <form id="team_info" onsubmit="return sub()">
+            Team submission form
+            <input type="text" id="name" value="Team name" />
+            <input type="button" id="addpref" value="Add pref" onclick="createPref()"/>
+            <input type="submit" value="Submit">
+        </form>
+        <input type="button" value="Show Calendar" name="showCal" onclick="toggleCal()"/>
+        <input type="button" value="Add mock event" name="addEvent" onclick="init()"/> -->
+        <p id = 't'>Please Select a League First, Then enter a Team name.</p>
+	
+        <form id="team_info" style="display: inline-block" class="form-horizontal" onsubmit="return saveTeam()">
+          <div class="form-group">
+          <div id='t2'>
+            <input type="text" class="form-control" id="name" placeholder="Team Name">
+          </div>
+	  <p> Click the button below to add scheduling preferences.<br>Select slots your team is available to compete in<br>in order of preference.</p>
+
+          </div>
+            <input type="button" id="addpref" value="Add Time Preference" class="btn" onclick="gettimeslots(createSelect)"/>
+            <br><input type="submit" value="Submit" class="btn btn-default">
+        </form>
+
+				
+			</div><!-- row -->
+		</div><!-- container -->
+	</div><!-- DG -->
 
 
+	
 	<!-- FOOTER -->
 	<div id="f">
 		<div class="container">
 			<div class="row centered">
-				<i class="fa fa-dribbble"></i></i></a>
+				<i class="fa fa-dribbble"></i>
 		
-			</div>
-		</div>
-	</div>
+			</div><!-- row -->
+		</div><!-- container -->
+	</div><!-- Footer -->
 
 
 	
@@ -85,12 +108,13 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
-
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     
-    <script src="calendar.js"></script>
+    <!-- Our sources -->
+    <script src="Classes.js"></script>
+    <script src="register.js"></script>
+
+
   </body>
 </html>
